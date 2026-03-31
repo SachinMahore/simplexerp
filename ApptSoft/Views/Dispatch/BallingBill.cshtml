@@ -36,15 +36,14 @@
     <button class="btn btn-outline-danger" onclick="printDiv('divprint')">Print</button>
 
     <!-- FILTERS -->
-    <div class="mt-3 mb-3">
+    <div hidden>
         <select id="filterContractor" class="form-control d-inline w-auto">
             <option value="">All Contractor</option>
         </select>
-
+    </div>
+    <div class="mt-3 mb-3">
+ 
         <select id="filterMonth" class="form-control d-inline w-auto">
-            <option value="">Month</option>
-            <option value="1">Jan</option>
-            <option value="2">Feb</option>
             <option value="3">Mar</option>
             <option value="4">Apr</option>
             <option value="5">May</option>
@@ -90,6 +89,34 @@
             </tfoot>
         </table>
 
+        <table id="reportTableRepack" class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Qty</th>
+                    <th>Rate</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Fixed Customer 1 -->
+                <tr>
+                    <td data-id="201">RE-PACKING</td>
+                    <td><input type="text" class="form-control RepackQTY" value="0" /></td>
+                    <td><input type="text" class="form-control Repackamt" /></td>
+                    <td><span class="lbltotalamountRepack">0</span></td>
+                </tr>
+
+                <!-- Fixed Customer 2 -->
+                <tr>
+                    <td data-id="202">WITHOUT LABEL & LINEAR</td>
+                    <td><input type="text" class="form-control LalelQTY" value="0" /></td>
+                    <td><input type="text" class="form-control Lalelamt" /></td>
+                    <td><span class="lbltotalamountLalel">0</span></td>
+                </tr>
+
+            </tbody>
+        </table>
         <!-- ================= CUSTOMER TABLE ================= -->
         <table id="reportTablecust" class="table table-bordered table-hover mt-4">
             <thead class="text-primary">
@@ -124,8 +151,6 @@
         Select Customer : 
         <select id="filterCustomer" class="form-control d-inline w-auto">
             <option value="">Select Customer</option>
-            <option value="WITHOUT LABEL & LINEAR">WITHOUT LABEL & LINEAR</option>
-            <option value="RE-PACKING">RE-PACKING</option>
         </select>
 
         <button class="btn btn-primary" onclick="addCustomerRow()">Add</button>
@@ -149,9 +174,7 @@
         });
     }
     function addCustomerRow() {
-
-        let selectedText = $("#filterCustomer option:selected").text();
-       
+        let selectedText = $("#filterCustomer option:selected").text();   
         if ($("#reportTablecust tbody td:contains('" + selectedText + "')").length > 0) {
             alert("Customer already added");
             return;
@@ -160,7 +183,6 @@
             alert("Select Customer");
             return;
         }
-
         let html = `<tr>
         <td>${selectedText}</td>
         <td><input type="text" class="form-control CustQTY" value="0" /></td>
@@ -190,7 +212,7 @@
     function loadReport() {
 
         let contractorId = $("#filterContractor").val();
-        let month = $("#filterMonth").val();
+        let month = $("#filterMonth").val() || 0;
         let year = $("#filterYear").val();
 
         //if (!month) {
@@ -219,20 +241,60 @@
                 $("#reportTable tbody").html(html1);
                 updateContractorTotal();
 
+                // ================= REPACK FROM SAVED =================
+                $.get('/Dispatch/GetSavedBellingReport', { month: month, isCustomer: true }, function (res3) {
+
+                    let html3 = "";
+                    if (res3.success && res3.data.length > 0) {
+
+                        $.each(res3.data, function (i, item) {
+                            if (item.Contractor_id == '10000') {
+                                html3 += `<tr>
+                            <td>${item.Contractor_Name}</td>
+                            <td><input type="text" class="form-control RepackQTY" value="${item.Qty}" /></td>
+                            <td><input type="text" class="form-control Repackamt" value="${item.Rate}" /></td>
+                            <td><span class="lbltotalamountRepack">${item.Belling_Amt}</span></td>
+                            </tr>`;
+                            }
+                        });
+
+                        $("#reportTableRepack tbody").html(html3);
+                    }
+                    else {
+                        // Default rows if no saved data
+                        let defaultRows = `
+                          <tr>
+                              <td>RE-PACKING</td>
+                              <td><input type="text" class="form-control RepackQTY" value="0" /></td>
+                              <td><input type="text" class="form-control Repackamt" /></td>
+                              <td><span class="lbltotalamountRepack">0</span></td>
+                          </tr>
+                          <tr>
+                              <td>WITHOUT LABEL & LINEAR</td>
+                              <td><input type="text" class="form-control LalelQTY" value="0" /></td>
+                              <td><input type="text" class="form-control Lalelamt" /></td>
+                              <td><span class="lbltotalamountLalel">0</span></td>
+                          </tr>`;
+                        $("#reportTableRepack tbody").html(defaultRows);
+                    }
+
+                    updateFinalGrandTotal(); // ✅ important
+                });
                 // ================= CUSTOMER FROM SAVED =================
                 $.get('/Dispatch/GetSavedBellingReport', { month: month, isCustomer: true }, function (res2) {
 
                     let html2 = "";
 
                     $.each(res2.data, function (i, item) {
-
-                        html2 += `<tr>
+                        if (item.Contractor_id != 10000) {
+                            html2 += `<tr>
                         <td>${item.Contractor_Name}</td>
                         <td><input type="text" class="form-control CustQTY" value="${item.Qty}" /></td>
                         <td><input type="text" class="form-control extraamt1" value="${item.Rate}" /></td>
                         <td><span class="lbltotalamount">${item.Belling_Amt}</span></td>
                         <td><button class="btn btn-danger btn-sm btnRemove">X</button></td>
                     </tr>`;
+                        }
                     });
 
                     $("#reportTablecust tbody").html(html2);
@@ -328,7 +390,34 @@
 
         updateCustomerTotal();
     });
+    // ================= REPACK CALC =================
+    $(document).on('keyup', '.RepackQTY, .Repackamt', function () {
 
+        let row = $(this).closest('tr');
+
+        let qty = parseFloat(row.find('.RepackQTY').val()) || 0;
+        let rate = parseFloat(row.find('.Repackamt').val()) || 0;
+
+        let total = qty * rate;
+
+        row.find('.lbltotalamountRepack').text(total.toFixed(2));
+
+        updateFinalGrandTotal(); // ✅ direct
+    });
+
+    $(document).on('keyup', '.LalelQTY, .Lalelamt', function () {
+
+        let row = $(this).closest('tr');
+
+        let qty = parseFloat(row.find('.LalelQTY').val()) || 0;
+        let rate = parseFloat(row.find('.Lalelamt').val()) || 0;
+
+        let total = qty * rate;
+
+        row.find('.lbltotalamountLalel').text(total.toFixed(2));
+
+        updateFinalGrandTotal(); // ✅ direct
+    });
     // ================= TOTALS =================
     function updateContractorTotal() {
 
@@ -379,8 +468,21 @@
         let customerAmt = parseFloat($('#totalCustAmt').text()) || 0;
         let customerQty = parseFloat($('#totalCustQty').text()) || 0;
 
-        let finalAmt = contractorAmt + customerAmt;
-        let finalQty = contractorQty + customerQty;
+        // ✅ DIRECT REPACK CALC HERE
+        let repackAmt = 0;
+        let repackQty = 0;
+
+        $('#reportTableRepack tbody tr').each(function () {
+
+            let qty = parseFloat($(this).find('input:eq(0)').val()) || 0;
+            let rate = parseFloat($(this).find('input:eq(1)').val()) || 0;
+
+            repackQty += qty;
+            repackAmt += (qty * rate);
+        });
+
+        let finalAmt = contractorAmt + customerAmt + repackAmt;
+        let finalQty = contractorQty + customerQty + repackQty;
 
         $('#finalGrandTotal').text(finalAmt.toFixed(2));
         $('#finalGrandQty').text(finalQty);
@@ -420,12 +522,10 @@
     $("#btnsaveBellingreport").click(function () {
 
         let month = $("#filterMonth").val();
-
         if (!month) {
             alert("Select Month");
             return;
         }
-
         let list = [];
 
         // ================= CONTRACTOR TABLE =================
@@ -436,40 +536,45 @@
             list.push({
                 Contractor_id: 0,
                 Contractor_Name: row.find("td:eq(0)").text(),
-
                 Qty: parseFloat(row.find('.lbltotalqty').text()) || 0,
-
                 Rate: parseFloat(row.find('.extraamt').val()) || 0,
-
                 Belling_Amt: parseFloat(row.find('.lbltotalamount').text()) || 0,
-
                 summary_month: parseInt(month),   // ✅ ADDED
-
                 Is_Customor: false
             });
         });
+        // ================= REPACK TABLE =================
+        $("#reportTableRepack tbody tr").each(function () {
 
+            let row = $(this);
+            let name = row.find("td:eq(0)").text().trim();
+            let qty = parseFloat(row.find("input:eq(0)").val()) || 0;
+            let rate = parseFloat(row.find("input:eq(1)").val()) || 0;
+            let amt = qty * rate;
+
+            list.push({
+                Contractor_id: 10000,
+                Contractor_Name: name,
+                Qty: qty,
+                Rate: rate,
+                Belling_Amt: amt,
+                summary_month: parseInt(month),
+                Is_Customor: true   // or use separate flag if needed
+            });
+        });
         // ================= CUSTOMER TABLE =================
         $("#reportTablecust tbody tr").each(function () {
 
             let row = $(this);
-
             let name = row.find("td:eq(0)").text().trim();
-
             if (name === "" || name === "Customer Name") return;
-
             list.push({
                 Contractor_id: null,
                 Contractor_Name: name,
-
                 Qty: parseFloat(row.find('.CustQTY').val()) || 0,
-
                 Rate: parseFloat(row.find('.extraamt1').val()) || 0,
-
                 Belling_Amt: parseFloat(row.find('.lbltotalamount').text()) || 0,
-
                 summary_month: parseInt(month),   // ✅ ADDED
-
                 Is_Customor: true
             });
         });
