@@ -1,0 +1,344 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Dispatch List</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- ✅ Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            padding: 7px;
+            background-color: #f4f6f9;
+        }
+
+        .card {
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        table {
+            margin-top: 5px;
+        }
+
+        .top-bar {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <h2 class="mb-3">MDR Report</h2>
+
+        <!-- ================= TOP BAR ================= -->
+        <div class="card shadow-sm top-bar">
+
+            <div class="row">
+
+                <div class="col-md-2">
+                    <label>Month</label>
+                    <select id="month" class="form-control">
+                        <option value="">All</option>
+                        <option value="1">Jan</option>
+                        <option value="2">Feb</option>
+                        <option value="3">Mar</option>
+                        <option value="4">Apr</option>
+                        <option value="5">May</option>
+                        <option value="6">Jun</option>
+                        <option value="7">Jul</option>
+                        <option value="8">Aug</option>
+                        <option value="9">Sep</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12">Dec</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label>Year</label>
+                    <select id="year" class="form-control">
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button id="btnFilter" class="btn btn-primary w-100">Filter</button>
+                </div>
+
+                <div class="col-md-3 d-flex align-items-end">
+                    <button id="btnExport" class="btn btn-success w-100">Export Excel</button>
+
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+
+                    <button class="btn btn-danger" onclick="printDiv('divprintdispatchlist')">Print</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================= TABLE ================= -->
+        <div class="card shadow-sm" id="divprintdispatchlist">
+            <table id="dispatchTable" class="table table-bordered table-hover table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Billing_Date</th>
+                        <th>Customer</th>
+                        <th>Container No</th>
+                        <th>PO No</th>
+                        <th>Itme No</th>
+                        <th>Bag Size</th>
+                        <th>Req. Wt</th>
+                        <th>Total Req. Wt</th>
+                        <th>Order Qty</th>
+                        <th>Actual Quantity</th>
+                        <th>Act Wt</th>
+                        <th>Total Act Wt</th>
+                        <th>Rate</th>
+                        <th>Unit</th>
+                        <th>Total Cost</th>
+                        <th>Contractor</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+
+        // ================= LOAD ON PAGE =================
+        $(document).ready(function () {
+            loadDispatchList();
+        });
+
+        // ================= LOAD LIST =================
+        function loadDispatchList() {
+
+            let month = $("#month").val();
+            let year = $("#year").val();
+
+            $.get('/Dispatch/GetAll', { month: month, year: year }, function (res) {
+                // ================= GRAND TOTAL =================
+                var TORDER_QTY = 0;
+                var TActual_Quantity = 0;
+                var TTotal_Act_Wt = 0;
+                var TTotal_Req_Wt = 0;
+                var TTotal_Cost = 0;
+
+                // ================= CONTAINER TOTAL =================
+                let currentContainer = null;
+
+                let cORDER_QTY = 0;
+                let cActual_Quantity = 0;
+                let cTotal_Act_Wt = 0;
+                let cTotal_Req_Wt = 0;
+                let cTotal_Cost = 0;
+                let html = "";
+                $.each(res, function (i, item) {
+
+                    let container = item.Container_No || 'NA';
+
+                    // 👉 INSERT TOTAL ROW WHEN CONTAINER CHANGES
+                    if (currentContainer !== null && currentContainer !== container) {
+
+                        html += `<tr class="table-warning">
+                            <td colspan="4"><b>TOTAL - Container No. : ${currentContainer}</b></td>
+                            <td></td><td></td><td></td><td></td>
+                            <td>${cTotal_Req_Wt.toFixed(2)}</td>
+                            <td>${cORDER_QTY.toFixed(2)}</td>
+                            <td>${cActual_Quantity.toFixed(2)}</td>
+                            <td></td>
+                            <td>${cTotal_Act_Wt.toFixed(2)}</td>
+                            <td></td><td></td>
+                            <td>${cTotal_Cost.toFixed(2)}</td>
+                            <td></td><td></td>
+                        </tr>`;
+
+                        // Reset container totals
+                        cORDER_QTY = 0;
+                        cActual_Quantity = 0;
+                        cTotal_Act_Wt = 0;
+                        cTotal_Req_Wt = 0;
+                        cTotal_Cost = 0;
+                    }
+
+                    currentContainer = container;
+
+                    html += `<tr>
+                                <td>${item.Dispatch_Id}</td>
+                                <td>${formatDate(item.Billing_Date)}</td>
+
+                                <td>${item.Customer}</td>
+                                 <td>${item.Container_No == null ? '-' : item.Container_No} </td>
+                                <td>${item.PO_Number}</td>
+                                <td>${item.Item_No == null ? '-' : item.Item_No}</td>
+                                 <td>${item.Size_Of_Bag == null ? '-' : item.Size_Of_Bag}</td>
+                                <td>${item.Req_Wt}</td>
+                                <td>${item.Total_Req_Wt}</td>
+                                <td>${item.ORDER_QTY == null ? '-' : item.ORDER_QTY}</td>                                  
+                                <td>${item.Actual_Quantity}</td>
+                                <td>${item.Act_Wt}</td>
+                                <td>${item.Total_Act_Wt}</td>
+
+                                <td>${item.Rate}</td>
+                                <td>${item.Kg_Or_Pcs}</td>
+                                <td>${item.Total_Cost}</td>                                               
+                                <td>${item.ContractorNames}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning edit" data-id="${item.Dispatch_Id}">Edit</button>
+                                    <button class="btn btn-sm btn-danger delete" data-id="${item.Dispatch_Id}">Delete</button>
+                                </td>
+                            </tr>`;
+
+                    // ================= ADD TO CONTAINER TOTAL =================
+                    cORDER_QTY += parseFloat(item.ORDER_QTY || 0);
+                    cActual_Quantity += parseFloat(item.Actual_Quantity || 0);
+                    cTotal_Act_Wt += parseFloat(item.Total_Act_Wt || 0);
+                    cTotal_Req_Wt += parseFloat(item.Total_Req_Wt || 0);
+                    cTotal_Cost += parseFloat(item.Total_Cost || 0);
+
+                    // ================= ADD TO GRAND TOTAL =================
+                    TORDER_QTY += parseFloat(item.ORDER_QTY || 0);
+                    TActual_Quantity += parseFloat(item.Actual_Quantity || 0);
+                    TTotal_Act_Wt += parseFloat(item.Total_Act_Wt || 0);
+                    TTotal_Req_Wt += parseFloat(item.Total_Req_Wt || 0);
+                    TTotal_Cost += parseFloat(item.Total_Cost || 0);
+                });
+
+                // 👉 LAST CONTAINER TOTAL
+                if (currentContainer !== null) {
+                    html += `<tr class="table-warning">
+                        <td colspan="4"><b>TOTAL - ${currentContainer}</b></td>
+                        <td></td><td></td><td></td><td></td>
+                        <td>${cTotal_Req_Wt.toFixed(2)}</td>
+                        <td>${cORDER_QTY.toFixed(2)}</td>
+                        <td>${cActual_Quantity.toFixed(2)}</td>
+                        <td></td>
+                        <td>${cTotal_Act_Wt.toFixed(2)}</td>
+                        <td></td><td></td>
+                        <td>${cTotal_Cost.toFixed(2)}</td>
+                        <td></td><td></td>
+                    </tr>`;
+                }
+
+                // ================= GRAND TOTAL ROW =================
+                html += `<tr class="table-success">
+                    <td colspan="4"><b>GRAND TOTAL</b></td>
+                    <td></td><td></td><td></td><td></td>
+                    <td>${TTotal_Req_Wt.toFixed(2)}</td>
+                    <td>${TORDER_QTY.toFixed(2)}</td>
+                    <td>${TActual_Quantity.toFixed(2)}</td>
+                    <td></td>
+                    <td>${TTotal_Act_Wt.toFixed(2)}</td>
+                    <td></td><td></td>
+                    <td>${TTotal_Cost.toFixed(2)}</td>
+                    <td></td><td></td>
+                </tr>`;
+
+                $("#dispatchTable tbody").html(html);
+            });
+        }
+
+        // ================= FILTER =================
+        $("#btnFilter").click(function () {
+            loadDispatchList();
+        });
+
+        // ================= EXPORT =================
+        $("#btnExport").click(function () {
+
+            let month = $("#month").val();
+            let year = $("#year").val();
+
+            if (month === "") {
+                alert("Please select month for export");
+                return;
+            }
+
+            window.location = `/Dispatch/ExportDispatchExcel?month=${month}&year=${year}`;
+        });
+
+        // ================= EDIT =================
+        $(document).on("click", ".edit", function () {
+
+            let id = $(this).data("id");
+            window.location.href = "/Dispatch/Dispatch?id=" + id;
+
+        });
+
+        // ================= DELETE =================
+        $(document).on("click", ".delete", function () {
+
+            let id = $(this).data("id");
+
+            if (!confirm("Do you want to delete this dispatch?")) return;
+
+            $.ajax({
+                url: '/Dispatch/Delete?id=' + id,
+                type: 'POST',
+                success: function () {
+                    alert("Deleted Successfully");
+                    loadDispatchList();
+                }
+            });
+        });
+
+        // ================= DATE FORMAT =================
+        function formatDate(dateString) {
+            if (dateString != null) {
+                var timestamp = parseInt(dateString.replace("/Date(", "").replace(")/", ""));
+
+                var d = new Date(timestamp);
+
+                var day = ("0" + d.getDate()).slice(-2);
+                var month = ("0" + (d.getMonth() + 1)).slice(-2);
+                var year = d.getFullYear();
+
+                return day + "-" + month + "-" + year;
+            } else {
+                return "-";
+            }
+        }
+        function printDiv(divId) {
+
+            let div = document.getElementById(divId);
+
+            let clone = div.cloneNode(true);
+
+            // 🔹 Add Title at Top
+            let title = document.createElement('h2');
+            title.innerText = "MDR Report";
+            title.style.textAlign = "center";
+            title.style.marginBottom = "20px";
+
+            clone.prepend(title);
+            $(clone).find('input').each(function () {
+                let span = document.createElement('span');
+                span.innerText = $(this).val();
+                this.parentNode.replaceChild(span, this);
+            });
+
+            let original = document.body.innerHTML;
+            document.body.innerHTML = clone.innerHTML;
+
+            window.print();
+
+            document.body.innerHTML = original;
+            location.reload();
+        }
+    </script>
+ 
+</body>
+</html>

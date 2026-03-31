@@ -1,0 +1,195 @@
+﻿@{
+    ViewBag.Title = "Generate Job Card";
+}
+
+<h2>Generate Job Card</h2>
+
+<div style="border:1px solid #ccc;padding:15px">
+
+    PO Number
+    <input type="text" id="poNumber" />
+
+    <button id="btnSearch">Search</button>
+
+    <br /><br />
+
+    Job Card No
+    <input type="text" id="jobCardNumber" />
+
+    Job Date
+    <input type="date" id="jobDate" />
+
+</div>
+
+<br />
+
+<table border="1" width="100%" id="itemTable">
+
+    <thead>
+
+        <tr>
+            <th>Item No</th>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Unit</th>
+            <th>Track</th>
+        </tr>
+
+    </thead>
+
+    <tbody></tbody>
+
+</table>
+
+<br />
+
+<button id="btnSave">Create Job Card</button>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+
+    var poId = 0;
+    var items = [];
+
+    $("#btnSearch").click(function () {
+
+        var po = $("#poNumber").val();
+
+        $.get("/JobCard/GetPOItems?poNumber=" + po, function (data) {
+
+            $("#itemTable tbody").html("");
+
+            items = data.model;
+
+            if (items.length == 0) {
+                alert("PO not found");
+                return;
+            }
+
+            poId = items[0].PO_Id;
+
+            $.each(items, function (i, v) {
+
+                var row = "<tr>";
+
+                row += "<td>" + v.Item_No + "</td>";
+                row += "<td>" + v.Item_Description + "</td>";
+                row += "<td>" + v.Total_Quantity + "</td>";
+                row += "<td>" + v.Unit + "</td>";
+
+                row += "<td><button class='track'>Track</button></td>";
+
+                row += "</tr>";
+
+                $("#itemTable tbody").append(row);
+
+            });
+
+        });
+
+    });
+
+
+
+    $(document).on("click", ".track", function () {
+
+        var row = $(this).closest("tr");
+
+        var item = row.find("td:eq(0)").text();
+
+        openTracking(item);
+
+    });
+
+
+
+    function openTracking(item) {
+
+        var html = "";
+
+        html += "<h3>Production Tracking : " + item + "</h3>";
+
+        html += "<table border='1'>";
+
+        html += "<tr><th>Operation</th><th>Input</th><th>Output</th><th>Wastage</th></tr>";
+
+        var ops = ["Extrusion", "Weaving", "Lamination", "Printing", "Cutting", "Stitching", "Packing"];
+
+        for (var i = 0; i < ops.length; i++) {
+
+            html += "<tr>";
+
+            html += "<td>" + ops[i] + "</td>";
+
+            html += "<td><input class='inputQty'/></td>";
+
+            html += "<td><input class='outputQty'/></td>";
+
+            html += "<td><input class='wastage' readonly/></td>";
+
+            html += "</tr>";
+
+        }
+
+        html += "</table>";
+
+        html += "<br><button onclick='saveTracking(\"" + item + "\")'>Save Production</button>";
+
+        var win = window.open("", "Tracking", "width=600,height=500");
+
+        win.document.write(html);
+
+    }
+
+
+
+    $(document).on("keyup", ".inputQty,.outputQty", function () {
+
+        var row = $(this).closest("tr");
+
+        var input = parseFloat(row.find(".inputQty").val()) || 0;
+
+        var output = parseFloat(row.find(".outputQty").val()) || 0;
+
+        row.find(".wastage").val(input - output);
+
+    });
+
+
+
+    $("#btnSave").click(function () {
+
+        var model = {
+
+            PO_Id: poId,
+
+            JobCard_Number: $("#jobCardNumber").val(),
+
+            Job_Date: $("#jobDate").val(),
+
+            Items: items
+
+        };
+
+
+        $.ajax({
+
+            url: '/JobCard/SaveJobCard',
+
+            type: 'POST',
+
+            data: JSON.stringify(model),
+
+            contentType: 'application/json',
+
+            success: function () {
+
+                alert("Job Card Created");
+
+            }
+
+        });
+
+    });
+
+</script>

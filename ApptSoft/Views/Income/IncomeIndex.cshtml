@@ -1,0 +1,256 @@
+﻿
+@{
+    ViewBag.Title = "IncomeIndex";
+}
+
+@*<h2>IncomeIndex</h2>*@
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Content/Income.js"></script>
+
+<section class="section">
+    <div class="row">
+
+        <div class="col-lg-12">
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Income</h5>
+
+                    <!-- Floating Labels Form -->
+
+                    <form class="row g-3">
+
+
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <select class="form-control" id="txtIncomeFrom">
+                                    <option select value="">Select Expense Title</option>
+                                    <option value="Hall Rent">Hall Rent</option>
+                                    <option value="FD Interest">FD Interest</option>
+                                    <option value="Sweep FD Interest">Sweep FD Interest</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <label for="floatingComplaint Title">Income from </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtAmount" placeholder="Complaint Title">
+                                <label for="floatingComplaint Title">Amount </label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-floating">
+                                <select class="form-control" id="txtMonth">
+                                    <option value='January'>January</option>
+                                    <option value='February'>February</option>
+                                    <option value='March'>March</option>
+                                    <option value='April'>April</option>
+                                    <option value='May'>May</option>
+                                    <option value='June'>June</option>
+                                    <option value='July'>July</option>
+                                    <option value='August'>August</option>
+                                    <option value='September'>September</option>
+                                    <option value='October'>October</option>
+                                    <option value='November'>November</option>
+                                    <option value='December'>December</option>
+                                </select>
+                                <label for="PaidAmount">Month</label>
+                            </div>
+
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-floating">
+                                <select class="form-control" id="txtYear">
+                                    <option value='2021'>2021</option>
+                                    <option value='2022'>2022</option>
+                                    <option value='2023'>2023</option>
+                                    <option value='2024'>2024</option>
+                                    <option value='2025'>2025</option>
+                                    <option value='2026'>2026</option>
+                                    <option value='2027'>2027</option>
+                                    <option value='2028'>2028</option>
+                                    <option value='2029'>2029</option>
+                                    <option value='2030'>2030</option>
+                                    <option value='2031'>2031</option>
+                                    <option value='2032'>2032</option>
+                                </select>
+                                <label for="PaidAmount">Year</label>
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <input type="date" class="form-control" id="txtAddedDate" placeholder="Complaint Title">
+                                <label for="floatingComplaint Title">Added Date </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating mb-3">
+                                @*@{
+                                    var flatNo = Session["FlatNo"]?.ToString();
+                                    var hideDiv = (flatNo != "104" && flatNo != "301") ? "style='display:none;'" : "";
+                                }*@
+                                <div class="text-center" @*@Html.Raw(hideDiv)*@>
+                                    <button type="submit" class="btn btn-primary" onclick="SaveIncome()">SUBMIT</button>
+                                    <button type="reset" class="btn btn-warning">RESET</button>
+                                </div>
+                            </div>
+                        </div>
+                     
+                    </form><!-- End floating span Form -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Income</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <select class="form-control" onchange="MonthChangeEvent()" id="txtMonth1">
+                                <option selected value=''>Select Month</option>
+                                <option value='January'>January</option>
+                                <option value='February'>February</option>
+                                <option value='March'>March</option>
+                                <option value='April'>April</option>
+                                <option value='May'>May</option>
+                                <option value='June'>June</option>
+                                <option value='July'>July</option>
+                                <option value='August'>August</option>
+                                <option value='September'>September</option>
+                                <option value='October'>October</option>
+                                <option value='November'>November</option>
+                                <option value='December'>December</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-lg-6">
+                            <select class="form-control" onchange="yearchangeenven()" id="txtYear1">
+                                <option selected value=''>Select Year</option>
+                                <option value='2021'>2021</option>
+                                <option value='2022'>2022</option>
+                                <option value='2023'>2023</option>
+                                <option value='2024'>2024</option>
+                                <option value='2025'>2025</option>
+                                <option value='2026'>2026</option>
+                                <option value='2027'>2027</option>
+                                <option value='2028'>2028</option>
+                                <option value='2029'>2029</option>
+                                <option value='2030'>2030</option>
+                                <option value='2031'>2031</option>
+                                <option value='2032'>2032</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <hr />
+
+
+                    <div class="table-responsive">
+                        <b>  <span id="lblamount"></span></b>
+                        <br />
+                        <br />
+
+                        <table id="tblIncome" class="table table-bordered table-hover">
+                            <thead class="text-white bg-dark" align="center">
+
+                                <tr>
+
+                                    <td class="text-white bg-dark">Month</td>
+                                    <td class="text-white bg-dark">Year</td>
+                                    <td class="text-white bg-dark">Income from </td>
+                                    <td class="text-white bg-dark">Amount</td>
+                                    <td class="text-white bg-dark">Added Date</td>
+
+                                </tr>
+                            </thead>
+                            <tbody align="center">
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @*@DetailPOPUP@*@
+
+
+    <div id="IncomeModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container" id="DetailIncome">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<script>
+    $(document).ready(function () {
+        var currentDate = new Date();
+        $("#txtYear").val(currentDate.getFullYear());
+
+        var currentMonth;
+        switch (currentDate.getMonth()) {
+            case 0: currentMonth = "January";
+                break;
+            case 1: currentMonth = "February";
+                break;
+            case 2: currentMonth = "March";
+                break;
+            case 3: currentMonth = "April";
+                break;
+            case 4: currentMonth = "May";
+                break;
+            case 5: currentMonth = "June";
+                break;
+            case 6: currentMonth = "July";
+                break;
+            case 7: currentMonth = "August";
+                break;
+            case 8: currentMonth = "September";
+                break;
+            case 9: currentMonth = "October";
+                break;
+            case 10: currentMonth = "November";
+                break;
+            case 11: currentMonth = "December";
+                break;
+        }
+        $("#txtMonth").val(currentMonth);
+    });
+
+
+</script>
+
+
+@*AutoNextFieldControl When Enter Button*@
+<script>
+    $(function() {
+        $(document).on('keypress', function(e) {
+            var that = document.activeElement;
+            if( e.which == 13 ) {
+                e.preventDefault();
+                $('[tabIndex=' + (+that.tabIndex + 1) + ']')[0].focus();
+            }
+        });
+    });
+
+    </script>

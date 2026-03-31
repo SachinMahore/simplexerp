@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Master</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        input, select {
+            padding: 6px;
+            margin: 5px;
+            width: 180px;
+        }
+
+        button {
+            padding: 6px 12px;
+            background: blue;
+            color: white;
+            border: none;
+        }
+
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+        }
+
+        th {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Company Master</h2>
+
+    <input type="hidden" id="Company_Id" value="0" />
+
+    <input id="Company_Name" placeholder="Company Name" />
+    <input id="Address1" placeholder="Address1" />
+    <input id="Address2" placeholder="Address2" />
+    <input id="City" placeholder="City" />
+    <input id="State" placeholder="State" />
+    <input id="Zip_Code" placeholder="Zip Code" />
+    <input id="Country" placeholder="Country" />
+    <input id="Phone" placeholder="Phone" />
+    <input id="Fax" placeholder="Fax" />
+
+    <select id="Is_Active">
+        <option value="true">Active</option>
+        <option value="false">Inactive</option>
+    </select>
+
+
+    <button id="btnSave">Save</button>
+
+    <table id="tbl">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>City</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+
+        $(document).ready(function () {
+
+            loadData();
+
+            $("#btnSave").click(function () {
+
+                var model = {
+                    Company_Id: $("#Company_Id").val(),
+                    Company_Name: $("#Company_Name").val(),
+                    Address1: $("#Address1").val(),
+                    Address2: $("#Address2").val(),
+                    City: $("#City").val(),
+                    State: $("#State").val(),
+                    Zip_Code: $("#Zip_Code").val(),
+                    Country: $("#Country").val(),
+                    Phone: $("#Phone").val(),
+                    Fax: $("#Fax").val(),
+                    Is_Active: $("#Is_Active").val() === "true"
+                };
+
+                $.ajax({
+                    url: '/Company/SaveCompany',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(model),
+                    success: function (res) {
+                        alert(res.message);
+                        clearForm();
+                        loadData();
+                    }
+                });
+            });
+
+        });
+
+        // LOAD LIST
+        function loadData() {
+
+            $.get('/Company/GetCompanies', function (res) {
+
+                var tbody = $("#tbl tbody");
+                tbody.empty();
+
+                $.each(res.model, function (i, x) {
+
+                    tbody.append(`
+                    <tr>
+                        <td>${x.Company_Id}</td>
+                        <td>${x.Company_Name}</td>
+                        <td>${x.City || ''}</td>
+                        <td>${x.Phone || ''}</td>
+                        <td>${x.Is_Active ? 'Active' : 'Inactive'}</td>
+                        <td>
+                            <button onclick='editData(${JSON.stringify(x)})'>Edit</button>
+                        </td>
+                    </tr>
+                `);
+                });
+
+            });
+        }
+
+        // EDIT
+        function editData(x) {
+
+            $("#Company_Id").val(x.Company_Id);
+            $("#Company_Name").val(x.Company_Name);
+            $("#Address1").val(x.Address1);
+            $("#Address2").val(x.Address2);
+            $("#City").val(x.City);
+            $("#State").val(x.State);
+            $("#Zip_Code").val(x.Zip_Code);
+            $("#Country").val(x.Country);
+            $("#Phone").val(x.Phone);
+            $("#Fax").val(x.Fax);
+            $("#Is_Active").val(x.Is_Active.toString());
+        }
+
+        // CLEAR
+        function clearForm() {
+            $("input").val('');
+            $("#Company_Id").val(0);
+            $("#Is_Active").val("true");
+        }
+
+    </script>
+
+</body>
+</html>

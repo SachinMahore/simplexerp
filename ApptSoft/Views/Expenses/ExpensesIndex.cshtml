@@ -1,0 +1,224 @@
+﻿﻿@{
+    ViewBag.Title = "Expenses";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Content/Expenses.js"></script>
+
+<section class="section">
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Expenses</h5>
+                    <!-- Floating Labels Form -->
+                    <input id="hdnId" type="hidden" />
+                    <form class="row g-3">
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <select class="form-control" id="txtTitle">
+                                    <option select value="">Select Expense Title</option>
+                                    <option value="Diesel">Diesel</option>
+                                    <option value="Security">Security</option>
+                                    <option value="Lift AMC">Lift AMC</option>
+                                    <option value="Gardener">Gardener</option>
+                                    <option value="NMC Garbage">NMC Garbage</option>
+                                    <option value="Water bill">Water bill</option>
+                                    <option value="Power-1">Power-1</option>
+                                    <option value="Power-2">Power-2</option>
+                                    <option value="Hyd Parking">Hyd Parking</option>
+                                    <option value="Sweeping team">Sweeping team</option>
+                                    <option value="Other AMCs/ Gifts">Other AMCs/ Gifts</option>
+                                    <option value="Lights fitting">Lights fitting</option>
+                                    <option value="Sweeping material">Sweeping material</option>
+                                    <option value="Xerox + stationary">Xerox stationary</option>
+                                    <option value="CCTV Pump repairs etc.">CCTV Pump repairs etc.</option>
+                                </select>
+                                <label for="Title"> Title</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1" hidden>
+                            <div class="form-floating">
+                                <select type="text" class="form-control" id="txtFlatNo"></select>
+                                <label for="FlatNo"> FlatNo</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="txtPaidBy" placeholder="PaidBy">
+                                <label for="PaidBy"> Paid By</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtAmount" placeholder="Amount">
+                                <label for="Amount">Amount</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtPaidAmount" placeholder="PaidAmount">
+                                <label for="PaidAmount">Paid Amount</label>
+                            </div>
+
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-floating">
+                                <select class="form-control" id="txtMonth">
+                                    <option value='January'>January</option>
+                                    <option value='February'>February</option>
+                                    <option value='March'>March</option>
+                                    <option value='April'>April</option>
+                                    <option value='May'>May</option>
+                                    <option value='June'>June</option>
+                                    <option value='July'>July</option>
+                                    <option value='August'>August</option>
+                                    <option value='September'>September</option>
+                                    <option value='October'>October</option>
+                                    <option value='November'>November</option>
+                                    <option value='December'>December</option>
+                                </select>
+                                <label for="Month">Month</label>
+                            </div>
+
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-floating">
+                                <select class="form-control" id="txtYear">
+                                    <option value='2021'>2021</option>
+                                    <option value='2022'>2022</option>
+                                    <option value='2023'>2023</option>
+                                    <option value='2024'>2024</option>
+                                    <option value='2025'>2025</option>
+                                    <option value='2026'>2026</option>
+                                    <option value='2027'>2027</option>
+                                    <option value='2028'>2028</option>
+                                    <option value='2029'>2029</option>
+                                    <option value='2030'>2030</option>
+                                    <option value='2031'>2031</option>
+                                    <option value='2032'>2032</option>
+                                </select>
+                                <label for="PaidAmount">Year</label>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <select class="form-control" id="txtPaymentMode">
+                                    <option select value="">Select Payment Method</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Cheque">Cheque</option>
+                                    <option value="DD">DD</option>
+                                    <option value="NEFT">NEFT</option>
+                                    <option value="RTGS">RTGS</option>
+                                    <option value="IMPS">IMPS</option>
+                                    <option value="UPI">UPI</option>
+                                    <option value="Net Banking">Net Banking</option>
+                                    <option value="Debit Card">Debit Card</option>
+                                    <option value="Credit Card">Credit Card</option>
+                                    <option value="PhonePe">PhonePe</option>
+                                    <option value="GooglePay">GooglePay</option>
+                                    <option value="Paytm">Paytm</option>
+                                    <option value="Paypal">Paypal</option>
+                                </select>
+                                <label for="PaidAmount">Payment Mode</label>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="txtTransactionNo" placeholder="Transaction No">
+                                <label for="PaidBy"> Transaction No</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating mb-3">
+                                <input type="file" class="form-control" id="file1" placeholder="Receipt">
+                                <label for="PaidBy">Receipt</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating mb-3">
+                                @*@{
+                                    var flatNo = Session["FlatNo"]?.ToString();
+                                    var hideDiv = (flatNo != "104" && flatNo != "301") ? "style='display:none;'" : "";
+                                }*@
+                                <div class="text-center" @*@Html.Raw(hideDiv)*@>
+                                    <button type="submit" class="btn btn-primary" onclick="SaveExpensesData()">SUBMIT</button>
+                                    <button type="reset" class="btn btn-warning">RESET</button>
+                                </div>
+                            </div>
+                        </div>
+                     
+                    </form><!-- End floating Labels Form -->
+
+            </div>
+        </div>
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+
+
+                    <div class="table-responsive">
+                        <div align="left">
+                            <b> <span id="lblamount"></span>    --|--   <span id="lblPaidamount"></span></b><br />
+                         
+                        </div>
+                        <table id="tblExpens" class="table table-bordered table-hover">
+                            <thead class="text-white bg-dark">
+                                <tr>
+                                    <td class="text-white bg-dark">Title</td>
+                                    <td class="text-white bg-dark">Month</td>
+                                    <td class="text-white bg-dark">Year</td>
+                                    <td class="text-white bg-dark">Amount</td>
+                                    <td class="text-white bg-dark">PaidAmount</td>
+                                    <td class="text-white bg-dark">PaidDate</td>
+                                    <td class="text-white bg-dark">TransactionNo</td>
+   
+
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    @*@DetailPOPUP@*@
+
+
+    <div id="ExpensesModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container" id="DetailExpenses">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+
+@*AutoFocus*@
+<script>
+    window.onload = function () {
+        document.getElementById("txtTitle").focus();
+    }
+</script>

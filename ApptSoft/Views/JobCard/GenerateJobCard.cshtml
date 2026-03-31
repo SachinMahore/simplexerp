@@ -1,0 +1,430 @@
+﻿@model ApptSoft.Models.JobCardModel
+
+@{
+    ViewBag.Title = "Generate Job Card";
+}
+
+<h2>Generate Job Card</h2>
+
+<input type="hidden" id="PO_Id" value="@Model.PO_Id" />
+<input type="hidden" id="JobCard_Id" value="@Model.JobCard_Id" />
+
+<div style="border:1px solid #ccc;padding:15px">
+
+    <table width="100%">
+
+        <tr>
+
+            <td><b>PO Number</b></td>
+            <td>@Model.PO_Number</td>
+
+            <td><b>Job Date</b></td>
+            <td>
+                <input type="date" id="Job_Date"
+                       value="@Model.Job_Date.ToString("yyyy-MM-dd")" />
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td><b>Vendor</b></td>
+            <td>@Model.Vendor_Id</td>
+
+            <td><b>Company</b></td>
+            <td>@Model.Company_Id</td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+<br />
+
+<h3>Item List</h3>
+
+<table border="1" id="itemTable" class="table table-bordered table-hover">
+
+    <thead>
+
+        <tr>
+            <th>Item No</th>
+            <th>Description</th>
+            <th>Qty/Bale</th>
+            <th>Bale Count</th>
+            <th>Total Qty</th>
+            <th>Unit</th>
+            <th>Track</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model.Items)
+        {
+
+            <tr data-jcdid="@item.JCD_Id">
+
+                <td class="itemNo">@item.Item_No</td>
+                <td class="desc">@item.Item_Description</td>
+                <td>@item.Qty_Per_Bale</td>
+                <td>@item.Bale_Count</td>
+                <td class="totalQty">@item.Total_Quantity</td>
+                <td>@item.Unit</td>
+
+                <td>
+                    <button class="btnTrack" disabled>Track</button>
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<br />
+
+<button id="btnSave">Create Job Card</button>
+
+<!-- TRACKING MODAL -->
+
+<div id="trackingModal"
+     style="display:none;position:fixed;top:10%;left:15%;width:70%;background:white;border:2px solid black;padding:20px">
+
+    <h3>Production Tracking</h3>
+
+    <div style="margin-bottom:10px">
+
+        <b>PO Number</b> <input type="text" id="trackPONumber" readonly />
+
+        <b>Item No</b> <input type="text" id="trackItemNo" readonly />
+
+        <input type="hidden" id="currentJcdId" />
+
+    </div>
+
+    <table border="1" id="trackingTable" class="table table-bordered table-hover">
+
+        <tr>
+            <th>Process</th>
+            <th>Input Qty</th>
+            <th>Output Qty</th>
+            <th>Wastage</th>
+            <th>Machine</th>
+            <th>Operator</th>
+            <th>Status</th>
+        </tr>
+
+        <tr>
+            <td>Extrusion</td>
+            <td><input class="inputQty" readonly /></td>
+            <td><input class="outputQty" /></td>
+            <td><input class="wastage" readonly /></td>
+            <td><input class="machine" /></td>
+            <td><input class="operator" /></td>
+            <td class="status">Pending</td>
+        </tr>
+
+        <tr>
+            <td>Weaving</td>
+            <td><input class="inputQty" readonly /></td>
+            <td><input class="outputQty" /></td>
+            <td><input class="wastage" readonly /></td>
+            <td><input class="machine" /></td>
+            <td><input class="operator" /></td>
+            <td class="status">Pending</td>
+        </tr>
+
+        <tr>
+            <td>Lamination</td>
+            <td><input class="inputQty" readonly /></td>
+            <td><input class="outputQty" /></td>
+            <td><input class="wastage" readonly /></td>
+            <td><input class="machine" /></td>
+            <td><input class="operator" /></td>
+            <td class="status">Pending</td>
+        </tr>
+
+        <tr>
+            <td>Printing</td>
+            <td><input class="inputQty" readonly /></td>
+            <td><input class="outputQty" /></td>
+            <td><input class="wastage" readonly /></td>
+            <td><input class="machine" /></td>
+            <td><input class="operator" /></td>
+            <td class="status">Pending</td>
+        </tr>
+
+        <tr>
+            <td>Cutting</td>
+            <td><input class="inputQty" readonly /></td>
+            <td><input class="outputQty" /></td>
+            <td><input class="wastage" readonly /></td>
+            <td><input class="machine" /></td>
+            <td><input class="operator" /></td>
+            <td class="status">Pending</td>
+        </tr>
+
+        <tr>
+            <td>Stitching</td>
+            <td><input class="inputQty" readonly /></td>
+            <td><input class="outputQty" /></td>
+            <td><input class="wastage" readonly /></td>
+            <td><input class="machine" /></td>
+            <td><input class="operator" /></td>
+            <td class="status">Pending</td>
+        </tr>
+
+        <tr>
+            <td>Packing</td>
+            <td><input class="inputQty" readonly /></td>
+            <td><input class="outputQty" /></td>
+            <td><input class="wastage" readonly /></td>
+            <td><input class="machine" /></td>
+            <td><input class="operator" /></td>
+            <td class="status">Pending</td>
+        </tr>
+
+    </table>
+
+    <br />
+
+    <div style="border:1px solid #ccc;height:25px;width:100%">
+        <div id="progressBar"
+             style="background:green;height:100%;width:0%;color:white;text-align:center">
+            0%
+        </div>
+    </div>
+
+    <br />
+
+    <button id="saveTracking">Save Tracking</button> <button id="closeTracking">Close</button>
+
+</div>
+
+<style>
+
+    #trackingTable .inputQty {
+        width: 50%;
+    }
+
+    #trackingTable .outputQty {
+        width: 50%;
+    }
+
+    #trackingTable .wastage {
+        width: 50%;
+    }
+
+    #trackingTable .machine {
+        width: 100%;
+    }
+
+    #trackingTable .operator {
+        width: 100%;
+    }
+</style>
+
+@section scripts{
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+var currentTotalQty=0;
+
+$(".btnTrack").click(function(){
+
+var row=$(this).closest("tr");
+
+var item=row.find(".itemNo").text();
+currentTotalQty=row.find(".totalQty").text();
+
+var jcd=row.data("jcdid");
+
+$("#currentJcdId").val(jcd);
+
+$("#trackPONumber").val("@Model.PO_Number");
+$("#trackItemNo").val(item);
+
+$("#trackingModal").show();
+
+$("#trackingTable input").val("");
+$("#trackingTable .status").text("Pending");
+
+$("#trackingTable tr:eq(1) .inputQty").val(currentTotalQty);
+
+});
+
+
+$(document).on("keyup",".outputQty",function(){
+
+var row=$(this).closest("tr");
+
+var input=parseFloat(row.find(".inputQty").val())||0;
+var output=parseFloat($(this).val())||0;
+
+row.find(".wastage").val(input-output);
+
+if(output>0)
+row.find(".status").text("Completed");
+
+var nextRow=row.next("tr");
+
+if(nextRow.length>0)
+nextRow.find(".inputQty").val(output);
+
+updateProgress();
+
+});
+
+
+function updateProgress(){
+
+var total=0;
+var completed=0;
+
+$("#trackingTable tr:gt(0)").each(function(){
+
+total++;
+
+var output=$(this).find(".outputQty").val();
+
+if(output>0)
+completed++;
+
+});
+
+var percent=(completed/total)*100;
+
+$("#progressBar").css("width",percent+"%");
+$("#progressBar").text(percent.toFixed(0)+"%");
+
+}
+
+
+$("#closeTracking").click(function(){
+$("#trackingModal").hide();
+});
+
+
+$("#saveTracking").click(function(){
+
+var tracking=[];
+
+var jobId=$("#JobCard_Id").val();
+var jcdId=$("#currentJcdId").val();
+
+$("#trackingTable tr:gt(0)").each(function(){
+
+var row=$(this);
+
+var operation=row.find("td:eq(0)").text();
+
+var input=row.find(".inputQty").val();
+var output=row.find(".outputQty").val();
+var wastage=row.find(".wastage").val();
+
+var machine=row.find(".machine").val();
+var operator=row.find(".operator").val();
+
+if(output!="")
+{
+
+tracking.push({
+
+JobCard_Id:jobId,
+JCD_Id:jcdId,
+
+Operation_Name:operation,
+
+Input_Qty:input,
+Output_Qty:output,
+Wastage_Qty:wastage,
+
+Machine_Name:machine,
+Operator_Name:operator,
+
+Status:1
+
+});
+
+}
+
+});
+
+$.ajax({
+
+url:'/JobCard/SaveTracking',
+type:'POST',
+
+contentType:"application/json",
+
+data:JSON.stringify(tracking),
+
+success:function(msg){
+
+alert(msg);
+
+$("#trackingModal").hide();
+
+}
+
+});
+
+});
+
+
+$("#btnSave").click(function(){
+
+var model={};
+
+model.PO_Id=$("#PO_Id").val();
+model.PO_Number="@Model.PO_Number";
+model.Vendor_Id="@Model.Vendor_Id";
+model.Company_Id="@Model.Company_Id";
+model.Job_Date=$("#Job_Date").val();
+
+var items=[];
+
+$("#itemTable tbody tr").each(function(){
+
+var row=$(this);
+
+var item={};
+
+item.Item_No=row.find(".itemNo").text();
+item.Item_Description=row.find(".desc").text();
+
+items.push(item);
+
+});
+
+model.Items=items;
+
+$.ajax({
+
+url:'/JobCard/SaveJobCard',
+type:'POST',
+data:model,
+
+success:function(res){
+
+alert("Job Card Created");
+
+$("#JobCard_Id").val(res.JobCard_Id);
+
+$(".btnTrack").prop("disabled",false);
+
+}
+
+});
+
+});
+
+    </script>
+
+}

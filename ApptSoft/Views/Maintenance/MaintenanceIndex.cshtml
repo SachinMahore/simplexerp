@@ -1,0 +1,244 @@
+﻿@{
+    ViewBag.Title = "Maintenance";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Content/Maintenance.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+
+<style>
+    input {
+        background: #FFFFEE;
+    }
+
+    .red {
+        background-color: red;
+    }
+</style>
+<input type="hidden" id="hdnFlatNo" value="@Session["FlatNo"].ToString()" />
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Monthly Maintenance</h5>
+
+
+                    <!-- Floating Labels Form -->
+
+                    <div class="row g-3">
+
+                        <div class="col-md-1">
+                            <div class="form-floating">
+                                <input id="hdnId" type="hidden" />
+                                <input type="text" class="form-control" id="txtFlatNo" value="@Session["FlatNo"].ToString()" disabled />
+                                <label for="FlatNo Title">Flat No </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating mb-3">
+                                <select class="form-control" id="txtAmount">
+                                    <option selected value='1000'>1000</option>
+                                    <option value='1250'>1250</option>
+                                </select>
+                                 <label for="floatingResolved By">Amount<span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-floating">
+                                <select class="form-control" id="txtMonth">
+                                    <option selected value=''>Select Month</option>
+                                    <option value='January'>January</option>
+                                    <option value='February'>February</option>
+                                    <option value='March'>March</option>
+                                    <option value='April'>April</option>
+                                    <option value='May'>May</option>
+                                    <option value='June'>June</option>
+                                    <option value='July'>July</option>
+                                    <option value='August'>August</option>
+                                    <option value='September'>September</option>
+                                    <option value='October'>October</option>
+                                    <option value='November'>November</option>
+                                    <option value='December'>December</option>
+                                </select>
+                                <label for="PaidAmount">Month</label>
+                            </div>
+
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-floating">
+                                <select class="form-control" id="txtYear">
+                                    <option selected value=''>Select Year</option>
+                                    <option value='2021'>2021</option>
+                                    <option value='2022'>2022</option>
+                                    <option value='2023'>2023</option>
+                                    <option value='2024'>2024</option>
+                                    <option value='2025'>2025</option>
+                                    <option value='2026'>2026</option>
+                                    <option value='2027'>2027</option>
+                                    <option value='2028'>2028</option>
+                                    <option value='2029'>2029</option>
+                                    <option value='2030'>2030</option>
+                                    <option value='2031'>2031</option>
+                                    <option value='2032'>2032</option>
+                                </select>
+                                <label for="PaidAmount">Year</label>
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <select class="form-control" id="txtPaymentMode">
+                                    <option value="">Select Payment Method</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Cheque">Cheque</option>
+                                    <option value="DD">DD</option>
+                                    <option value="NEFT">NEFT</option>
+                                    <option value="RTGS">RTGS</option>
+                                    <option value="IMPS">IMPS</option>
+                                    <option selected value="UPI">UPI</option>
+                                    <option value="Net Banking">Net Banking</option>
+                                    <option value="Debit Card">Debit Card</option>
+                                    <option value="Credit Card">Credit Card</option>
+                                    <option value="PhonePe">PhonePe</option>
+                                    <option value="GooglePay">GooglePay</option>
+                                    <option value="Paytm">Paytm</option>
+                                </select>
+                                <label for="PaidAmount">Payment Mode</label>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-2">
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control" id="txtPaidDate" placeholder="Resolved By">
+                                <label for="floatingResolved By">Paid Date</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6" hidden>
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control" id="txtDueDate" placeholder="Resolved By">
+                                <label for="floatingResolved By">Due Date</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="txtTransaction" placeholder="Transaction No" maxlength="49">
+                                <label for="floatingResolved By">Transaction No <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="form-floating mb-4">
+                                <input type="file" class="form-control" id="file1">
+                                <label for="">Receipt (jpg/png)<span class="text-danger">*</span></label>
+                                <span id="fileError" class="text-danger" style="display:none;"></span>
+                            </div>
+                        </div>   
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <button type="submit" class="btn btn-primary" onclick="SaveMaintenace()">Submit</button>
+                            <button type="reset" class="btn btn-warning">Reset</button>
+                        </div>
+                        </div>
+                
+                    </div><!-- End floating Labels Form -->
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-12">
+           
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <select class="form-control" onchange="MonthChangeEvent()" id="txtMonth1">
+                                <option selected value=''>All Month</option>
+                                <option value='January'>January</option>
+                                <option value='February'>February</option>
+                                <option value='March'>March</option>
+                                <option value='April'>April</option>
+                                <option value='May'>May</option>
+                                <option value='June'>June</option>
+                                <option value='July'>July</option>
+                                <option value='August'>August</option>
+                                <option value='September'>September</option>
+                                <option value='October'>October</option>
+                                <option value='November'>November</option>
+                                <option value='December'>December</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-lg-3">
+                            <select class="form-control" onchange="yearchangeenven()" id="txtYear1">
+                                <option selected value=''>All Year</option>
+                                <option value='2021'>2021</option>
+                                <option value='2022'>2022</option>
+                                <option value='2023'>2023</option>
+                                <option value='2024'>2024</option>
+                                <option value='2025'>2025</option>
+                                <option value='2026'>2026</option>
+                                <option value='2027'>2027</option>
+                                <option value='2028'>2028</option>
+                                <option value='2029'>2029</option>
+                                <option value='2030'>2030</option>
+                                <option value='2031'>2031</option>
+                                <option value='2032'>2032</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <select class="form-control" id="ddlFlatNo"></select>
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="submit" class="btn btn-secondary" onclick="GetMaintenance()">Search</button>
+                        </div>
+                        <div class="col-lg-3">
+                            <b>  <span class="bg-body-secondary bg-dark" id="lblamount"></span></b>
+                        </div>
+                    </div>
+                    <hr />
+                    <!-- Toggle Buttons (Optional) -->
+                    <div class="mb-3 text-end">
+                        <button class="btn btn-outline-primary btn-sm" onclick="showTable()">Table View</button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="showCards()">Card View</button>
+                    </div>
+                    <div class="row" id="maintenanceCards"></div>
+                    <div class="table-responsive">
+
+                        <table id="tblMaintenance" class="table table-bordered table-hover">
+                            <thead class="text-white bg-dark">
+                                <tr>
+                                    @*<td class="text-white bg-dark">ID</td>*@
+                                    <td class="text-white bg-dark">Flat No.</td>
+                                    <td class="text-white bg-dark">Month</td>
+                                    <td class="text-white bg-dark">Year</td>
+                                    <td class="text-white bg-dark">Amount</td>
+                                    <td class="text-white bg-dark">Payment Mode</td>
+                                    <td class="text-white bg-dark">Transaction No</td>
+                                    <td class="text-white bg-dark">Paid Date</td>
+                                    <td class="text-white bg-dark">Action</td>
+
+                                </tr>
+                            </thead>
+                            <tbody> </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("txtPaidDate").value = today;
+    });
+</script>

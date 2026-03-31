@@ -1,0 +1,471 @@
+﻿@{
+    ViewBag.Title = "Add Purchase Order";
+}
+
+<h2>Purchase Order</h2>
+
+<table width="100%">
+
+    <tr>
+        <td>PO Number</td>
+        <td><input type="text" id="PO_Number" /></td>
+
+        <td>PO Date</td>
+        <td><input type="date" id="PO_Date" /></td>
+    </tr>
+
+    <tr>
+        <td>Vendor</td>
+        <td>
+            <select id="Vendor_Id">
+                <option value="">Select Vendor</option>
+            </select>
+            <button type="button" id="btnAddVendor">Add Vendor</button>
+        </td>
+
+        <td>Company</td>
+        <td>
+            <select id="Company_Id">
+                <option value="">Select Company</option>
+            </select>
+            <button type="button" id="btnAddCompany">Add Company</button>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Buyer Name</td>
+        <td><input type="text" id="Buyer_Name" /></td>
+
+        <td>Buyer Phone</td>
+        <td><input type="text" id="Buyer_Phone" /></td>
+    </tr>
+
+    <tr>
+        <td>Ship Via</td>
+        <td><input type="text" id="Ship_Via" /></td>
+
+        <td>Receive By Date</td>
+        <td><input type="date" id="Receive_By_Date" /></td>
+    </tr>
+
+    <tr>
+        <td>Payment Terms</td>
+        <td colspan="3">
+            <input type="text" id="Payment_Terms" style="width:100%" />
+        </td>
+    </tr>
+
+</table>
+
+<br />
+
+<h3>Items</h3>
+
+<table border="1" width="100%" id="itemTable">
+
+    <thead>
+
+        <tr>
+
+            <th>#</th>
+            <th>Item No</th>
+            <th>Description</th>
+            <th>Qty/Bale</th>
+            <th>Bale Count</th>
+            <th>Total Qty</th>
+            <th>Unit</th>
+            <th>Unit Price</th>
+            <th>Line Total</th>
+            <th>Remove</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody></tbody>
+
+</table>
+
+<br />
+
+<button id="addRow">Add Item</button>
+
+<br /><br />
+
+<h3>Totals</h3>
+
+<table width="40%">
+
+    <tr>
+        <td>Sub Total</td>
+        <td><input type="text" id="Sub_Total" readonly /></td>
+    </tr>
+
+    <tr>
+        <td>Discount</td>
+        <td><input type="text" id="Discount" value="0" /></td>
+    </tr>
+
+    <tr>
+        <td>Tax Amount</td>
+        <td><input type="text" id="Tax_Amount" value="0" /></td>
+    </tr>
+
+    <tr>
+        <td><b>Grand Total</b></td>
+        <td><input type="text" id="Grand_Total" readonly /></td>
+    </tr>
+
+</table>
+
+<br />
+
+<button id="savePO">Save Purchase Order</button>
+
+
+<div id="vendorModal" style="display:none; border:1px solid #000; padding:15px; width:400px; background:#fff; position:fixed; top:30%; left:35%;">
+    <h3>Add Vendor</h3>
+    Vendor Name
+    <input type="text" id="Vendor_Name" /><br /><br />
+    Contact Person
+    <input type="text" id="Contact_Person" /><br /><br />
+    Phone
+    <input type="text" id="Vendor_Phone" /><br /><br />
+    Email
+    <input type="text" id="Vendor_Email" /><br /><br />
+
+    <button id="saveVendor">Save</button>
+    <button onclick="$('#vendorModal').hide()">Close</button>
+</div>
+<div id="companyModal" style="display:none; border:1px solid #000; padding:15px; width:400px; background:#fff; position:fixed; top:30%; left:35%;">
+    <h3>Add Company</h3>
+    Company Name
+    <input type="text" id="Company_Name" /><br /><br />
+    Address
+    <input type="text" id="Company_Address1" /><br /><br />
+
+    Phone
+    <input type="text" id="Company_Phone" /><br /><br />
+
+    <button id="saveCompany">Save</button>
+    <button onclick="$('#companyModal').hide()">Close</button>
+
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#PO_Date").val(new Date().toISOString().substr(0, 10));
+
+        loadVendors();
+        loadCompanies();
+
+        addRow();
+
+    });
+
+    function loadVendors() {
+
+        $.get("/Vendor/GetVendors", function (data) {
+
+            $.each(data.model, function (i, v) {
+
+                $("#Vendor_Id").append("<option value='" + v.Vendor_Id + "'>" + v.Vendor_Name + "</option>");
+
+            });
+
+        });
+
+    }
+
+    function loadCompanies() {
+
+        $.get("/Company/GetCompanies", function (data) {
+
+            $.each(data.model, function (i, v) {
+
+                $("#Company_Id").append("<option value='" + v.Company_Id + "'>" + v.Company_Name + "</option>");
+
+            });
+
+        });
+
+    }
+
+    $("#addRow").click(function () {
+
+        addRow();
+
+    });
+
+    function addRow() {
+
+        var count = $("#itemTable tbody tr").length + 1;
+
+        var row = `<tr>
+
+<td>`+ count + `</td>
+
+<td><input class="itemno"/></td>
+
+<td><input class="desc"/></td>
+
+<td><input class="qtyperbale"/></td>
+
+<td><input class="balecount"/></td>
+
+<td><input class="totalqty" readonly/></td>
+
+<td>
+<select class="unit">
+<option value="KG">KG</option>
+<option value="MT">MT</option>
+<option value="PCS">PCS</option>
+</select>
+</td>
+
+<td><input class="price"/></td>
+
+<td><input class="linetotal" readonly/></td>
+
+<td><button class="removeRow">X</button></td>
+
+</tr>`;
+
+        $("#itemTable tbody").append(row);
+
+    }
+
+    $(document).on("keyup", ".qtyperbale,.balecount,.price", function () {
+
+        var row = $(this).closest("tr");
+
+        var qtyPerBale = parseFloat(row.find(".qtyperbale").val()) || 0;
+
+        var baleCount = parseFloat(row.find(".balecount").val()) || 0;
+
+        var price = parseFloat(row.find(".price").val()) || 0;
+
+        var totalQty = qtyPerBale * baleCount;
+
+        row.find(".totalqty").val(totalQty);
+
+        var lineTotal = totalQty * price;
+
+        row.find(".linetotal").val(lineTotal);
+
+        calculateTotals();
+
+    });
+
+    $(document).on("click", ".removeRow", function () {
+
+        $(this).closest("tr").remove();
+
+        reindex();
+
+        calculateTotals();
+
+    });
+
+    function reindex() {
+
+        $("#itemTable tbody tr").each(function (index) {
+
+            $(this).find("td:first").text(index + 1);
+
+        });
+
+    }
+
+    $("#Discount,#Tax_Amount").keyup(function () {
+
+        calculateTotals();
+
+    });
+
+    function calculateTotals() {
+
+        var subTotal = 0;
+
+        $(".linetotal").each(function () {
+
+            subTotal += parseFloat($(this).val()) || 0;
+
+        });
+
+        $("#Sub_Total").val(subTotal);
+
+        var discount = parseFloat($("#Discount").val()) || 0;
+
+        var tax = parseFloat($("#Tax_Amount").val()) || 0;
+
+        var grandTotal = subTotal - discount + tax;
+
+        $("#Grand_Total").val(grandTotal);
+
+    }
+
+    $("#savePO").click(function () {
+
+        var items = [];
+
+        $("#itemTable tbody tr").each(function () {
+
+            var row = $(this);
+
+            items.push({
+
+                Item_No: row.find(".itemno").val(),
+
+                Item_Description: row.find(".desc").val(),
+
+                Qty_Per_Bale: row.find(".qtyperbale").val(),
+
+                Bale_Count: row.find(".balecount").val(),
+
+                Total_Quantity: row.find(".totalqty").val(),
+
+                Unit: row.find(".unit").val(),
+
+                Unit_Price: row.find(".price").val(),
+
+                Line_Total: row.find(".linetotal").val()
+
+            });
+
+        });
+
+        var model = {
+
+            PO_Id: 0,
+
+            PO_Number: $("#PO_Number").val(),
+
+            PO_Date: $("#PO_Date").val(),
+
+            Vendor_Id: $("#Vendor_Id").val(),
+
+            Company_Id: $("#Company_Id").val(),
+
+            Buyer_Name: $("#Buyer_Name").val(),
+
+            Buyer_Phone: $("#Buyer_Phone").val(),
+
+            Ship_Via: $("#Ship_Via").val(),
+
+            Receive_By_Date: $("#Receive_By_Date").val(),
+
+            Payment_Terms: $("#Payment_Terms").val(),
+
+            Sub_Total: $("#Sub_Total").val(),
+
+            Discount: $("#Discount").val(),
+
+            Tax_Amount: $("#Tax_Amount").val(),
+
+            Grand_Total: $("#Grand_Total").val(),
+
+            Items: items
+
+        };
+
+        $.ajax({
+
+            url: '/PurchaseOrder/SavePurchaseOrder',
+
+            type: 'POST',
+
+            data: JSON.stringify(model),
+
+            contentType: 'application/json',
+
+            success: function (data) {
+
+                alert(data.Message);
+
+                location.reload();
+
+            }
+
+        });
+
+    });
+    $("#btnAddVendor").click(function () {
+
+        $("#vendorModal").show();
+
+    });
+
+
+    $("#btnAddCompany").click(function () {
+
+        $("#companyModal").show();
+
+    });
+
+
+    $("#saveVendor").click(function () {
+
+        var model = {
+
+            Vendor_Name: $("#Vendor_Name").val(),
+            Contact_Person: $("#Contact_Person").val(),
+            Phone: $("#Vendor_Phone").val(),
+            Email: $("#Vendor_Email").val()
+
+        };
+
+        $.ajax({
+
+            url: "/Vendor/SaveVendor",
+            type: "POST",
+            data: JSON.stringify(model),
+            contentType: "application/json",
+            success: function (data) {
+
+                alert(data.message);
+
+                $("#vendorModal").hide();
+
+                loadVendors();
+
+            }
+
+        });
+
+    });
+
+
+    $("#saveCompany").click(function () {
+
+        var model = {
+
+            Company_Name: $("#Company_Name").val(),
+            Address1: $("#Company_Address1").val(),
+            Phone: $("#Company_Phone").val()
+
+        };
+
+        $.ajax({
+
+            url: "/Company/SaveCompany",
+            type: "POST",
+            data: JSON.stringify(model),
+            contentType: "application/json",
+            success: function (data) {
+
+                alert(data.message);
+
+                $("#companyModal").hide();
+
+                loadCompanies();
+
+            }
+
+        });
+
+    });
+</script>

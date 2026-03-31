@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DD64AA6E-1F47-4C7B-A6C5-FBF7436A48D6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ApptSoft.Data</RootNamespace>
+    <AssemblyName>ApptSoft.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApptSoft.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApptSoft.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ApptSoft.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ApptSoft.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApptSoft.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Company_Master.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_Address.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_Client_01.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_emp.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_emp3411.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_emp_01.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Department.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Empl.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Employee.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobCard_Details.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobCard_Master.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobCard_Production_Tracking.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Production_Operations.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseOrder.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseOrder_Details.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblAMC.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblComplaint.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblContractor.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblCorpusFund.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblDispatch.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblDispatchContractor.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblExpens.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblIncome.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblMaintenance.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblResident.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblsummaryreport.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblTenant.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblVisitor.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vendor_Master.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="ApptSoft.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ApptSoft.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ApptSoft.edmx.diagram">
+      <DependentUpon>ApptSoft.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ApptSoft.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ApptSoft.edmx</DependentUpon>
+      <LastGenOutput>ApptSoft.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="ApptSoft.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ApptSoft.edmx</DependentUpon>
+      <LastGenOutput>ApptSoft.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>

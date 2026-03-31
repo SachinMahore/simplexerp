@@ -1,0 +1,204 @@
+﻿@{
+    ViewBag.Title = "Purchase Order List";
+}
+
+<h2>Purchase Order List</h2>
+<div style="margin-bottom:15px;">
+    <label>PO Number</label>
+    <input type="text" id="poNumber" />
+    <label style="margin-left:10px;">Vendor</label>
+    <select id="vendorId">
+        <option value="">All Vendors</option>
+    </select>
+    <label style="margin-left:10px;">From</label>
+    <input type="date" id="fromDate" />
+    <label>To</label>
+    <input type="date" id="toDate" />
+    <button id="btnSearch">Search</button>
+    <button id="btnExport">Export Excel</button>
+    <a href="/PurchaseOrder/Add" class="btn btn-outline-success">Add New Purchase Order</a>
+</div>
+
+
+<table border="1" id="poTable" class="table table-bordered table-hover">
+    <thead class="text-primary">
+
+        <tr>
+            <th>PO No</th>
+            <th>PO Date</th>
+            <th>Vendor</th>
+            <th>Grand Total</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+    </thead>
+
+    <tbody></tbody>
+
+</table>
+
+
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            loadVendors();
+
+            // Get today's date as a Date object
+            var today = new Date();
+
+            // Format "toDate" as yyyy-mm-dd
+            var toDate = today.toISOString().substr(0, 10);
+
+            // Get yesterday by subtracting 1 day
+            var yesterday = new Date(today); // copy today
+            yesterday.setDate(today.getDate() - 10);
+            var fromDate = yesterday.toISOString().substr(0, 10);
+
+            // Set input values
+            $("#fromDate").val(fromDate);
+            $("#toDate").val(toDate);
+
+
+            loadPO();
+
+        });
+
+
+        function loadVendors() {
+
+            $.get("/Vendor/GetVendors", function (data) {
+
+                $.each(data.model, function (i, v) {
+
+                    $("#vendorId").append("<option value='" + v.Vendor_Id + "'>" + v.Vendor_Name + "</option>");
+
+                });
+
+            });
+
+        }
+
+
+        $("#btnSearch").click(function () {
+
+            loadPO();
+
+        });
+
+
+        function loadPO() {
+
+            var poNumber = $("#poNumber").val();
+            var vendorId = $("#vendorId").val();
+            var fromDate = $("#fromDate").val();
+            var toDate = $("#toDate").val();
+
+            $.get("/PurchaseOrder/GetPurchaseOrders",
+                {
+                    poNumber: poNumber,
+                    vendorId: vendorId,
+                    fromDate: fromDate,
+                    toDate: toDate
+                },
+                function (data) {
+
+                    $("#poTable tbody").html("");
+
+                    if (data.model.length == 0) {
+
+                        $("#poTable tbody").append("<tr><td colspan='6' style='text-align:center'>No Record Found</td></tr>");
+
+                        return;
+
+                    }
+
+                    $.each(data.model, function (i, v) {
+
+                        var status = "";
+
+                        if (v.Status == 0) status = "Pending";
+                        if (v.Status == 1) status = "Approved";
+                        if (v.Status == 2) status = "Closed";
+
+                        var row = "<tr>";
+
+                        row += "<td>" + v.PO_Number + "</td>";
+                        row += "<td>" + formatDate(v.PO_Date) + "</td>";
+                        row += "<td>" + v.Vendor_Name + "</td>";
+                        row += "<td>" + v.Grand_Total + "</td>";
+                        row += "<td>" + status + "</td>";
+
+                        row += "<td>";
+
+                        row += "<a href='/PurchaseOrder/Add?id=" + v.PO_Id + "'>Edit</a> | ";
+
+                        row += "<a href='/PurchaseOrder/PrintPO?id=" + v.PO_Id + "' target='_blank'>Print</a> | ";
+
+                        row += "<a href='#' onclick='deletePO(" + v.PO_Id + ")'>Delete</a> | ";
+                        row += "<a href='/PurchaseOrder/ExportPOItems?poId=" + v.PO_Id + "'>Export Excel</a> | ";
+                        row += "<a href='/JobCard/GenerateJobCard?poId="+ v.PO_Id+"'> Job Card</a>";
+                        row += "</td>";
+
+                        row += "</tr>";
+
+                        $("#poTable tbody").append(row);
+
+                    });
+
+                });
+
+        }
+
+
+        function deletePO(id) {
+
+            if (!confirm("Delete this Purchase Order?"))
+                return;
+
+            $.post("/PurchaseOrder/DeletePO", { id: id }, function (res) {
+
+                alert(res.message);
+
+                loadPO();
+
+            });
+
+        }
+
+
+        function formatDate(jsonDate) {
+
+            var timestamp = parseInt(jsonDate.replace("/Date(", "").replace(")/", ""));
+
+            var d = new Date(timestamp);
+
+            var day = ("0" + d.getDate()).slice(-2);
+            var month = ("0" + (d.getMonth() + 1)).slice(-2);
+            var year = d.getFullYear();
+
+            return day + "-" + month + "-" + year;
+
+        }
+
+
+        $("#btnExport").click(function () {
+
+            var poNumber = $("#poNumber").val();
+            var vendorId = $("#vendorId").val();
+            var fromDate = $("#fromDate").val();
+            var toDate = $("#toDate").val();
+
+            window.location = "/PurchaseOrder/ExportExcel?poNumber=" + poNumber +
+                "&vendorId=" + vendorId +
+                "&fromDate=" + fromDate +
+                "&toDate=" + toDate;
+
+        });
+
+    </script>
+

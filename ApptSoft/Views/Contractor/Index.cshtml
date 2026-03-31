@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Contractor Master</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        input, select {
+            padding: 6px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 6px 12px;
+            background: green;
+            color: white;
+            border: none;
+        }
+
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 60%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+        th {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Contractor Master</h2>
+
+    <input type="hidden" id="Contractor_Id" value="0" />
+
+    <input id="Contractor_Name" placeholder="Contractor Name" />
+
+    <select id="Status">
+        <option value="1">Active</option>
+        <option value="0">Inactive</option>
+    </select>
+
+    <button id="btnSave">Save</button>
+
+    <table id="tbl">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+
+$(document).ready(function () {
+
+    loadData();
+
+    $("#btnSave").click(function () {
+
+        $.ajax({
+            url: '/Contractor/Save',
+            type: 'POST',
+            data: {
+                Contractor_Id: $("#Contractor_Id").val(),
+                Contractor_Name: $("#Contractor_Name").val(),
+                Status: $("#Status").val()
+            },
+            success: function (res) {
+                alert(res.message);
+                clearForm();
+                loadData();
+            }
+        });
+
+    });
+
+});
+
+// LOAD
+function loadData() {
+
+    $.get('/Contractor/GetAll', function (res) {
+
+        var tbody = $("#tbl tbody");
+        tbody.empty();
+
+        $.each(res.model, function (i, x) {
+
+            tbody.append(`
+                <tr>
+                    <td>${x.Contractor_Id}</td>
+                    <td>${x.Contractor_Name}</td>
+                    <td>${x.Status == 1 ? 'Active' : 'Inactive'}</td>
+                    <td>
+                        <button onclick='editData(${JSON.stringify(x)})'>Edit</button>
+                    </td>
+                </tr>
+            `);
+        });
+
+    });
+}
+
+// EDIT
+function editData(x) {
+    $("#Contractor_Id").val(x.Contractor_Id);
+    $("#Contractor_Name").val(x.Contractor_Name);
+    $("#Status").val(x.Status);
+}
+
+// CLEAR
+function clearForm() {
+    $("#Contractor_Id").val(0);
+    $("#Contractor_Name").val('');
+    $("#Status").val("1");
+}
+
+    </script>
+
+</body>
+</html>

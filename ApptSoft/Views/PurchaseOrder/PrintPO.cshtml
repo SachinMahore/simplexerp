@@ -1,0 +1,322 @@
+﻿@model ApptSoft.Models.PurchaseOrderModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+
+    <title>Purchase Order</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            font-size: 13px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 6px;
+        }
+
+        .no-border td {
+            border: none;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body onload="window.print()">
+
+    <!-- COMPANY HEADER -->
+
+    <h2 class="text-center">@Model.Company.Company_Name</h2>
+
+    <div class="text-center">
+
+        @Model.Company.Address1 <br />
+
+        @Model.Company.Address2 <br />
+
+        @Model.Company.City, @Model.Company.State - @Model.Company.Zip_Code <br />
+
+        @Model.Company.Country <br />
+
+        Phone : @Model.Company.Phone
+        Fax : @Model.Company.Fax
+
+    </div>
+
+    <hr />
+
+    <h3 class="text-center">PURCHASE ORDER</h3>
+
+    <br />
+
+    <!-- PO DETAILS -->
+
+    <table class="no-border">
+
+        <tr>
+
+            <td>
+
+                <b>PO Number :</b> @Model.PO_Number
+
+            </td>
+
+            <td class="text-right">
+
+                <b>PO Date :</b> @Model.PO_Date.ToString("dd-MM-yyyy")
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+
+                <b>Buyer :</b> @Model.Buyer_Name
+
+            </td>
+
+            <td class="text-right">
+
+                <b>Phone :</b> @Model.Buyer_Phone
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+
+                <b>Ship Via :</b> @Model.Ship_Via
+
+            </td>
+
+            <td class="text-right">
+
+                <b>Receive By :</b> @(Model.Receive_By_Date.HasValue ? Model.Receive_By_Date.Value.ToString("dd-MM-yyyy") : "")
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td colspan="2">
+
+                <b>Payment Terms :</b> @Model.Payment_Terms
+
+            </td>
+
+        </tr>
+
+    </table>
+
+    <br />
+
+    <!-- VENDOR + COMPANY -->
+
+    <table>
+
+        <tr>
+
+            <td width="50%" style="vertical-align:top">
+
+                <b>Vendor Details</b><br /><br />
+
+                <b>@Model.Vendor.Vendor_Name</b><br />
+
+                Contact : @Model.Vendor.Contact_Person <br />
+
+                @Model.Vendor.Address1 <br />
+
+                @Model.Vendor.Address2 <br />
+
+                @Model.Vendor.City, @Model.Vendor.State - @Model.Vendor.Zip_Code <br />
+
+                @Model.Vendor.Country <br /><br />
+
+                Phone : @Model.Vendor.Phone <br />
+
+                Email : @Model.Vendor.Email <br />
+
+                GST : @Model.Vendor.GST_Number
+
+            </td>
+
+            <td width="50%" style="vertical-align:top">
+
+                <b>Ship To</b><br /><br />
+
+                <b>@Model.Company.Company_Name</b><br />
+
+                @Model.Company.Address1 <br />
+
+                @Model.Company.Address2 <br />
+
+                @Model.Company.City, @Model.Company.State - @Model.Company.Zip_Code <br />
+
+                @Model.Company.Country <br /><br />
+
+                Phone : @Model.Company.Phone
+
+            </td>
+
+        </tr>
+
+    </table>
+
+    <br />
+
+    <!-- ITEM TABLE -->
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+                <th>Item No</th>
+                <th>Description</th>
+                <th>Qty/Bale</th>
+                <th>Bale</th>
+                <th>Total Qty</th>
+                <th>Unit</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @{
+                int i = 1;
+            }
+
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+
+                    <td>@i</td>
+
+                    <td>@item.Item_No</td>
+
+                    <td>@item.Item_Description</td>
+
+                    <td class="text-right">@item.Qty_Per_Bale</td>
+
+                    <td class="text-right">@item.Bale_Count</td>
+
+                    <td class="text-right">@item.Total_Quantity</td>
+
+                    <td>@item.Unit</td>
+
+                    <td class="text-right">@item.Unit_Price</td>
+
+                    <td class="text-right">@item.Line_Total</td>
+
+                </tr>
+
+                i++;
+
+            }
+
+        </tbody>
+
+    </table>
+
+    <br />
+
+    <!-- TOTALS -->
+
+    <table style="width:35%; float:right">
+
+        <tr>
+
+            <td><b>Sub Total</b></td>
+
+            <td class="text-right">@Model.Sub_Total</td>
+
+        </tr>
+
+        <tr>
+
+            <td><b>Discount</b></td>
+
+            <td class="text-right">@Model.Discount</td>
+
+        </tr>
+
+        <tr>
+
+            <td><b>Tax</b></td>
+
+            <td class="text-right">@Model.Tax_Amount</td>
+
+        </tr>
+
+        <tr>
+
+            <td><b>Grand Total</b></td>
+
+            <td class="text-right"><b>@Model.Grand_Total</b></td>
+
+        </tr>
+
+    </table>
+
+    <div style="clear:both"></div>
+
+    <br /><br /><br />
+
+    <!-- SIGNATURE -->
+
+    <table class="no-border">
+
+        <tr>
+
+            <td>
+
+                Prepared By
+
+            </td>
+
+            <td class="text-right">
+
+                Authorized Signatory
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</body>
+
+</html>

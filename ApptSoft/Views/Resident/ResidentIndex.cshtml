@@ -1,0 +1,199 @@
+﻿﻿@{
+    ViewBag.Title = "Resident";
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script src="~/Content/Resident.js"></script>
+
+<script src="sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+
+                <div class="card-body">
+                    <h2 class="card-title">Employee</h2>    <button type="button" class="btn btn-secondary" id="btnAddemp" onclick="AddResident()">Add Employee</button>
+                    <div class="table-responsive">
+                        <table id="tblResident" class="table table-bordered table-hover">
+                            <thead class="text-white bg-dark" align="center">
+                                <tr>
+                                    @*<td class="text-white bg-dark">ID</td>*@
+                                    <td class="text-white bg-dark">Emp Id</td>
+                                    <td class="text-white bg-dark"> Employee Name</td>
+                                    <td class="text-white bg-dark">Mobile No.</td>
+                                    @*<td class="text-white bg-dark">Wing</td>*@
+                                    @*<td class="text-white bg-dark">Email</td>*@
+                                    @*<td class="text-white bg-dark">Password</td>*@
+                                    <td class="text-white bg-dark">Department</td>
+
+                                    @*<td class="text-white bg-dark">Adhar Card</td>*@
+
+                                    <td class="text-white bg-dark">Car Number</td>
+                                    <td class="text-white bg-dark">2 Wheeler No.</td>
+                                    <td class="text-white bg-dark">EDIT</td>
+                                    @*<td class="text-white bg-dark"></td>*@
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody align="center"> </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    @*@DetailPOPUP@*@
+
+
+    <div id="ResidentModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container" id="DetailResident">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div id="AddResidentModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <h5 class="card-title"> Add Employee </h5>
+
+
+                    <!-- Floating Labels Form -->
+
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input id="hdnId" type="hidden" />
+                                <input type="text" class="form-control" id="txtFirstName" placeholder="Enter Employee first name" autofocus="autofocus">
+                                <label for="floatingFlat No">Employee First Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtLastName" placeholder="Enter Employee Surname">
+                                <label for="floatingFlat No">Employee Surname</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtFlatNo" placeholder="Enter Employee Id">
+                                <label for="floatingFlat No">Employee Id</label>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtMobileNo" placeholder="Complaint Title">
+                                <label for="floatingComplaint Title">Mobile Number </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+
+                                <select id="txtWing" name="userRole" class="form-control">
+        
+                                    <option value="admin">Admin</option>
+                                    <option value="planning_head">Planning Head</option>
+                                    <option value="rmd">RMD (Raw Material)</option>
+                                    <option value="production">Production</option>
+                                    <option value="logistics">Logistics</option>
+                                    <option value="qc_lab">QC / Lab</option>
+                                </select>
+                                <label for="floatingResolved By">Select User Role:</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="Date" class="form-control" id="txtJoinDate">
+                                <label for="floatingResolved Date">Join Date</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="txtEmail" placeholder="Resolved By">
+                                <label for="floatingResolved By">Email</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="txtPassword" placeholder="Resolved By">
+                                <label for="floatingResolved By">Password</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="txtFlatType" placeholder="Resolved By" maxlength="10">
+                                <label for="floatingResolved By">Car Number (NO SPACE)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="txtArea" placeholder="Resolved By" maxlength="10">
+                                <label for="floatingResolved By">2 Wheeler No. (NO SPACE)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="file" class="form-control" id="file1" placeholder="Resolved By">
+                                <label for="floatingResolved By">Photo</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="file" class="form-control" id="txtAdharcard">
+                                <label for="floatingResolved Date">Adhar Card</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3" hidden>
+
+                            <input type="checkbox" id="txtIsParking" placeholder="Resolved By">
+                            <label for="floatingResolved By">Paid Parking Available</label>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" onclick="SaveResident()">SUBMIT</button>
+                            <button type="reset" class="btn btn-warning">RESET</button> &nbsp;
+                            <input type="button" value="CLOSE " class="btn btn-secondary" data-bs-dismiss="modal" />
+                        </div>
+
+
+                    </form><!-- End floating Labels Form -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#AddResidentModal").on('shown.bs.modal', function () {
+                $(this).find('#txtFirstName').focus();
+            });
+        });
+    </script>

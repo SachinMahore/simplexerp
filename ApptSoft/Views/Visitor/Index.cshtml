@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewBag.Title = "Visitor";
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Content/Visitor.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+
+<style>
+    input {
+        background: #FFFFEE;
+    }
+
+    .red {
+        background-color: red;
+    }
+</style>
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Visitor Registration</h5>
+                    <div style="background-color: #f1f1f1; border-left: 5px solid #2196F3; padding: 10px; margin-bottom: 15px; font-family: sans-serif;">
+                        <strong>Dear Resident</strong> ,
+                        To avoid security checking at the gate, please ensure you pre-register your visitor by filling out the form before their arrival.
+                        This helps streamline entry and ensures a smooth experience for your guest.
+
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-1">
+                            <div class="form-floating">
+                                <input id="hdnId" type="hidden" />
+                                <input type="text" class="form-control" id="txtFlatNo" value="@Session["FlatNo"].ToString()" disabled />
+                                <label for="FlatNo Title">Flat No </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtName" placeholder="Visitor">
+                                <label for="floatingResolved By">Visitor Name<span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtAddress" placeholder="Visitor Address">
+                                <label for="floatingResolved By">Visitor Address<span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtMobile" placeholder="Visitor Mobile">
+                                <label for="floatingResolved By">Visitor Mobile<span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating mb-4">
+                                <input type="file" class="form-control" id="file1" placeholder="Resolved By">
+                                <label for="floatingResolved By">Visitor Photo  (jpg/png)</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <select class="form-control" id="ddlType">
+                                    <option value='Guest'>Guest</option>
+                                    <option value='Maid'>Maid</option>
+                                    <option value='DeliveryPersonnel'>Delivery Personnel</option>
+                                    <option value='ServiceProvider'>Service Provider</option>
+                                    <option value='TemporaryStaff'>TemporaryStaff</option>
+                                </select>
+                                <label for="Month">Visitor Type<span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control" id="txtVisitorDetails" list="visitorDetailsList" placeholder="Visitor Details">
+                                <label for="txtVisitorDetails">Visitor Details</label>
+
+                                <datalist id="visitorDetailsList">
+                                    <option value="नळ दुरुस्त करण्यासाठी प्लंबर येत आहे">
+                                    <option value="वायरिंग कामासाठी इलेक्ट्रीशियन येत आहे">
+                                    <option value="झोमॅटो वरून अन्न डिलिव्हरी">
+                                    <option value="पाहुणा राहण्यासाठी येत आहे">
+                                    <option value="दैनिक स्वच्छतेसाठी मोलकरीण">
+                                    <option value="अ‍ॅमेझॉन वरून कुरिअर डिलिव्हरी">
+                                    <option value="लाँड्री पिकअपसाठी">
+                                    <option value="दैनिक दूध वितरणासाठी दूधवाला">
+                                    <option value="वृत्तपत्र विक्रेता">
+                                    <option value="गाडी स्वच्छ करणारा">
+                                    <option value="पाण्याच्या कॅनची डिलिव्हरी">
+                                    <option value="सुरक्षा तपासणीसाठी">
+                                    <option value="इंटरनेट तांत्रिक कर्मचारी">
+                                    <option value="एसी दुरुस्ती करणारा व्यक्ती">
+                                    <option value="घर साफसफाई सेवा">
+                                    <option value="फर्निचर डिलिव्हरी">
+                                    <option value="कीटकनाशक सेवा">
+                                    <option value="गॅस सिलिंडर डिलिव्हरी">
+                                    <option value="पेंटिंग कामाची तपासणी">
+                                    <option value="लहान दुरुस्तीसाठी सुतार">
+                                    <option value="कुटुंबातील सदस्य भेटीस येत आहे">
+                                </datalist>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <select class="form-control" id="ddlFrequency">
+                                    <option value='OneTime'>OneTime</option>
+                                    <option value='Daily'>Daily</option>
+                                    <option value='Weekly'>Weekly</option>
+                                    <option value='Monthly'>Monthly</option>
+                                </select>
+                                <label for="Month">Visit Frequency</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control" id="txtDate" placeholder="Visit Date">
+                                <label for="floatingResolved By">Visit Date<span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating mb-3">
+                                <input type="time" class="form-control" id="txtTime" placeholder="Time">
+                                <label for="floatingResolved By">Visit Time<span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="txtVehicleNo" placeholder="Vehicle No.">
+                                <label for="floatingResolved By">Vehicle No.</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating">
+
+                                <select id="txtNoOfPerson" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <label for="txtNoOfPerson">No. of Persons</label>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <p>
+                                <input type="checkbox" class="bi-check-square-fill" id="chkConsent" placeholder="Resolved By" checked disabled>
+                                By submitting, I consent to take full responsibility for the visitor's entry and conduct during their time on the premises.
+                            </p>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" onclick="SaveVisitor()">Submit</button>
+                            <button type="reset" class="btn btn-warning">Reset</button>
+                        </div>
+
+
+                    </div><!-- End floating Labels Form -->
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <div class="row" hidden>
+                        <div class="col-lg-3">
+                            <input type="date" class="form-control" id="txtFilterDate" placeholder="Visit Date">
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="submit" class="btn btn-success" onclick="GetVisitors()">Search</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="mb-3 text-end">
+                        <button class="btn btn-outline-primary btn-sm" onclick="showVisitorTable()">Table View</button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="showVisitorCards()">Card View</button>
+                    </div>
+                    <div class="row" id="visitorCards"></div>
+                    <div class="table-responsive">
+
+                        <table id="tblVisitors" class="table table-bordered table-hover"  style="display: none;">
+                            <thead class="text-white bg-dark">
+                                <tr>
+                                    <td class="text-white bg-dark">Flat No</td>
+                                    <td class="text-white bg-dark">Visitor Name</td>
+                                    <td class="text-white bg-dark">Mobile</td>
+                                    <td class="text-white bg-dark">Visitor Type</td>
+                                    <td class="text-white bg-dark">Visitor Details</td>
+                                    <td class="text-white bg-dark">Frequency</td>
+                                    <td class="text-white bg-dark">Visit Date</td>
+                                    <td class="text-white bg-dark"> Time</td>
+                                    <td class="text-white bg-dark">Vehicle No</td>
+
+                                </tr>
+                            </thead>
+                            <tbody> </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("txtDate").value = today;
+        document.getElementById("txtFilterDate").value = today;
+        let now = new Date();
+        now.setHours(now.getHours() + 1); // Add 1 hour
+        // Format to HH:MM (24-hour format)
+        let hours = now.getHours().toString().padStart(2, '0');
+        let minutes = now.getMinutes().toString().padStart(2, '0');
+
+        document.getElementById("txtTime").value = `${hours}:${minutes}`;
+    });
+</script>

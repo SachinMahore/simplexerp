@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApptSoft", "ApptSoft\ApptSoft.csproj", "{5BA5F415-B087-4330-A652-B0ECC64239B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApptSoft.Data", "ApptSoft.Data\ApptSoft.Data.csproj", "{DD64AA6E-1F47-4C7B-A6C5-FBF7436A48D6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BA5F415-B087-4330-A652-B0ECC64239B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BA5F415-B087-4330-A652-B0ECC64239B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BA5F415-B087-4330-A652-B0ECC64239B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BA5F415-B087-4330-A652-B0ECC64239B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD64AA6E-1F47-4C7B-A6C5-FBF7436A48D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD64AA6E-1F47-4C7B-A6C5-FBF7436A48D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD64AA6E-1F47-4C7B-A6C5-FBF7436A48D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD64AA6E-1F47-4C7B-A6C5-FBF7436A48D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CEEB9C8C-7D42-4C17-8584-CD6C3F5B95B6}
+	EndGlobalSection
+EndGlobal

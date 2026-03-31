@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "ComplaintIndex";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Content/Complaint.js"></script>
+
+
+<section class="section">
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Resident Complaint</h5>
+
+
+                    <!-- Floating Labels Form -->
+                    <input id="hdnid" type="hidden" />
+                    <div class="row g-3">
+                        <div class="col-md-1">
+                            <div class="form-floating">
+                                <input type="hidden" id="hdnId" />
+                                <input type="text" class="form-control" id="txtFlatNo" value="@Session["FlatNo"].ToString()" disabled />
+                                @*<select type="text" class="form-control" id="txtFlatNo"></select>*@
+                                <label for="floatingFlat No">Flat No</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2" hidden>
+                            <div class="form-floating">
+                                <input type="date" class="form-control" id="txtComplaintDate">
+                                <label for="floatingComplaint Date">Complaint Date<span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="file" class="form-control" id="file1">
+                                <label for="floatingResolved Proof">Complaint Proof (jpg/png)<span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtTitle" placeholder="Complaint Title" list="complaintIssueList" maxlength="60">
+                                <label for="floatingComplaint Title">Complaint Title<span class="text-danger">*</span></label>
+                                <datalist id="complaintIssueList">
+                                    <option value="Intercom not working">
+                                    <option value="Water leakage">
+                                    <option value="Power backup not working">
+                                    <option value="Elevator not functioning">
+                                    <option value="Corridor lights not working">
+                                    <option value="Fire alarm beeping continuously">
+                                    <option value="Security camera not recording">
+                                    <option value="Common areas not clean">
+                                    <option value="Garbage not collected">
+                                    <option value="Water supply issue">
+                                    <option value="Parking-related issue">
+                                    <option value="Noise from common area">
+                                    <option value="Gym equipment broken">
+                                    <option value="Clubhouse AC not working">
+                                    <option value="Cracked tiles in lobby">
+                                    <option value="Broken benches in garden">
+                                    <option value="Gate barrier not working">
+                                    <option value="Pest control required">
+                                    <option value="Sewage smell in basement">
+                                    <option value="Playground equipment damaged">
+                                </datalist>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2" hidden>
+                            <div class="form-floating">
+                                <input type="Date" class="form-control" id="txtResolvedDate">
+                                <label for="floatingResolved Date">Resolved Date</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2" hidden>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="txtResolvedBy" placeholder="Resolved By" value="1">
+                                <label for="floatingResolved By"> Resolved By</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Enter Complaint" id="txtComplaint" style="height: 100px;"></textarea>
+                                        <label for="floatingTextarea">Complaint<span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Enter Complaint Description" id="txtDiscription" style="height: 100px;"></textarea>
+                                        <label for="floatingTextarea">Complaint Description</label>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" onclick="SaveComplaint()">SUBMIT</button>
+                            <button type="reset" class="btn btn-warning">RESET</button>
+                        </div>
+                    </div><!-- End floating Labels Form -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Complaint Box</h5>
+
+                    <div class="table-responsive">
+                        <table id="tblComplaints" class="table table-bordered table-hover">
+                            <thead class="text-white bg-dark">
+                                <tr>
+
+                                    <td class="text-white bg-dark">FlatNo</td>
+                                    <td class="text-white bg-dark">Title</td>
+
+                                    <td class="text-white bg-dark">Complaint</td>
+                                    <td class="text-white bg-dark">Complaint Date</td>
+                                       <td class="text-white bg-dark">Status</td>
+                                        <td class="text-white bg-dark">ResolvedBy</td>
+                                        <td class="text-white bg-dark">ResolveDate</td>
+
+
+                                    <td class="text-white bg-dark"></td>
+                                </tr>
+                            </thead>
+                            <tbody> </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+@*@DetailPOPUP@*@
+
+<div id="ComplaintModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container" id="ComplaintDetail">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*AutoFocus*@
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("txtComplaintDate").value = today;
+        document.getElementById("txtResolvedDate").value = today;
+    });
+</script>

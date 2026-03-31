@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Summary Sheet Report</title>
+
+    <!-- ✅ Bootstrap (same as billing sheet style) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-section select,
+        .filter-section button {
+            margin-right: 10px;
+        }
+
+        tfoot {
+            font-weight: bold;
+            background-color: #e9ecef;
+        }
+
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Dispatch Summary Sheet</h2>
+
+    <a href="/Dispatch/Dispatch" class="btn btn-outline-success">Add Dispatch</a>
+    <a href="/Dispatch" class="btn btn-outline-info">Dispatch List</a>
+    <button class="btn btn-outline-danger" onclick="printDiv('divprint')">Print</button>
+
+    <!-- FILTERS -->
+    <div class="filter-section mt-3 mb-3">
+        <select id="filterContractor" class="form-select d-inline w-auto"></select>
+
+        <select id="filterMonth" class="form-select d-inline w-auto">
+            <option value="">Month</option>
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Mar</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">Jun</option>
+            <option value="7">Jul</option>
+            <option value="8">Aug</option>
+            <option value="9">Sep</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+        </select>
+
+        <select id="filterYear" class="form-select d-inline w-auto">
+            <option value="">Year</option>
+            <option value="2026">2026</option>
+            <option value="2025">2025</option>
+        </select>
+
+        <button class="btn btn-primary" onclick="loadReport()">Search</button>
+    </div>
+
+    <div id="divprint">
+
+        <table id="reportTable" class="table table-bordered table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th>Contractor</th>
+                    <th>Qty</th>
+                    <th>Amount</th>
+                    <th>Extra Amt</th>
+                    <th>Non Dispatch Amt</th>
+                    <th>Total Amt</th>
+                </tr>
+            </thead>
+
+            <tbody></tbody>
+
+            <!-- ✅ FOOTER -->
+            <tfoot>
+                <tr>
+                    <td>Total</td>
+                    <td id="ftQty">0</td>
+                    <td id="ftAmt">0</td>
+                    <td id="ftExtra">0</td>
+                    <td id="ftNonDispatch">0</td>
+                    <td id="ftGrand">0</td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+    <a id ="btnsavesummreport" class="btn btn-outline-primary">Save</a>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        loadContractors();
+        loadReport();
+    });
+
+    // ================= LOAD CONTRACTORS =================
+    function loadContractors() {
+
+        $.get('/Contractor/GetAll', function (res) {
+
+            let html = '<option value="">All Contractor</option>';
+            $.each(res.model, function (i, item) {
+                html += `<option value="${item.Contractor_Id}">${item.Contractor_Name}</option>`;
+            });
+
+            $("#filterContractor").html(html);
+        });
+    }
+
+    // ================= LOAD REPORT =================
+    function loadReport() {
+
+        let contractorId = $("#filterContractor").val();
+        let month = $("#filterMonth").val();
+        let year = $("#filterYear").val();
+
+        $.get('/Dispatch/GetSavedSummaryReport', { contractorId, month, year }, function (res) {
+
+            if (res.success && res.data.length > 0) {
+                let html = "";
+
+                $.each(res.data, function (i, item) {
+
+                    html += `<tr>
+            <td data-id="${item.Contractor_id}">${item.Contractor_Name}</td>
+            <td>${item.Qty || item.TotalQuantity}</td>
+            <td><span class="lbltotalcost">${item.Amount || item.TotalCost}</span></td>
+            <td><input type="text" class="extraamt" value="${item.Extra_Amt || 0}"/></td>
+            <td><input type="text" class="nondispatchamt" value="${item.Non_Dispatch_Amt || 0}"/></td>
+            <td><span class="lbltotalamount">${item.Total_Amt || item.TotalCost}</span></td>
+            </tr>`;
+                });
+
+                $("#reportTable tbody").html(html);
+                updateFooterTotal();
+            } else {
+                // fallback to fresh report
+                $.get('/Dispatch/GetsummaryReport', { contractorId, month, year }, function (res2) {
+                    if (res2.success) {
+                        let html = "";
+
+                        $.each(res2.data, function (i, item) {
+
+                            html += `<tr>
+            <td data-id="${item.ContractorId}">${item.ContractorName}</td>
+            <td>${item.Qty || item.TotalQuantity}</td>
+            <td><span class="lbltotalcost">${item.Amount || item.TotalCost}</span></td>
+            <td><input type="text" class="extraamt" value="${item.Extra_Amt || 0}"/></td>
+            <td><input type="text" class="nondispatchamt" value="${item.Non_Dispatch_Amt || 0}"/></td>
+            <td><span class="lbltotalamount">${item.Total_Amt || item.TotalCost}</span></td>
+        </tr>`;
+                        });
+
+                        $("#reportTable tbody").html(html);
+                        updateFooterTotal();
+                    }
+                });
+            }
+        });
+    }
+
+    function bindTable(data) {
+
+        let html = "";
+
+        $.each(data, function (i, item) {
+
+            html += `<tr>
+            <td data-id="${item.ContractorId}">${item.Contractor_Name}</td>
+            <td>${item.Qty || item.TotalQuantity}</td>
+            <td><span class="lbltotalcost">${item.Amount || item.TotalCost}</span></td>
+            <td><input type="text" class="extraamt" value="${item.Extra_Amt || 0}"/></td>
+            <td><input type="text" class="nondispatchamt" value="${item.Non_Dispatch_Amt || 0}"/></td>
+            <td><span class="lbltotalamount">${item.Total_Amt || item.TotalCost}</span></td>
+        </tr>`;
+        });
+
+        $("#reportTable tbody").html(html);
+        updateFooterTotal();
+    }
+
+    // ================= CALCULATION =================
+    $(document).on('keyup', '.extraamt, .nondispatchamt', function () {
+
+        let row = $(this).closest('tr');
+
+        let base = parseFloat(row.find('.lbltotalcost').text()) || 0;
+        let extra = parseFloat(row.find('.extraamt').val()) || 0;
+        let nondispatch = parseFloat(row.find('.nondispatchamt').val()) || 0;
+
+        let total = base + extra + nondispatch;
+
+        row.find('.lbltotalamount').text(total.toFixed(2));
+
+        updateFooterTotal();
+    });
+
+    // ================= FOOTER TOTAL =================
+    function updateFooterTotal() {
+
+        let totalQty = 0;
+        let totalAmt = 0;
+        let totalExtra = 0;
+        let totalNonDispatch = 0;
+        let grandTotal = 0;
+
+        $('#reportTable tbody tr').each(function () {
+
+            let qty = parseFloat($(this).find('td:eq(1)').text()) || 0;
+            let amt = parseFloat($(this).find('.lbltotalcost').text()) || 0;
+            let extra = parseFloat($(this).find('.extraamt').val()) || 0;
+            let nondispatch = parseFloat($(this).find('.nondispatchamt').val()) || 0;
+            let total = parseFloat($(this).find('.lbltotalamount').text()) || 0;
+
+            totalQty += qty;
+            totalAmt += amt;
+            totalExtra += extra;
+            totalNonDispatch += nondispatch;
+            grandTotal += total;
+        });
+
+        $('#ftQty').text(totalQty.toFixed(2));
+        $('#ftAmt').text(totalAmt.toFixed(2));
+        $('#ftExtra').text(totalExtra.toFixed(2));
+        $('#ftNonDispatch').text(totalNonDispatch.toFixed(2));
+        $('#ftGrand').text(grandTotal.toFixed(2));
+    }
+
+    // ================= PRINT =================
+    function printDiv(divId) {
+
+        let div = document.getElementById(divId);
+
+        let clone = div.cloneNode(true);
+
+        // 🔹 Add Title at Top
+        let title = document.createElement('h2');
+        title.innerText = "Dispatch Summary Sheet";
+        title.style.textAlign = "center";
+        title.style.marginBottom = "20px";
+
+        clone.prepend(title);
+        $(clone).find('input').each(function () {
+            let span = document.createElement('span');
+            span.innerText = $(this).val();
+            this.parentNode.replaceChild(span, this);
+        });
+
+        let original = document.body.innerHTML;
+        document.body.innerHTML = clone.innerHTML;
+
+        window.print();
+
+        document.body.innerHTML = original;
+        location.reload();
+    }
+
+    $("#btnsavesummreport").click(function () {
+
+    let month = $("#filterMonth").val();
+    let year = $("#filterYear").val();
+
+    if (!month || !year) {
+        alert("Please select Month & Year");
+        return;
+    }
+
+    let list = [];
+
+    $("#reportTable tbody tr").each(function () {
+
+        let row = $(this);
+
+        list.push({
+            Contractor_id: row.find("td:eq(0)").data("id") || 0,
+            Contractor_Name: row.find("td:eq(0)").text(),
+
+            Qty: parseFloat(row.find("td:eq(1)").text()) || 0,
+            Amount: parseFloat(row.find(".lbltotalcost").text()) || 0,
+            Extra_Amt: parseFloat(row.find(".extraamt").val()) || 0,
+            Non_Dispatch_Amt: parseFloat(row.find(".nondispatchamt").val()) || 0,
+            Total_Amt: parseFloat(row.find(".lbltotalamount").text()) || 0,
+
+            summary_month: parseInt(month),
+            Rate: 0,
+            Belling_Amt: 0,
+            Is_Customor: false
+        });
+    });
+
+    console.log(list); // debug
+
+    $.ajax({
+        url: '/Dispatch/SaveSummaryReport',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(list),
+        success: function (res) {
+            if (res.success) {
+                alert("Saved successfully!");
+            } else {
+                alert("Save failed");
+            }
+        },
+        error: function () {
+            alert("Error while saving");
+        }
+    });
+
+});
+</script>

@@ -1,0 +1,239 @@
+﻿﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>SS Construction</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="~/Content/assets/img/favicon.png" rel="icon">
+    <link href="~/Content/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Content/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Content/assets/css/style.css" rel="stylesheet">
+
+</head>
+<body>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Content/Challan.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+
+    <style>
+        input {
+            background: #FFFFEE;
+        }
+
+        .red {
+            background-color: red;
+        }
+    </style>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Add Challan - SS Construction</h5>
+                        <div style="background-color: #f1f1f1; border-left: 5px solid #2196F3; padding: 10px; margin-bottom: 15px; font-family: sans-serif;">
+                            <strong>Dear </strong> ,
+                            To avoid security checking at the gate, please ensure you pre-register your Challan by filling out the form before their arrival.
+                            This helps streamline entry and ensures a smooth experience for your vehicle.
+
+                        </div>
+
+                        <div class="row g-3">
+                            <!-- Challan No -->
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="txtChallanNo" placeholder="Challan No">
+                                    <label>Challan No <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Date -->
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="datetime-local" class="form-control" id="txtDate" placeholder="Date">
+                                    <label>Date <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Ash Utilization For -->
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="txtAshUtilization" placeholder="Ash Utilization">
+                                    <label>Ash Utilization For <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Party Name -->
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="txtPartyName" placeholder="Party Name">
+                                    <label>Party Name <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Party Location -->
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="txtPartyLocation" placeholder="Party Location">
+                                    <label>Party Location <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle No -->
+                            <div class="col-md-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="txtVehicleNo" placeholder="Vehicle No" maxlength="10">
+                                    <label>Vehicle No <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle Type -->
+                            <div class="col-md-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="txtVehicleType" placeholder="Vehicle Type">
+                                    <label>Vehicle Type <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- No of Wheels -->
+                            <div class="col-md-2">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="txtNoOfWheels" placeholder="Number of Wheels">
+                                    <label>No. of Wheels <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Gate Pass No -->
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="txtGatePassNo" placeholder="Gate Pass No">
+                                    <label>Gate Pass No <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Gate Pass Validity -->
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" id="txtGatePassValidity" placeholder="Gate Pass Validity">
+                                    <label>Gate Pass Validity <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Commodity Type -->
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="txtCommodityType" placeholder="Commodity Type">
+                                    <label>Commodity Type <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Ash Pickup Location -->
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="txtPickupLocation" placeholder="Pickup Location">
+                                    <label>Ash Pickup Location <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Ash Unload Location -->
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="txtUnloadLocation" placeholder="Unload Location">
+                                    <label>Ash Unload Location <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <input type="checkbox" class="bi-check-square-fill" id="chkConsent" placeholder="Resolved By" checked disabled>
+                                    By submitting, I consent to take full responsibility for the Challan's entry and conduct during their time on the premises.
+                                </p>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary" onclick="SaveChallan()">Submit</button>
+                                <button type="reset" class="btn btn-warning">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+
+            </div>
+        </div>
+
+    </section>
+
+    <div id="AddTenantModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <h5 class="card-title">Tenant </h5>
+
+                    <!-- Floating Labels Form -->
+
+                    <form class="row g-3">
+                       
+                        <div class="col-md-">
+
+                            <input type="checkbox" id="txtIsActive" placeholder="Resolved By">
+                            <label for="floatingResolved By">Is Done</label>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" onclick="SaveTenant()">SUBMIT</button>
+                            <input type="button" value="CLOSE " class="btn btn-secondary" data-bs-dismiss="modal" />
+                        </div>
+
+
+
+                    </form><!-- End floating Labels Form -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("txtDate").value = today;
+        document.getElementById("txtFilterDate").value = today;
+        let now = new Date();
+        now.setHours(now.getHours() + 1); // Add 1 hour
+        // Format to HH:MM (24-hour format)
+        let hours = now.getHours().toString().padStart(2, '0');
+        let minutes = now.getMinutes().toString().padStart(2, '0');
+
+        document.getElementById("txtTime").value = `${hours}:${minutes}`;
+    });
+</script>

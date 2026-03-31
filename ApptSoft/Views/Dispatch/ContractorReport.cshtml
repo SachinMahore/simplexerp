@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Contractor Bill Report</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="report.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        select, button {
+            padding: 6px;
+            margin: 5px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Dispatch Contractor Report</h2>
+    <a href="/Dispatch/Dispatch" class="btn btn-outline-success">Add Dispatch</a>
+    <a href="/Dispatch" class="btn btn-outline-info">Dispatch List</a>
+    <button class="btn btn-outline-danger" onclick="printDiv('divprint')">Print</button>
+    <!-- FILTERS -->
+    <div>
+        <select id="filterContractor">
+            <option value="">All Contractor</option>
+        </select>
+
+        <select id="filterMonth">
+            <option value="">Month</option>
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Mar</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">Jun</option>
+            <option value="7">Jul</option>
+            <option value="8">Aug</option>
+            <option value="9">Sep</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+        </select>
+
+        <select id="filterYear">
+            <option value="">Year</option>
+            <option value="2026">2026</option>
+            <option value="2025">2025</option>
+        </select>
+
+        <button onclick="loadReport()">Search</button>
+    </div>
+    <div id="divprint">
+        <!-- TABLE -->
+        <table id="reportTable" class="table table-bordered table-hover">
+            <thead class="text-primary">
+                <tr>
+                    <th>Contractor_Name</th>
+                    <th>billing_Date</th>
+                    <th>Customer</th>
+                    <th>Container No</th>
+                    <th>PO No</th>
+                    <th>Item No</th>
+                    <th>Bag Size</th>
+                    <th>Act Qty</th>
+                    <th>Act Wt</th>
+                    <th>Total Wt</th>
+                    <th>Rate</th>
+                    <th>Unit</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- TOTAL -->
+        <h3>Total Cost: <span id="totalCost">0</span></h3>
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+
+        loadContractors();
+        loadReport(); // initial load
+
+    });
+
+
+    // ================= LOAD CONTRACTOR DROPDOWN =================
+    function loadContractors() {
+        $.get('/Contractor/GetAll', function (res) {
+
+            let html = '<option value="">All Contractor</option>';
+
+            $.each(res.model, function (i, item) {
+                html += `<option value="${item.Contractor_Id}">${item.Contractor_Name}</option>`;
+            });
+
+            $("#filterContractor").html(html);
+        });
+    }
+
+
+    // ================= LOAD REPORT =================
+    function loadReport() {
+
+        let contractorId = $("#filterContractor").val();
+        let month = $("#filterMonth").val();
+        let year = $("#filterYear").val();
+
+        $.get('/Dispatch/GetContractorReport', {
+            contractorId: contractorId,
+            month: month,
+            year: year
+        }, function (res) {
+
+            if (res.success) {
+
+                let html = "";
+                let total = 0;
+
+                var TActual_quantity = 0;
+                var TTotal_Wt = 0;
+                var TTotal_Cost = 0;
+                $.each(res.data, function (i, item) {
+
+                    total += item.Total_Cost;
+
+                    html += `<tr>
+                    <td>${item.Contractor_Name}</td>
+                    <td>${formatDate(item.Date)}</td>
+                     <td>${item.Customer}</td>
+                    <td>${item.Container_No == null ? '-' : item.Container_No} </td>
+                    <td>${item.PO_Ref_No}</td>
+                    <td>${item.Item_No == null ? '-' : item.Item_No}</td>
+                    <td>${item.Size_Of_Bag}</td>
+                    <td>${item.Actual_Quantity}</td>
+                    <td>${item.Act_Wt}</td>
+                    <td>${item.Total_Wt}</td>
+                    <td>${item.Rate}</td>                 
+                    <td>${item.Kg_Or_Pcs}</td>
+                    <td>${item.Total_Cost}</td>
+                    </tr>`;
+                    debugger;
+                    TActual_quantity = parseFloat(item.Actual_Quantity == null ? 0 : item.Actual_Quantity) + TActual_quantity;
+                    TTotal_Wt = TTotal_Wt + item.Total_Wt;
+                    TTotal_Cost = TTotal_Cost + item.Total_Cost
+                });
+
+                        html += `<tr>
+                        <td><b>Grand Total</b></td>
+                        <td></td>
+                        <td></td>                 
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>${TActual_quantity.toFixed(2)}</td>
+                        <td></td>
+                        <td>${TTotal_Wt.toFixed(2)}</td>
+                        <td></td>
+                        <td></td>
+                        <td>${TTotal_Cost.toFixed(2)}</td>
+                        </tr>`;
+
+                $("#reportTable tbody").html(html);
+                $("#totalCost").text(total.toFixed(2));
+
+            } else {
+                alert("Error loading report");
+            }
+        });
+    }
+
+
+    // ================= DATE FORMAT =================
+    function formatDate(dateStr) {
+        var timestamp = parseInt(dateStr.replace("/Date(", "").replace(")/", ""));
+
+        var d = new Date(timestamp);
+
+        var day = ("0" + d.getDate()).slice(-2);
+        var month = ("0" + (d.getMonth() + 1)).slice(-2);
+        var year = d.getFullYear();
+
+        return day + "-" + month + "-" + year;
+    }
+
+    function printDiv(divId) {
+
+        let div = document.getElementById(divId);
+
+        let clone = div.cloneNode(true);
+
+        // 🔹 Add Title at Top
+        let title = document.createElement('h2');
+        title.innerText = "Contractor Bill Report";
+        title.style.textAlign = "center";
+        title.style.marginBottom = "20px";
+
+        clone.prepend(title);
+        $(clone).find('input').each(function () {
+            let span = document.createElement('span');
+            span.innerText = $(this).val();
+            this.parentNode.replaceChild(span, this);
+        });
+
+        let original = document.body.innerHTML;
+        document.body.innerHTML = clone.innerHTML;
+
+        window.print();
+
+        document.body.innerHTML = original;
+        location.reload();
+    }
+    </script>

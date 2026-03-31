@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b758c6d44f994afb9b2bcff9be744a21" Name="Diagram1" ZoomLevel="83">
+        <EntityTypeShape EntityType="ApptSoftModel.C_Address" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.C_Client_01" Width="1.5" PointX="7.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.C_emp_01" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.Company_Master" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.Department" Width="1.5" PointX="5.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.Empl" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.Employee" Width="1.5" PointX="8" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.PurchaseOrder" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblAMC" Width="1.5" PointX="4.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblComplaint" Width="1.5" PointX="6.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblCorpusFund" Width="1.5" PointX="10.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblExpens" Width="1.5" PointX="8.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblIncome" Width="1.5" PointX="10.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblMaintenance" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblResident" Width="1.5" PointX="12.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblTenant" Width="1.5" PointX="12.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblVisitor" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.Vendor_Master" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.C_emp" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ApptSoftModel.C_emp3411" Width="1.5" PointX="14.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="ApptSoftModel.FK___Address__Client__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="ApptSoftModel.FK_PO_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="ApptSoftModel.FK__Employees__DeptI__25869641" ManuallyRouted="false" />
+        <AssociationConnector Association="ApptSoftModel.FK_PO_Vendor" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ApptSoftModel.PurchaseOrder_Details" Width="1.5" PointX="5.25" PointY="2.5" />
+        <AssociationConnector Association="ApptSoftModel.FK_PO_Details" />
+        <EntityTypeShape EntityType="ApptSoftModel.JobCard_Details" Width="1.5" PointX="3.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ApptSoftModel.JobCard_Master" Width="1.5" PointX="5.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ApptSoftModel.JobCard_Production_Tracking" Width="1.5" PointX="15.375" PointY="7.75" />
+        <EntityTypeShape EntityType="ApptSoftModel.Production_Operations" Width="1.5" PointX="15.375" PointY="12.75" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblDispatch" Width="1.5" PointX="15.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblDispatchContractor" Width="1.5" PointX="7.375" PointY="16.75" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblContractor" Width="1.5" PointX="9.375" PointY="16.75" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblsummaryreport" Width="1.5" PointX="11.375" PointY="16.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

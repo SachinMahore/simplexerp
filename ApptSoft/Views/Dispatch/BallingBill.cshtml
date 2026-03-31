@@ -1,0 +1,496 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Billing Sheet</title>
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-section select,
+        .filter-section button {
+            margin-right: 10px;
+        }
+
+        tfoot {
+            font-weight: bold;
+            background-color: #e9ecef;
+        }
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <h2>Belling Bill Sheet</h2>
+
+    <a href="/Dispatch/Dispatch" class="btn btn-outline-success">Add Dispatch</a>
+    <a href="/Dispatch" class="btn btn-outline-info">Dispatch List</a>
+    <button class="btn btn-outline-danger" onclick="printDiv('divprint')">Print</button>
+
+    <!-- FILTERS -->
+    <div class="mt-3 mb-3">
+        <select id="filterContractor" class="form-control d-inline w-auto">
+            <option value="">All Contractor</option>
+        </select>
+
+        <select id="filterMonth" class="form-control d-inline w-auto">
+            <option value="">Month</option>
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Mar</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">Jun</option>
+            <option value="7">Jul</option>
+            <option value="8">Aug</option>
+            <option value="9">Sep</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+        </select>
+
+        <select id="filterYear" class="form-control d-inline w-auto">
+            <option value="">Year</option>
+            <option value="2026">2026</option>
+            <option value="2025">2025</option>
+        </select>
+
+        <button class="btn btn-primary" onclick="loadReport()">Search</button>
+    </div>
+
+    <div id="divprint">
+
+        <!-- ================= CONTRACTOR TABLE ================= -->
+        <table id="reportTable" class="table table-bordered table-hover">
+            <thead class="text-primary">
+                <tr>
+                    <th>Contractor Name</th>
+                    <th>Qty</th>
+                    <th>Rate</th>
+                    <th>Total Amt</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+
+            <tfoot>
+                <tr class="table-warning fw-bold">
+                    <th>Total</th>
+                    <th id="totalQty">0</th>
+                    <th></th>
+                    <th id="totalAmt">0</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- ================= CUSTOMER TABLE ================= -->
+        <table id="reportTablecust" class="table table-bordered table-hover mt-4">
+            <thead class="text-primary">
+                <tr>
+                    <th></th>
+                    <th>Qty</th>
+                    <th>Rate</th>
+                    <th>Total Amt</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+
+            <tfoot>
+                <tr class="table-warning fw-bold">
+                    <th>Total</th>
+                    <th id="totalCustQty">0</th>
+                    <th></th>
+                    <th id="totalCustAmt">0</th>
+                </tr>
+
+                <tr>
+                    <th>Grand Total</th>
+                    <th><span id="finalGrandQty">0</span></th>
+                    <th></th>
+                    <th><span id="finalGrandTotal">0</span></th>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+    <div>
+        Select Customer : 
+        <select id="filterCustomer" class="form-control d-inline w-auto">
+            <option value="">Select Customer</option>
+            <option value="WITHOUT LABEL & LINEAR">WITHOUT LABEL & LINEAR</option>
+            <option value="RE-PACKING">RE-PACKING</option>
+        </select>
+
+        <button class="btn btn-primary" onclick="addCustomerRow()">Add</button>
+    </div>
+    <a id="btnsaveBellingreport" class="btn btn-outline-primary">Save</a>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        loadContractors();
+        loadReport();
+        loadCompanies();
+    });
+    function loadCompanies() {
+        $.get("/Company/GetCompanies", function (data) {
+            $.each(data.model, function (i, v) {
+                $("#filterCustomer").append("<option value='" + v.Company_Name + "'>" + v.Company_Name + "</option>");
+
+            });
+        });
+    }
+    function addCustomerRow() {
+
+        let selectedText = $("#filterCustomer option:selected").text();
+       
+        if ($("#reportTablecust tbody td:contains('" + selectedText + "')").length > 0) {
+            alert("Customer already added");
+            return;
+        }
+        if (!selectedText || selectedText === "Select Customer") {
+            alert("Select Customer");
+            return;
+        }
+
+        let html = `<tr>
+        <td>${selectedText}</td>
+        <td><input type="text" class="form-control CustQTY" value="0" /></td>
+        <td><input type="text" class="form-control extraamt1" /></td>
+        <td><span class="lbltotalamount">0</span></td>
+       <td><button class="btn btn-danger btn-sm btnRemove">X</button></td>
+      </tr>`;
+
+        $("#reportTablecust tbody").append(html);
+
+        updateCustomerTotal();
+    }
+    // ================= LOAD CONTRACTORS =================
+    function loadContractors() {
+
+        $.get('/Contractor/GetAll', function (res) {
+            let html = '<option value="">All Contractor</option>';
+            $.each(res.model, function (i, item) {
+                html += `<option value="${item.Contractor_Id}">${item.Contractor_Name}</option>`;
+            });
+
+            $("#filterContractor").html(html);
+        });
+    }
+
+    // ================= MAIN LOAD =================
+    function loadReport() {
+
+        let contractorId = $("#filterContractor").val();
+        let month = $("#filterMonth").val();
+        let year = $("#filterYear").val();
+
+        //if (!month) {
+        //    alert("Select Month");
+        //    return;
+        //}
+
+        // 🔹 FIRST: TRY LOAD SAVED DATA
+        $.get('/Dispatch/GetSavedBellingReport', { month: month, isCustomer: false }, function (res1) {
+
+            if (res1.success && res1.data.length > 0) {
+
+                // ================= CONTRACTOR FROM SAVED =================
+                let html1 = "";
+
+                $.each(res1.data, function (i, item) {
+
+                    html1 += `<tr>
+                    <td>${item.Contractor_Name}</td>
+                    <td><span class="lbltotalqty">${item.Qty}</span></td>
+                    <td><input type="text" class="form-control extraamt" value="${item.Rate}" /></td>
+                    <td><span class="lbltotalamount">${item.Belling_Amt}</span></td>
+                </tr>`;
+                });
+
+                $("#reportTable tbody").html(html1);
+                updateContractorTotal();
+
+                // ================= CUSTOMER FROM SAVED =================
+                $.get('/Dispatch/GetSavedBellingReport', { month: month, isCustomer: true }, function (res2) {
+
+                    let html2 = "";
+
+                    $.each(res2.data, function (i, item) {
+
+                        html2 += `<tr>
+                        <td>${item.Contractor_Name}</td>
+                        <td><input type="text" class="form-control CustQTY" value="${item.Qty}" /></td>
+                        <td><input type="text" class="form-control extraamt1" value="${item.Rate}" /></td>
+                        <td><span class="lbltotalamount">${item.Belling_Amt}</span></td>
+                        <td><button class="btn btn-danger btn-sm btnRemove">X</button></td>
+                    </tr>`;
+                    });
+
+                    $("#reportTablecust tbody").html(html2);
+                    updateCustomerTotal();
+                });
+            }
+            else {
+                // ❌ NO SAVED DATA → LOAD ORIGINAL
+                loadFreshData(contractorId, month, year);
+            }
+        });
+    }
+    $(document).on('click', '.btnRemove', function () {
+
+        $(this).closest('tr').remove();
+
+        updateCustomerTotal(); // recalculate totals
+    });
+    // ================= LOAD FRESH =================
+    function loadFreshData(contractorId, month, year) {
+
+        // CONTRACTOR
+        $.get('/Dispatch/GetBellingReport', { contractorId, month, year }, function (res) {
+
+            if (res.success) {
+
+                let html = "";
+
+                $.each(res.data, function (i, item) {
+
+                    html += `<tr>
+                    <td>${item.ContractorName}</td>
+                    <td><span class="lbltotalqty">${item.TotalQuantity}</span></td>
+                    <td><input type="text" class="form-control extraamt" /></td>
+                    <td><span class="lbltotalamount">0</span></td>
+                </tr>`;
+                });
+
+                $("#reportTable tbody").html(html);
+                updateContractorTotal();
+            }
+        });
+
+        // CUSTOMER
+        //$.get('/Dispatch/GetBellingReportCustmor', { month, year }, function (res) {
+
+        //    if (res.success) {
+
+        //        let html = "";
+
+        //        $.each(res.data, function (i, item) {
+
+        //            html += `<tr>
+        //            <td>${item.CustmorName}</td>
+        //            <td><input type="text" class="form-control CustQTY" value="${item.TotalQuantity}" /></td>
+        //            <td><input type="text" class="form-control extraamt1" /></td>
+        //            <td><span class="lbltotalamount">0</span></td>
+        //        </tr>`;
+        //        });
+
+        //        $("#reportTablecust tbody").html(html);
+        //        updateCustomerTotal();
+        //    }
+        //});
+    }
+
+    // ================= CONTRACTOR CALC =================
+    $(document).on('keyup', '.extraamt', function () {
+
+        let row = $(this).closest('tr');
+
+        let qty = parseFloat(row.find('.lbltotalqty').text()) || 0;
+        let rate = parseFloat($(this).val()) || 0;
+
+        let total = qty * rate;
+
+        row.find('.lbltotalamount').text(total.toFixed(2));
+
+        updateContractorTotal();
+    });
+
+    // ================= CUSTOMER CALC =================
+    $(document).on('keyup', '.extraamt1, .CustQTY', function () {
+
+        let row = $(this).closest('tr');
+
+        let qty = parseFloat(row.find('.CustQTY').val()) || 0;
+        let rate = parseFloat(row.find('.extraamt1').val()) || 0;
+
+        let total = qty * rate;
+
+        row.find('.lbltotalamount').text(total.toFixed(2));
+
+        updateCustomerTotal();
+    });
+
+    // ================= TOTALS =================
+    function updateContractorTotal() {
+
+        let totalAmt = 0;
+        let totalQty = 0;
+
+        $('#reportTable tbody tr').each(function () {
+
+            let qty = parseFloat($(this).find('.lbltotalqty').text()) || 0;
+            let amt = parseFloat($(this).find('.lbltotalamount').text()) || 0;
+
+            totalQty += qty;
+            totalAmt += amt;
+        });
+
+        $('#totalQty').text(totalQty);
+        $('#totalAmt').text(totalAmt.toFixed(2));
+
+        updateFinalGrandTotal();
+    }
+
+    function updateCustomerTotal() {
+
+        let totalAmt = 0;
+        let totalQty = 0;
+
+        $('#reportTablecust tbody tr').each(function () {
+
+            let qty = parseFloat($(this).find('.CustQTY').val()) || 0;
+            let amt = parseFloat($(this).find('.lbltotalamount').text()) || 0;
+
+            totalQty += qty;
+            totalAmt += amt;
+        });
+
+        $('#totalCustQty').text(totalQty);
+        $('#totalCustAmt').text(totalAmt.toFixed(2));
+
+        updateFinalGrandTotal();
+    }
+
+    // ================= FINAL GRAND TOTAL =================
+    function updateFinalGrandTotal() {
+
+        let contractorAmt = parseFloat($('#totalAmt').text()) || 0;
+        let contractorQty = parseFloat($('#totalQty').text()) || 0;
+
+        let customerAmt = parseFloat($('#totalCustAmt').text()) || 0;
+        let customerQty = parseFloat($('#totalCustQty').text()) || 0;
+
+        let finalAmt = contractorAmt + customerAmt;
+        let finalQty = contractorQty + customerQty;
+
+        $('#finalGrandTotal').text(finalAmt.toFixed(2));
+        $('#finalGrandQty').text(finalQty);
+    }
+
+    // ================= PRINT =================
+    function printDiv(divId) {
+
+        let div = document.getElementById(divId);
+
+        let clone = div.cloneNode(true);
+
+        // 🔹 Add Title at Top
+        let title = document.createElement('h2');
+        title.innerText = "Belling Bill Sheet";
+        title.style.textAlign = "center";
+        title.style.marginBottom = "20px";
+
+        clone.prepend(title);
+
+        // 🔹 Replace inputs with values
+        $(clone).find('input').each(function () {
+            let value = $(this).val();
+            let span = document.createElement('span');
+            span.innerText = value;
+            this.parentNode.replaceChild(span, this);
+        });
+
+        let original = document.body.innerHTML;
+        document.body.innerHTML = clone.innerHTML;
+
+        window.print();
+
+        document.body.innerHTML = original;
+        location.reload();
+    }
+    $("#btnsaveBellingreport").click(function () {
+
+        let month = $("#filterMonth").val();
+
+        if (!month) {
+            alert("Select Month");
+            return;
+        }
+
+        let list = [];
+
+        // ================= CONTRACTOR TABLE =================
+        $("#reportTable tbody tr").each(function () {
+
+            let row = $(this);
+
+            list.push({
+                Contractor_id: 0,
+                Contractor_Name: row.find("td:eq(0)").text(),
+
+                Qty: parseFloat(row.find('.lbltotalqty').text()) || 0,
+
+                Rate: parseFloat(row.find('.extraamt').val()) || 0,
+
+                Belling_Amt: parseFloat(row.find('.lbltotalamount').text()) || 0,
+
+                summary_month: parseInt(month),   // ✅ ADDED
+
+                Is_Customor: false
+            });
+        });
+
+        // ================= CUSTOMER TABLE =================
+        $("#reportTablecust tbody tr").each(function () {
+
+            let row = $(this);
+
+            let name = row.find("td:eq(0)").text().trim();
+
+            if (name === "" || name === "Customer Name") return;
+
+            list.push({
+                Contractor_id: null,
+                Contractor_Name: name,
+
+                Qty: parseFloat(row.find('.CustQTY').val()) || 0,
+
+                Rate: parseFloat(row.find('.extraamt1').val()) || 0,
+
+                Belling_Amt: parseFloat(row.find('.lbltotalamount').text()) || 0,
+
+                summary_month: parseInt(month),   // ✅ ADDED
+
+                Is_Customor: true
+            });
+        });
+
+        console.log(list);
+
+        $.ajax({
+            url: '/Dispatch/SaveBellingReport',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(list),
+            success: function (res) {
+                if (res.success) {
+                    alert("Saved Successfully!");
+                } else {
+                    alert("Save Failed");
+                }
+            },
+            error: function () {
+                alert("Error while saving");
+            }
+        });
+    });
+</script>

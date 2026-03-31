@@ -1,0 +1,443 @@
+﻿﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>SS Construction</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="~/Content/assets/img/favicon.png" rel="icon">
+    <link href="~/Content/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Content/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Content/assets/css/style.css" rel="stylesheet">
+    <style>
+        tr.status-red td {
+            background-color: #ffb3b3 !important;
+        }
+           body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        .challan-container {
+            width: 700px;
+            margin: auto;
+            border: 1px solid #000;
+            padding: 20px;
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .sub-title {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+        .col-left, .col-right {
+            width: 50%;
+            font-size: 15px;
+        }
+
+        .label {
+            font-weight: bold;
+            width: 150px;
+            display: inline-block;
+        }
+
+        .value {
+            letter-spacing: 2px;
+            border-bottom: 1px dashed #000;
+            min-width: 100px;
+            display: inline-block;
+            padding-left: 5px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .copy-type {
+            position: absolute;
+            right: 40px;
+            top: 40px;
+            font-weight: bold;
+        }
+
+        @@media print {
+            body {
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Challan List - SS Construction</h5>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <input type="date" class="form-control" id="txtFilterDate" placeholder="Visit Date">
+                            </div>
+                            <div class="col-lg-2">
+                                <button type="submit" class="btn btn-success" onclick="GetChallans()">Search</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="mb-3 text-end">
+                            <button class="btn btn-outline-primary btn-sm" onclick="showChallanTable()">Table View</button>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="showChallanCards()">Card View</button>
+                        </div>
+                        <div class="row" id="ChallanCards"></div>
+                        <div class="table-responsive">
+
+                            <table id="tblChallans" class="table table-bordered table-hover" style="display: none;">
+                                <thead class="text-white bg-dark">
+                                    <tr>
+
+                                        <th class="text-white bg-dark">Challan No</th>
+                                        <th class="text-white bg-dark">Date</th>
+                                        <th class="text-white bg-dark">Ash Utilization For</th>
+                                        <th class="text-white bg-dark">Party Name</th>
+                                        <th class="text-white bg-dark">Party Location</th>
+                                        <th class="text-white bg-dark">Vehicle No</th>
+                                        <th class="text-white bg-danger">Unload Status</th>
+                                        <th class="text-white bg-dark">Vehicle Type</th>
+                                        <th class="text-white bg-dark">No. of Wheels</th>
+                                        <th class="text-white bg-dark">Gate Pass No</th>
+                                        <th class="text-white bg-dark">Gate Pass Validity</th>
+                                        <th class="text-white bg-dark">Commodity Type</th>
+                                        <th class="text-white bg-dark">Ash Pickup Location</th>
+                                        <th class="text-white bg-dark">Ash Unload Location</th>
+                                        <th class="text-white bg-dark">Print</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody> </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="challan-container" id="challan-container">
+
+        <div class="copy-type">ORIGINAL</div>
+
+        <div class="header-title">DELIVERY CHALLAN</div>
+        <div class="sub-title">
+            SS CONSTRUCTION<br />
+            C/o. RattanIndia Power Limited, Nandgaon Peth (MIDC), Amravati (Maharashtra) – 444 901
+        </div>
+
+        <!-- LEFT & RIGHT -->
+        <div class="row">
+            <div class="col-left">
+                <div><span class="label">GatePass No</span> <span class="value" id="txtGatePassNo"></span></div>
+                <div><span class="label">No of Wheels</span> <span class="value" id="txtNoOfWheels"></span></div>
+                <div><span class="label">Vehicle Type</span> <span class="value" id="txtVehicleType"></span></div>
+                <div><span class="label">Vehicle No</span> <span class="value" id="txtVehicleNo"></span></div>
+                <div><span class="label">GatePass Validity</span> <span class="value" id="txtGatePassValidity"></span></div>
+            </div>
+
+            <div class="col-right">
+                <div><span class="label">Challan No</span> <span class="value" id="txtChallanNo"></span></div>
+                <div><span class="label">Date</span> <span class="value" id="txtDate"></span></div>
+                <div><span class="label">Ash Utilization For</span> <span class="value" id="txtAshUtil"></span></div>
+                <div><span class="label">Party Name</span> <span class="value" id="txtPartyName"></span></div>
+                <div><span class="label">Party Location</span> <span class="value" id="txtPartyLocation"></span></div>
+                <div><span class="label">Commodity Type</span> <span class="value" id="txtCommodity"></span></div>
+                <div><span class="label">Ash Pickup Loc</span> <span class="value" id="txtPickupLoc"></span></div>
+                <div><span class="label">Ash Unload Loc</span> <span class="value" id="txtUnloadLoc"></span></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="col-left"><b>FOR : SS CONSTRUCTIONS</b></div>
+            <div class="col-right">Authorized Signature</div>
+            <div><span><i>Software Design & Developed by eSankalp</i></span></div>
+        </div>
+
+    </div>
+
+    <script src="~/Content/assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="~/Content/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="~/Content/assets/vendor/echarts/echarts.min.js"></script>
+    <script src="~/Content/assets/vendor/quill/quill.min.js"></script>
+    @*<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>*@
+    <script src="~/Content/assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="~/Content/assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/Content/assets/js/main.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        GetChallans();
+
+    });
+ 
+    var GetChallans = function () {
+        var date = $("#txtFilterDate").val();
+        if (date === "") {
+            alert("Please select a date.");
+            return;
+        }
+        $.ajax({
+            url: "/Challan/GetChallans",
+            method: "POST",
+            data: JSON.stringify({ date: date }),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                var html = "";
+                $("#tblChallans tbody").empty();
+                $("#ChallanCards").empty();
+
+                $.each(response.model, function (index, elementValue) {
+                    // Table row
+                    html += `<tr data-id="${elementValue.ChallanID}" 
+     class="challan-row ${elementValue.Status == 1 ? 'status-red' : ''}">
+             <td><span onclick="EditChallan(${elementValue.ChallanID})">${elementValue.ChallanNo}</span></td>
+           <td>${formatDateTime(elementValue.Date)}</td>
+           <td>${elementValue.AshUtilizationFor}</td>
+           <td>${elementValue.PartyName}</td>
+           <td>${elementValue.PartyLocation}</td>
+           <td>${elementValue.VehicleNo}</td>
+            <td class="text-center">
+                    <input type="checkbox" class="statusChk"
+                        data-id="${elementValue.ChallanID}" 
+                        ${elementValue.Status ? "checked" : ""} />
+           <button class="btnUpdate" data-id="${elementValue.ChallanID}">Update </button> </td>
+           <td>${elementValue.VehicleType}</td>
+           <td>${elementValue.NoOfWheels}</td>
+           <td>${elementValue.GatePassNo}</td>
+           <td>${formatDateTime(elementValue.GatePassValidity)}</td>
+           <td>${elementValue.CommodityType}</td>
+           <td>${elementValue.AshPickupLocation}</td>
+           <td>${elementValue.AshUnloadLocation}</td>
+           <td><button onclick="PrintChallan(${elementValue.ChallanID})">Print</button></td>
+
+    </tr>`;
+
+                    // Card view
+                    var card = `
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 shadow-sm">
+       
+                <div class="card-body">
+                    <h6 class="card-title">${elementValue.PartyName} (${elementValue.VehicleNo})</h6>
+                    <p class="card-text">
+                        <strong>Challan No:</strong>
+              <span onclick="EditChallan(${elementValue.ChallanID})" style="cursor:pointer; color:blue;">
+                  ${elementValue.ChallanNo}
+              </span><br/>
+            
+              <strong>Date:</strong> ${formatDateTime(elementValue.Date)}<br/>
+              <strong>Ash Utilization For:</strong> ${elementValue.AshUtilizationFor}<br/>
+            
+              <strong>Party Name:</strong> ${elementValue.PartyName}<br/>
+              <strong>Party Location:</strong> ${elementValue.PartyLocation}<br/>           
+              <strong>Vehicle No:</strong> ${elementValue.VehicleNo}<br/>
+              <strong>Vehicle Type:</strong> ${elementValue.VehicleType}<br/>
+              <strong>No. of Wheels:</strong> ${elementValue.NoOfWheels}<br/>            
+              <strong>Gate Pass No:</strong> ${elementValue.GatePassNo}<br/>
+              <strong>Gate Pass Validity:</strong> ${formatDateTime(elementValue.GatePassValidity)}<br/>            
+              <strong>Commodity Type:</strong> ${elementValue.CommodityType}<br/>
+              <strong>Ash Pickup Location:</strong> ${elementValue.AshPickupLocation}<br/>
+              <strong>Ash Unload Location:</strong> ${elementValue.AshUnloadLocation}<br/>            
+              <strong>Created On:</strong> ${formatDateTime(elementValue.CreatedOn)}<br/>
+
+                    </p>
+                </div>
+            </div>
+        </div>`;
+                    $("#ChallanCards").append(card);
+                });
+
+                $("#tblChallans tbody").append(html);
+            }
+        });
+    };
+
+    $(document).on("click", ".btnUpdate", function () {
+
+        // 1. Get Challan ID from the button
+        let challanId = $(this).data("id");
+
+        // 2. Get status from checkbox in same row
+        let status = $(this).closest("tr").find(".statusChk").prop("checked") ? 1 : 0;
+
+        var $formData = new FormData();
+        alert(status)
+        // --------------------- Append Form Data ----------------------
+        $formData.append("ChallanID", challanId);
+        $formData.append("Status", status);
+
+        // --------------------- AJAX Call ----------------------
+        $.ajax({
+            url: "/Challan/SaveChallan",
+            method: "POST",
+            data: $formData,
+            contentType: false,
+            processData: false,
+            async: false,
+            success: function (response) {
+                alert(response.Message || response);
+                GetChallans(); // Refresh data list
+            },
+            error: function (response) {
+                alert("Error: " + response.responseText);
+            }
+        });
+
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("txtFilterDate").value = today;
+    });
+    function showChallanTable() {
+        $("#tblChallans").show();
+        $("#ChallanCards").hide();
+    }
+
+    function showChallanCards() {
+        $("#tblChallans").hide();
+        $("#ChallanCards").show();
+    }
+    function formatDateTime(dotNetDate) {
+        if (!dotNetDate) return "";
+
+        // Extract milliseconds from: /Date(1763446800000)/
+        let ms = parseInt(dotNetDate.replace(/[^0-9]/g, ""));
+        let date = new Date(ms);
+
+        let d = ("0" + date.getDate()).slice(-2);
+        let m = ("0" + (date.getMonth() + 1)).slice(-2);
+        let y = date.getFullYear();
+
+        let hh = ("0" + date.getHours()).slice(-2);
+        let mm = ("0" + date.getMinutes()).slice(-2);
+
+        return `${d}/${m}/${y} ${hh}:${mm}`;
+    }
+    function PrintChallan(id) {
+        $.ajax({
+            url: "/Challan/GetById",
+            type: "GET",
+            data: { id: id },
+            success: function (data) {
+                LoadChallanPrint(data);
+               
+            }
+        });
+    }
+    // FILL VALUES FROM JS (Sample)
+    function LoadChallanPrint(data) {
+        console.log(data)
+        document.getElementById("txtGatePassNo").innerText = data.model.GatePassNo;
+        document.getElementById("txtNoOfWheels").innerText = data.model.NoOfWheels;
+        document.getElementById("txtVehicleType").innerText = data.model.VehicleType;
+        document.getElementById("txtVehicleNo").innerText = data.model.VehicleNo;
+        document.getElementById("txtGatePassValidity").innerText = formatDateTime(data.model.GatePassValidity);
+
+        document.getElementById("txtChallanNo").innerText = data.model.ChallanNo;
+        document.getElementById("txtDate").innerText = formatDateTime(data.model.Date);
+        document.getElementById("txtAshUtil").innerText = data.model.AshUtilizationFor;
+        document.getElementById("txtPartyName").innerText = data.model.PartyName;
+        document.getElementById("txtPartyLocation").innerText = data.model.PartyLocation;
+        document.getElementById("txtCommodity").innerText = data.model.CommodityType;
+        document.getElementById("txtPickupLoc").innerText = data.model.AshPickupLocation;
+        document.getElementById("txtUnloadLoc").innerText = data.model.AshUnloadLocation;
+
+        var content = document.getElementById("challan-container");
+
+        if (!content) {
+            alert("Challan container not found!");
+            return;
+        }
+
+        var printWindow = window.open("", "PRINT", "height=800,width=600");
+
+        // Copy all <link> and <style> tags from main page
+        let styles = "";
+        document.querySelectorAll('link[rel="stylesheet"], style').forEach(tag => {
+            styles += tag.outerHTML;
+        });
+
+        printWindow.document.write(`
+        <html>
+        <head>
+            <title>Challan Print</title>
+            ${styles}
+        </head>
+        <body>
+            ${content.innerHTML}
+        </body>
+        </html>
+    `);
+
+        printWindow.document.close();
+
+        setTimeout(() => {
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }, 500);
+    }
+
+
+
+</script>

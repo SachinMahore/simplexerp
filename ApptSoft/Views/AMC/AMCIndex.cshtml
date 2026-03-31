@@ -1,0 +1,199 @@
+﻿@{
+    ViewBag.Title = "AMCIndex";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Content/AMC.js"></script>
+
+
+<section class="section">
+
+
+    <div class="row">
+        <div class="col-lg-6">
+
+            <div class="card">
+                <iv class="card-body">
+                    <h5 class="card-title">AMC</h5>
+
+
+                    <!-- Floating Labels Form -->
+                    <input id="hdnId" type="hidden" />
+                    <form class="row g-3">
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtTitle" placeholder="Enter Flat No" tabindex="1">
+                                <label for="FlatNo"> Title</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" hidden>
+                            <div class="form-floating">
+                                <select type="text" class="form-control" id="txtFlatNo" tabindex="2"></select>
+                                <label for="FlatNo"> FlatNo</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtVendorName" placeholder="Enter Mobile No" tabindex="4">
+                                <label for="FlatNo"> Vendor Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtMobile" placeholder="Enter Mobile No" tabindex="3">
+                                <label for="FlatNo"> Mobile</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="txtPaidBy" placeholder="PaidBy" tabindex="5">
+                                <label for="PaidBy"> PaidBy</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtAmount" placeholder="Amount" tabindex="6">
+                                <label for="Amount">Amount</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtPaidAmount" placeholder="PaidAmount" tabindex="7">
+                                <label for="PaidAmount">Paid Amount</label>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-control" id="txtPaymentMode" tabindex="8">
+                                    <option select value="">Select Payment Method</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Cheque">Cheque</option>
+                                    <option value="DD">DD</option>
+                                    <option value="NEFT">NEFT</option>
+                                    <option value="RTGS">RTGS</option>
+                                    <option value="IMPS">IMPS</option>
+                                    <option value="UPI">UPI</option>
+                                    <option value="Net Banking">Net Banking</option>
+                                    <option value="Debit Card">Debit Card</option>
+                                    <option value="Credit Card">Credit Card</option>
+                                    <option value="PhonePe">PhonePe</option>
+                                    <option value="GooglePay">GooglePay</option>
+                                    <option value="Paytm">Paytm</option>
+                                    <option value="Paypal">Paypal</option>
+                                </select>
+                                <label for="PaidAmount">Payment Mode</label>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="txtTransactionNo" placeholder="Transaction No" tabindex="8">
+                                <label for="PaidBy"> Transaction No</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="file" class="form-control" id="file1" placeholder="Receipt" tabindex="9">
+                                <label for="PaidBy">Receipt</label>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <input type="submit" value="SUBMIT" class="btn btn-primary" onclick="SaveAMCData()" tabindex="10" />&nbsp;
+                            <input type="reset" value="RESET" class="btn btn-warning" />&nbsp;
+                        </div>
+                    </form><!-- End floating Labels Form -->
+
+            </div>
+        </div>
+        <div class="col-lg-6">
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <b><span id="lblTotalamount"></span></b>
+                        <br />
+                        <b><span id="lblamount"></span></b>
+                        <br /><br />
+                        <table id="tblAMC" class="table table-bordered table-hover">
+                            <thead class="text-primary">
+                                <tr>
+                                    @*<td class="text-white bg-dark">Id</td>*@
+                                    <td class="text-white bg-dark">Flat No.</td>
+                                    <td class="text-white bg-dark">Title</td>
+                                    <td class="text-white bg-dark">Vendor Name</td>
+                                    <td class="text-white bg-dark">Mobile No</td>
+                                    <td class="text-white bg-dark">Amount</td>
+                                    <td class="text-white bg-dark">Paid Amount</td>
+                                    <td class="text-white bg-dark">Paid Date</td>
+
+                                    @*<td class="text-white bg-dark">PaidBy</td>*@
+                                    @*<td class="text-white bg-dark">PaymentMode</td>*@
+                                    @*<td class="text-white bg-dark">TransactionNo</td>*@
+                                    @*<td class="text-white bg-dark">Receipt</td>*@
+                                    @*<td class="text-white bg-dark">CreateBy</td>
+                                        <td class="text-white bg-dark">CreateDate</td>
+                                        <td class="text-white bg-dark">UpdateBy</td>
+                                        <td class="text-white bg-dark">UpdateDate</td>*@
+                                    @*<td class="text-white bg-dark">Operations</td>
+                                        <td class="text-white bg-dark">Operations</td>*@
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*@DetailPOPUP@*@
+
+
+    <div id="AMCModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container" id="DetailAMC">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+@*AutoFocus*@
+<script>
+    window.onload = function () {
+        document.getElementById("txtTitle").focus();
+    }
+
+</script>
+
+<script>
+        var inputs = document.querySelectorAll("input,select");
+        for (var i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener("keypress", function (e) {
+        if (e.which == 13) {
+            e.preventDefault();
+            var nextInput = document.querySelectorAll('[tabIndex="' + (this.tabIndex + 1) + '"]');
+            if (nextInput.length === 0) {
+                nextInput = document.querySelectorAll('[tabIndex="1"]');
+            }
+            nextInput[0].focus();
+        }
+    })
+}
+</script>
+

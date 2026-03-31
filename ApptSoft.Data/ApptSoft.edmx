@@ -1,0 +1,1714 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ApptSoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="_Address">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="int" Nullable="false" />
+          <Property Name="Client_ID" Type="int" />
+          <Property Name="Street" Type="varchar" MaxLength="100" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pincode" Type="varchar" MaxLength="10" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="AddressType" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="_Client_01">
+          <Key>
+            <PropertyRef Name="Client_ID" />
+          </Key>
+          <Property Name="Client_ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="_emp">
+          <Key>
+            <PropertyRef Name="emp_id" />
+          </Key>
+          <Property Name="emp_id" Type="int" Nullable="false" />
+          <Property Name="emp_name" Type="varchar" MaxLength="200" />
+          <Property Name="mobile" Type="varchar" MaxLength="10" />
+          <Property Name="dept_id" Type="int" />
+          <Property Name="email" Type="varchar" MaxLength="20" />
+          <Property Name="address" Type="varchar" MaxLength="20" />
+          <Property Name="salary" Type="money" />
+          <Property Name="Dob" Type="date" />
+          <Property Name="doj" Type="date" />
+        </EntityType>
+        <EntityType Name="_emp_01">
+          <Key>
+            <PropertyRef Name="emp_id" />
+          </Key>
+          <Property Name="emp_id" Type="int" Nullable="false" />
+          <Property Name="emp_name" Type="varchar" MaxLength="50" />
+          <Property Name="department" Type="varchar" MaxLength="50" />
+          <Property Name="salary" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="_emp3411">
+          <Key>
+            <PropertyRef Name="emp_id" />
+          </Key>
+          <Property Name="emp_id" Type="int" Nullable="false" />
+          <Property Name="emp_name" Type="varchar" MaxLength="50" />
+          <Property Name="department" Type="varchar" MaxLength="50" />
+          <Property Name="salary" Type="int" />
+        </EntityType>
+        <EntityType Name="Company_Master">
+          <Key>
+            <PropertyRef Name="Company_Id" />
+          </Key>
+          <Property Name="Company_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Company_Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Address1" Type="varchar" MaxLength="200" />
+          <Property Name="Address2" Type="varchar" MaxLength="200" />
+          <Property Name="City" Type="varchar" MaxLength="100" />
+          <Property Name="State" Type="varchar" MaxLength="100" />
+          <Property Name="Zip_Code" Type="varchar" MaxLength="20" />
+          <Property Name="Country" Type="varchar" MaxLength="100" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="Fax" Type="varchar" MaxLength="20" />
+          <Property Name="Is_Active" Type="bit" />
+          <Property Name="Created_Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DeptID" />
+          </Key>
+          <Property Name="DeptID" Type="int" Nullable="false" />
+          <Property Name="DeptName" Type="varchar" MaxLength="50" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Empl">
+          <Key>
+            <PropertyRef Name="EmpID" />
+          </Key>
+          <Property Name="EmpID" Type="int" Nullable="false" />
+          <Property Name="EmpName" Type="varchar" MaxLength="50" />
+          <Property Name="ManagerID" Type="int" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="EmpID" />
+          </Key>
+          <Property Name="EmpID" Type="int" Nullable="false" />
+          <Property Name="EmpName" Type="varchar" MaxLength="50" />
+          <Property Name="Gender" Type="char" MaxLength="1" />
+          <Property Name="Salary" Type="int" />
+          <Property Name="DeptID" Type="int" />
+          <Property Name="JoiningDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="JobCard_Details">
+          <Key>
+            <PropertyRef Name="JCD_Id" />
+          </Key>
+          <Property Name="JCD_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobCard_Id" Type="int" />
+          <Property Name="Item_No" Type="varchar" MaxLength="50" />
+          <Property Name="Item_Description" Type="varchar(max)" />
+          <Property Name="Qty_Per_Bale" Type="int" />
+          <Property Name="Bale_Count" Type="int" />
+          <Property Name="Total_Quantity" Type="int" />
+          <Property Name="Unit" Type="varchar" MaxLength="10" />
+          <Property Name="Process_Type" Type="varchar" MaxLength="100" />
+          <Property Name="Completed_Qty" Type="int" />
+        </EntityType>
+        <EntityType Name="JobCard_Master">
+          <Key>
+            <PropertyRef Name="JobCard_Id" />
+          </Key>
+          <Property Name="JobCard_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobCard_Number" Type="varchar" MaxLength="50" />
+          <Property Name="PO_Id" Type="int" />
+          <Property Name="PO_Number" Type="varchar" MaxLength="50" />
+          <Property Name="Vendor_Id" Type="int" />
+          <Property Name="Company_Id" Type="int" />
+          <Property Name="Job_Date" Type="datetime" />
+          <Property Name="Buyer_Name" Type="varchar" MaxLength="200" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Created_Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="JobCard_Production_Tracking">
+          <Key>
+            <PropertyRef Name="Tracking_Id" />
+          </Key>
+          <Property Name="Tracking_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobCard_Id" Type="int" />
+          <Property Name="JCD_Id" Type="int" />
+          <Property Name="Operation_Name" Type="varchar" MaxLength="100" />
+          <Property Name="Input_Qty" Type="int" />
+          <Property Name="Output_Qty" Type="int" />
+          <Property Name="Wastage_Qty" Type="int" />
+          <Property Name="Machine_Name" Type="varchar" MaxLength="100" />
+          <Property Name="Start_Time" Type="datetime" />
+          <Property Name="End_Time" Type="datetime" />
+          <Property Name="Operator_Name" Type="varchar" MaxLength="100" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="Production_Operations">
+          <Key>
+            <PropertyRef Name="Operation_Id" />
+          </Key>
+          <Property Name="Operation_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Operation_Name" Type="varchar" MaxLength="100" />
+          <Property Name="Sequence_No" Type="int" />
+        </EntityType>
+        <EntityType Name="PurchaseOrder">
+          <Key>
+            <PropertyRef Name="PO_Id" />
+          </Key>
+          <Property Name="PO_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PO_Number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PO_Date" Type="date" Nullable="false" />
+          <Property Name="Vendor_Id" Type="int" Nullable="false" />
+          <Property Name="Company_Id" Type="int" Nullable="false" />
+          <Property Name="Buyer_Name" Type="varchar" MaxLength="100" />
+          <Property Name="Buyer_Phone" Type="varchar" MaxLength="20" />
+          <Property Name="Ship_Via" Type="varchar" MaxLength="50" />
+          <Property Name="Receive_By_Date" Type="date" />
+          <Property Name="Payment_Terms" Type="varchar" MaxLength="200" />
+          <Property Name="Currency" Type="varchar" MaxLength="10" />
+          <Property Name="Sub_Total" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Tax_Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Freight" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Discount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Grand_Total" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PO_Status" Type="varchar" MaxLength="20" />
+          <Property Name="Approved_By" Type="varchar" MaxLength="100" />
+          <Property Name="Approved_Date" Type="datetime" />
+          <Property Name="Created_By" Type="varchar" MaxLength="50" />
+          <Property Name="Created_Date" Type="datetime" />
+          <Property Name="Is_Active" Type="bit" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="PurchaseOrder_Details">
+          <Key>
+            <PropertyRef Name="POD_Id" />
+          </Key>
+          <Property Name="POD_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PO_Id" Type="int" Nullable="false" />
+          <Property Name="Item_No" Type="varchar" MaxLength="50" />
+          <Property Name="Item_Description" Type="varchar(max)" />
+          <Property Name="Qty_Per_Bale" Type="int" />
+          <Property Name="Bale_Count" Type="int" />
+          <Property Name="Total_Quantity" Type="int" />
+          <Property Name="Unit" Type="varchar" MaxLength="10" />
+          <Property Name="Unit_Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Line_Total" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Remarks" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="tblAMC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlatNo" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Tittle" Type="nvarchar" MaxLength="26" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="VendorName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PaidAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PaidDate" Type="datetime" />
+          <Property Name="PaidBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="TransactionNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="PaidMode" Type="nvarchar" MaxLength="12" />
+          <Property Name="Receipt" Type="nvarchar" MaxLength="56" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="int" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblComplaint">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlatNo" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="26" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Complaint" Type="nvarchar" MaxLength="500" />
+          <Property Name="ComplaintDate" Type="datetime" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="ResolvedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ResolveDate" Type="datetime" />
+          <Property Name="Proof" Type="nvarchar" MaxLength="56" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="int" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblContractor">
+          <Key>
+            <PropertyRef Name="Contractor_Id" />
+          </Key>
+          <Property Name="Contractor_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Contractor_Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="tblCorpusFund">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlatNo" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PaidAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BalanceAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="int" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblDispatch">
+          <Key>
+            <PropertyRef Name="Dispatch_Id" />
+          </Key>
+          <Property Name="Dispatch_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sr_No" Type="int" />
+          <Property Name="Customer" Type="nvarchar" MaxLength="200" />
+          <Property Name="PO_Number" Type="nvarchar" MaxLength="100" />
+          <Property Name="PO_Id" Type="int" />
+          <Property Name="Size_Of_Bag" Type="nvarchar" MaxLength="100" />
+          <Property Name="Req_Wt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Req_Wt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Actual_Quantity" Type="int" />
+          <Property Name="Act_Wt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Act_Wt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Kg_Or_Pcs" Type="nvarchar" MaxLength="20" />
+          <Property Name="Total_Cost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Contractor" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Created_Date" Type="datetime" />
+          <Property Name="Billing_Date" Type="datetime" />
+          <Property Name="Item_No" Type="nvarchar" MaxLength="256" />
+          <Property Name="Container_No" Type="nvarchar" MaxLength="256" />
+          <Property Name="ORDER_QTY" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="tblDispatchContractor">
+          <Key>
+            <PropertyRef Name="DisContr_Id" />
+          </Key>
+          <Property Name="DisContr_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Dispatch_Id" Type="int" />
+          <Property Name="Contractor_Id" Type="int" />
+          <Property Name="Contractor_Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="Customer" Type="nvarchar" MaxLength="200" />
+          <Property Name="PO_Ref_No" Type="nvarchar" MaxLength="100" />
+          <Property Name="Size_Of_Bag" Type="nvarchar" MaxLength="100" />
+          <Property Name="Actual_Quantity" Type="int" />
+          <Property Name="Act_Wt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Wt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Crate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Kg_Or_Pcs" Type="nvarchar" MaxLength="10" />
+          <Property Name="Total_Cost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Created_Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblExpenses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlatNo" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="30" />
+          <Property Name="Month" Type="nvarchar" MaxLength="10" />
+          <Property Name="Year" Type="nvarchar" MaxLength="10" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PaidDate" Type="datetime" />
+          <Property Name="PaidAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PaidBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="PaymentMode" Type="nvarchar" MaxLength="15" />
+          <Property Name="TransactionNo" Type="nvarchar" MaxLength="15" />
+          <Property Name="Receipt" Type="nvarchar" MaxLength="56" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="int" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblIncome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Month" Type="nvarchar" MaxLength="10" />
+          <Property Name="Year" Type="nvarchar" MaxLength="10" />
+          <Property Name="IncomeFrom" Type="nvarchar" MaxLength="50" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AddedDate" Type="datetime" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tblMaintenance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlatNo" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Month" Type="nvarchar" MaxLength="10" />
+          <Property Name="Year" Type="nvarchar" MaxLength="10" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentMode" Type="nvarchar" MaxLength="15" />
+          <Property Name="TransactionNo" Type="nvarchar" MaxLength="15" />
+          <Property Name="PaidDate" Type="datetime" />
+          <Property Name="DueDate" Type="datetime" />
+          <Property Name="Receipt" Type="nvarchar" MaxLength="56" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="int" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblResident">
+          <Key>
+            <PropertyRef Name="FlatNo" />
+          </Key>
+          <Property Name="FlatNo" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Wing" Type="nvarchar" MaxLength="15" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Password" Type="nvarchar" MaxLength="30" />
+          <Property Name="IsParking" Type="bit" />
+          <Property Name="JoinDate" Type="datetime" />
+          <Property Name="Adharcard" Type="nvarchar" MaxLength="56" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="56" />
+          <Property Name="FlatType" Type="nvarchar" MaxLength="15" />
+          <Property Name="Area" Type="nvarchar" MaxLength="26" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="int" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblTenant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlatNo" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="PermanentAddress" Type="nvarchar" MaxLength="250" />
+          <Property Name="Adharcard" Type="nvarchar" MaxLength="56" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="56" />
+          <Property Name="PoliceDocumentVerification" Type="nvarchar" MaxLength="56" />
+          <Property Name="RentedForm" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="int" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblVisitor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlatNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Frequency" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="VisitDate" Type="date" Nullable="false" />
+          <Property Name="VisitTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="VehicleNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="Consent" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="VisitorDetails" Type="nvarchar" MaxLength="100" />
+          <Property Name="NoOfPerson" Type="int" />
+        </EntityType>
+        <EntityType Name="Vendor_Master">
+          <Key>
+            <PropertyRef Name="Vendor_Id" />
+          </Key>
+          <Property Name="Vendor_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Vendor_Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Contact_Person" Type="varchar" MaxLength="100" />
+          <Property Name="Address1" Type="varchar" MaxLength="200" />
+          <Property Name="Address2" Type="varchar" MaxLength="200" />
+          <Property Name="City" Type="varchar" MaxLength="100" />
+          <Property Name="State" Type="varchar" MaxLength="100" />
+          <Property Name="Zip_Code" Type="varchar" MaxLength="20" />
+          <Property Name="Country" Type="varchar" MaxLength="100" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="GST_Number" Type="varchar" MaxLength="50" />
+          <Property Name="Is_Active" Type="bit" />
+          <Property Name="Created_Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblsummaryreport">
+          <Key>
+            <PropertyRef Name="tblsummaryreport_id" />
+          </Key>
+          <Property Name="tblsummaryreport_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Contractor_id" Type="int" />
+          <Property Name="Contractor_Name" Type="nvarchar" MaxLength="256" />
+          <Property Name="Qty" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Amount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Extra_Amt" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Non_Dispatch_Amt" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Total_Amt" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="summary_month" Type="int" />
+          <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Belling_Amt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Is_Customor" Type="bit" />
+        </EntityType>
+        <Association Name="FK___Address__Client__0D7A0286">
+          <End Role="_Client_01" Type="Self._Client_01" Multiplicity="0..1" />
+          <End Role="_Address" Type="Self._Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="_Client_01">
+              <PropertyRef Name="Client_ID" />
+            </Principal>
+            <Dependent Role="_Address">
+              <PropertyRef Name="Client_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employees__DeptI__0E6E26BF">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DeptID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="DeptID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PO_Company">
+          <End Role="Company_Master" Type="Self.Company_Master" Multiplicity="1" />
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company_Master">
+              <PropertyRef Name="Company_Id" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PO_Details">
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="1" />
+          <End Role="PurchaseOrder_Details" Type="Self.PurchaseOrder_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="PO_Id" />
+            </Principal>
+            <Dependent Role="PurchaseOrder_Details">
+              <PropertyRef Name="PO_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PO_Vendor">
+          <End Role="Vendor_Master" Type="Self.Vendor_Master" Multiplicity="1" />
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor_Master">
+              <PropertyRef Name="Vendor_Id" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="Vendor_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ApptSoftModelStoreContainer">
+          <EntitySet Name="_Address" EntityType="Self._Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="_Client_01" EntityType="Self._Client_01" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="_emp_01" EntityType="Self._emp_01" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company_Master" EntityType="Self.Company_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empl" EntityType="Self.Empl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobCard_Details" EntityType="Self.JobCard_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobCard_Master" EntityType="Self.JobCard_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobCard_Production_Tracking" EntityType="Self.JobCard_Production_Tracking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Production_Operations" EntityType="Self.Production_Operations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseOrder" EntityType="Self.PurchaseOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseOrder_Details" EntityType="Self.PurchaseOrder_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAMC" EntityType="Self.tblAMC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblComplaint" EntityType="Self.tblComplaint" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblContractor" EntityType="Self.tblContractor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCorpusFund" EntityType="Self.tblCorpusFund" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDispatch" EntityType="Self.tblDispatch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDispatchContractor" EntityType="Self.tblDispatchContractor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblExpenses" EntityType="Self.tblExpenses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblIncome" EntityType="Self.tblIncome" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblMaintenance" EntityType="Self.tblMaintenance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblResident" EntityType="Self.tblResident" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTenant" EntityType="Self.tblTenant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblVisitor" EntityType="Self.tblVisitor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vendor_Master" EntityType="Self.Vendor_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblsummaryreport" EntityType="Self.tblsummaryreport" Schema="esankal1_Dharvik" store:Type="Tables" />
+          <EntitySet Name="_emp" EntityType="Self._emp" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [_emp].[emp_id] AS [emp_id], 
+    [_emp].[emp_name] AS [emp_name], 
+    [_emp].[mobile] AS [mobile], 
+    [_emp].[dept_id] AS [dept_id], 
+    [_emp].[email] AS [email], 
+    [_emp].[address] AS [address], 
+    [_emp].[salary] AS [salary], 
+    [_emp].[Dob] AS [Dob], 
+    [_emp].[doj] AS [doj]
+    FROM [dbo].[_emp] AS [_emp]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="_emp3411" EntityType="Self._emp3411" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [_emp3411].[emp_id] AS [emp_id], 
+    [_emp3411].[emp_name] AS [emp_name], 
+    [_emp3411].[department] AS [department], 
+    [_emp3411].[salary] AS [salary]
+    FROM [dbo].[_emp3411] AS [_emp3411]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK___Address__Client__0D7A0286" Association="Self.FK___Address__Client__0D7A0286">
+            <End Role="_Client_01" EntitySet="_Client_01" />
+            <End Role="_Address" EntitySet="_Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employees__DeptI__0E6E26BF" Association="Self.FK__Employees__DeptI__0E6E26BF">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PO_Company" Association="Self.FK_PO_Company">
+            <End Role="Company_Master" EntitySet="Company_Master" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PO_Details" Association="Self.FK_PO_Details">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
+            <End Role="PurchaseOrder_Details" EntitySet="PurchaseOrder_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PO_Vendor" Association="Self.FK_PO_Vendor">
+            <End Role="Vendor_Master" EntitySet="Vendor_Master" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ApptSoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C_Address">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="Int32" Nullable="false" />
+          <Property Name="Client_ID" Type="Int32" />
+          <Property Name="Street" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pincode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AddressType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="C_Client_01" Relationship="Self.FK___Address__Client__52593CB8" FromRole="C_Address" ToRole="C_Client_01" />
+        </EntityType>
+        <EntityType Name="C_Client_01">
+          <Key>
+            <PropertyRef Name="Client_ID" />
+          </Key>
+          <Property Name="Client_ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="C_Address" Relationship="Self.FK___Address__Client__52593CB8" FromRole="C_Client_01" ToRole="C_Address" />
+        </EntityType>
+        <EntityType Name="C_emp_01">
+          <Key>
+            <PropertyRef Name="emp_id" />
+          </Key>
+          <Property Name="emp_id" Type="Int32" Nullable="false" />
+          <Property Name="emp_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="department" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="salary" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Company_Master">
+          <Key>
+            <PropertyRef Name="Company_Id" />
+          </Key>
+          <Property Name="Company_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Company_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Zip_Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Is_Active" Type="Boolean" />
+          <Property Name="Created_Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PO_Company" FromRole="Company_Master" ToRole="PurchaseOrder" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DeptID" />
+          </Key>
+          <Property Name="DeptID" Type="Int32" Nullable="false" />
+          <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employees__DeptI__25869641" FromRole="Department" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Empl">
+          <Key>
+            <PropertyRef Name="EmpID" />
+          </Key>
+          <Property Name="EmpID" Type="Int32" Nullable="false" />
+          <Property Name="EmpName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ManagerID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmpID" />
+          </Key>
+          <Property Name="EmpID" Type="Int32" Nullable="false" />
+          <Property Name="EmpName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Salary" Type="Int32" />
+          <Property Name="DeptID" Type="Int32" />
+          <Property Name="JoiningDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Employees__DeptI__25869641" FromRole="Employees" ToRole="Department" />
+        </EntityType>
+        <EntityType Name="PurchaseOrder">
+          <Key>
+            <PropertyRef Name="PO_Id" />
+          </Key>
+          <Property Name="PO_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PO_Number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PO_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Vendor_Id" Type="Int32" Nullable="false" />
+          <Property Name="Company_Id" Type="Int32" Nullable="false" />
+          <Property Name="Buyer_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Buyer_Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Ship_Via" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Receive_By_Date" Type="DateTime" Precision="0" />
+          <Property Name="Payment_Terms" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Currency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Sub_Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Tax_Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Freight" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Grand_Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PO_Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Approved_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Approved_Date" Type="DateTime" Precision="3" />
+          <Property Name="Created_By" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Created_Date" Type="DateTime" Precision="3" />
+          <Property Name="Is_Active" Type="Boolean" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="Company_Master" Relationship="Self.FK_PO_Company" FromRole="PurchaseOrder" ToRole="Company_Master" />
+          <NavigationProperty Name="Vendor_Master" Relationship="Self.FK_PO_Vendor" FromRole="PurchaseOrder" ToRole="Vendor_Master" />
+          <NavigationProperty Name="PurchaseOrder_Details" Relationship="ApptSoftModel.FK_PO_Details" FromRole="PurchaseOrder" ToRole="PurchaseOrder_Details" />
+        </EntityType>
+        <EntityType Name="tblAMC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlatNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tittle" Type="String" MaxLength="26" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="VendorName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaidAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaidDate" Type="DateTime" Precision="3" />
+          <Property Name="PaidBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TransactionNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaidMode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Receipt" Type="String" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblComplaint">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlatNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="26" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Complaint" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ComplaintDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="ResolvedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ResolveDate" Type="DateTime" Precision="3" />
+          <Property Name="Proof" Type="String" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblCorpusFund">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlatNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaidAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BalanceAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblExpens">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlatNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaidDate" Type="DateTime" Precision="3" />
+          <Property Name="PaidAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaidBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentMode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="TransactionNo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Receipt" Type="String" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblIncome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Month" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IncomeFrom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblMaintenance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlatNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Month" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentMode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="TransactionNo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="PaidDate" Type="DateTime" Precision="3" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
+          <Property Name="Receipt" Type="String" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblResident">
+          <Key>
+            <PropertyRef Name="FlatNo" />
+          </Key>
+          <Property Name="FlatNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MobileNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Wing" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="IsParking" Type="Boolean" />
+          <Property Name="JoinDate" Type="DateTime" Precision="3" />
+          <Property Name="Adharcard" Type="String" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="FlatType" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="26" FixedLength="false" Unicode="true" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblTenant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlatNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MobileNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PermanentAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Adharcard" Type="String" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="PoliceDocumentVerification" Type="String" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="RentedForm" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblVisitor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlatNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Frequency" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="VisitDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="VisitTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="VehicleNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Consent" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="VisitorDetails" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NoOfPerson" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Vendor_Master">
+          <Key>
+            <PropertyRef Name="Vendor_Id" />
+          </Key>
+          <Property Name="Vendor_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Vendor_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contact_Person" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Zip_Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GST_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Is_Active" Type="Boolean" />
+          <Property Name="Created_Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PO_Vendor" FromRole="Vendor_Master" ToRole="PurchaseOrder" />
+        </EntityType>
+        <EntityType Name="C_emp">
+          <Key>
+            <PropertyRef Name="emp_id" />
+          </Key>
+          <Property Name="emp_id" Type="Int32" Nullable="false" />
+          <Property Name="emp_name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="mobile" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="dept_id" Type="Int32" />
+          <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="salary" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Dob" Type="DateTime" Precision="0" />
+          <Property Name="doj" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="C_emp3411">
+          <Key>
+            <PropertyRef Name="emp_id" />
+          </Key>
+          <Property Name="emp_id" Type="Int32" Nullable="false" />
+          <Property Name="emp_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="department" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="salary" Type="Int32" />
+        </EntityType>
+        <Association Name="FK___Address__Client__52593CB8">
+          <End Role="C_Client_01" Type="Self.C_Client_01" Multiplicity="0..1" />
+          <End Role="C_Address" Type="Self.C_Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Client_01">
+              <PropertyRef Name="Client_ID" />
+            </Principal>
+            <Dependent Role="C_Address">
+              <PropertyRef Name="Client_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PO_Company">
+          <End Role="Company_Master" Type="Self.Company_Master" Multiplicity="1" />
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company_Master">
+              <PropertyRef Name="Company_Id" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employees__DeptI__25869641">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employees" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DeptID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="DeptID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PO_Vendor">
+          <End Role="Vendor_Master" Type="Self.Vendor_Master" Multiplicity="1" />
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor_Master">
+              <PropertyRef Name="Vendor_Id" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="Vendor_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ApptSoftEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C_Address" EntityType="Self.C_Address" />
+          <EntitySet Name="C_Client_01" EntityType="Self.C_Client_01" />
+          <EntitySet Name="C_emp_01" EntityType="Self.C_emp_01" />
+          <EntitySet Name="Company_Master" EntityType="Self.Company_Master" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Empls" EntityType="Self.Empl" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrder" />
+          <EntitySet Name="tblAMCs" EntityType="Self.tblAMC" />
+          <EntitySet Name="tblComplaints" EntityType="Self.tblComplaint" />
+          <EntitySet Name="tblCorpusFunds" EntityType="Self.tblCorpusFund" />
+          <EntitySet Name="tblExpenses" EntityType="Self.tblExpens" />
+          <EntitySet Name="tblIncomes" EntityType="Self.tblIncome" />
+          <EntitySet Name="tblMaintenances" EntityType="Self.tblMaintenance" />
+          <EntitySet Name="tblResidents" EntityType="Self.tblResident" />
+          <EntitySet Name="tblTenants" EntityType="Self.tblTenant" />
+          <EntitySet Name="tblVisitors" EntityType="Self.tblVisitor" />
+          <EntitySet Name="Vendor_Master" EntityType="Self.Vendor_Master" />
+          <EntitySet Name="C_emp" EntityType="Self.C_emp" />
+          <EntitySet Name="C_emp3411" EntityType="Self.C_emp3411" />
+          <AssociationSet Name="FK___Address__Client__52593CB8" Association="Self.FK___Address__Client__52593CB8">
+            <End Role="C_Client_01" EntitySet="C_Client_01" />
+            <End Role="C_Address" EntitySet="C_Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PO_Company" Association="Self.FK_PO_Company">
+            <End Role="Company_Master" EntitySet="Company_Master" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employees__DeptI__25869641" Association="Self.FK__Employees__DeptI__25869641">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PO_Vendor" Association="Self.FK_PO_Vendor">
+            <End Role="Vendor_Master" EntitySet="Vendor_Master" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <EntitySet Name="PurchaseOrder_Details" EntityType="ApptSoftModel.PurchaseOrder_Details" />
+          <AssociationSet Name="FK_PO_Details" Association="ApptSoftModel.FK_PO_Details">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+            <End Role="PurchaseOrder_Details" EntitySet="PurchaseOrder_Details" />
+          </AssociationSet>
+          <EntitySet Name="JobCard_Details" EntityType="ApptSoftModel.JobCard_Details" />
+          <EntitySet Name="JobCard_Master" EntityType="ApptSoftModel.JobCard_Master" />
+          <EntitySet Name="JobCard_Production_Tracking" EntityType="ApptSoftModel.JobCard_Production_Tracking" />
+          <EntitySet Name="Production_Operations" EntityType="ApptSoftModel.Production_Operations" />
+          <EntitySet Name="tblDispatches" EntityType="ApptSoftModel.tblDispatch" />
+          <EntitySet Name="tblDispatchContractors" EntityType="ApptSoftModel.tblDispatchContractor" />
+          <EntitySet Name="tblContractors" EntityType="ApptSoftModel.tblContractor" />
+          <EntitySet Name="tblsummaryreports" EntityType="ApptSoftModel.tblsummaryreport" />
+        </EntityContainer>
+        <EntityType Name="PurchaseOrder_Details">
+          <Key>
+            <PropertyRef Name="POD_Id" />
+          </Key>
+          <Property Name="POD_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PO_Id" Type="Int32" Nullable="false" />
+          <Property Name="Item_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Item_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Qty_Per_Bale" Type="Int32" />
+          <Property Name="Bale_Count" Type="Int32" />
+          <Property Name="Total_Quantity" Type="Int32" />
+          <Property Name="Unit" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Unit_Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Line_Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PurchaseOrder" Relationship="ApptSoftModel.FK_PO_Details" FromRole="PurchaseOrder_Details" ToRole="PurchaseOrder" />
+        </EntityType>
+        <Association Name="FK_PO_Details">
+          <End Type="ApptSoftModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="1" />
+          <End Type="ApptSoftModel.PurchaseOrder_Details" Role="PurchaseOrder_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="PO_Id" />
+            </Principal>
+            <Dependent Role="PurchaseOrder_Details">
+              <PropertyRef Name="PO_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="JobCard_Details">
+          <Key>
+            <PropertyRef Name="JCD_Id" />
+          </Key>
+          <Property Name="JCD_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobCard_Id" Type="Int32" />
+          <Property Name="Item_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Item_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Qty_Per_Bale" Type="Int32" />
+          <Property Name="Bale_Count" Type="Int32" />
+          <Property Name="Total_Quantity" Type="Int32" />
+          <Property Name="Unit" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Process_Type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Completed_Qty" Type="Int32" />
+        </EntityType>
+        <EntityType Name="JobCard_Master">
+          <Key>
+            <PropertyRef Name="JobCard_Id" />
+          </Key>
+          <Property Name="JobCard_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobCard_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PO_Id" Type="Int32" />
+          <Property Name="PO_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Vendor_Id" Type="Int32" />
+          <Property Name="Company_Id" Type="Int32" />
+          <Property Name="Job_Date" Type="DateTime" Precision="3" />
+          <Property Name="Buyer_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Created_Date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="JobCard_Production_Tracking">
+          <Key>
+            <PropertyRef Name="Tracking_Id" />
+          </Key>
+          <Property Name="Tracking_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobCard_Id" Type="Int32" />
+          <Property Name="JCD_Id" Type="Int32" />
+          <Property Name="Operation_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Input_Qty" Type="Int32" />
+          <Property Name="Output_Qty" Type="Int32" />
+          <Property Name="Wastage_Qty" Type="Int32" />
+          <Property Name="Machine_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Start_Time" Type="DateTime" Precision="3" />
+          <Property Name="End_Time" Type="DateTime" Precision="3" />
+          <Property Name="Operator_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Production_Operations">
+          <Key>
+            <PropertyRef Name="Operation_Id" />
+          </Key>
+          <Property Name="Operation_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Operation_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Sequence_No" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblDispatch">
+          <Key>
+            <PropertyRef Name="Dispatch_Id" />
+          </Key>
+          <Property Name="Dispatch_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sr_No" Type="Int32" />
+          <Property Name="Customer" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PO_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PO_Id" Type="Int32" />
+          <Property Name="Size_Of_Bag" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Req_Wt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Req_Wt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Actual_Quantity" Type="Int32" />
+          <Property Name="Act_Wt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Act_Wt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Kg_Or_Pcs" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Total_Cost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Contractor" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Created_Date" Type="DateTime" Precision="3" />
+          <Property Name="Billing_Date" Type="DateTime" Precision="3" />
+          <Property Name="Item_No" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Container_No" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ORDER_QTY" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblDispatchContractor">
+          <Key>
+            <PropertyRef Name="DisContr_Id" />
+          </Key>
+          <Property Name="DisContr_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Dispatch_Id" Type="Int32" />
+          <Property Name="Contractor_Id" Type="Int32" />
+          <Property Name="Contractor_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Customer" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PO_Ref_No" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Size_Of_Bag" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Actual_Quantity" Type="Int32" />
+          <Property Name="Act_Wt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Wt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Crate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Kg_Or_Pcs" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Total_Cost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Created_Date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblContractor">
+          <Key>
+            <PropertyRef Name="Contractor_Id" />
+          </Key>
+          <Property Name="Contractor_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Contractor_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblsummaryreport">
+          <Key>
+            <PropertyRef Name="tblsummaryreport_id" />
+          </Key>
+          <Property Name="tblsummaryreport_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Contractor_id" Type="Int32" />
+          <Property Name="Contractor_Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Extra_Amt" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Non_Dispatch_Amt" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Total_Amt" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="summary_month" Type="Int32" />
+          <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Belling_Amt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Is_Customor" Type="Boolean" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ApptSoftModelStoreContainer" CdmEntityContainer="ApptSoftEntities">
+          <EntitySetMapping Name="C_Address">
+            <EntityTypeMapping TypeName="ApptSoftModel.C_Address">
+              <MappingFragment StoreEntitySet="_Address">
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="Client_ID" ColumnName="Client_ID" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="AddressType" ColumnName="AddressType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Client_01">
+            <EntityTypeMapping TypeName="ApptSoftModel.C_Client_01">
+              <MappingFragment StoreEntitySet="_Client_01">
+                <ScalarProperty Name="Client_ID" ColumnName="Client_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_emp_01">
+            <EntityTypeMapping TypeName="ApptSoftModel.C_emp_01">
+              <MappingFragment StoreEntitySet="_emp_01">
+                <ScalarProperty Name="emp_id" ColumnName="emp_id" />
+                <ScalarProperty Name="emp_name" ColumnName="emp_name" />
+                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Company_Master">
+            <EntityTypeMapping TypeName="ApptSoftModel.Company_Master">
+              <MappingFragment StoreEntitySet="Company_Master">
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip_Code" ColumnName="Zip_Code" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Is_Active" ColumnName="Is_Active" />
+                <ScalarProperty Name="Created_Date" ColumnName="Created_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="ApptSoftModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empls">
+            <EntityTypeMapping TypeName="ApptSoftModel.Empl">
+              <MappingFragment StoreEntitySet="Empl">
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="ApptSoftModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+                <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseOrders">
+            <EntityTypeMapping TypeName="ApptSoftModel.PurchaseOrder">
+              <MappingFragment StoreEntitySet="PurchaseOrder">
+                <ScalarProperty Name="PO_Id" ColumnName="PO_Id" />
+                <ScalarProperty Name="PO_Number" ColumnName="PO_Number" />
+                <ScalarProperty Name="PO_Date" ColumnName="PO_Date" />
+                <ScalarProperty Name="Vendor_Id" ColumnName="Vendor_Id" />
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Buyer_Name" ColumnName="Buyer_Name" />
+                <ScalarProperty Name="Buyer_Phone" ColumnName="Buyer_Phone" />
+                <ScalarProperty Name="Ship_Via" ColumnName="Ship_Via" />
+                <ScalarProperty Name="Receive_By_Date" ColumnName="Receive_By_Date" />
+                <ScalarProperty Name="Payment_Terms" ColumnName="Payment_Terms" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="Sub_Total" ColumnName="Sub_Total" />
+                <ScalarProperty Name="Tax_Amount" ColumnName="Tax_Amount" />
+                <ScalarProperty Name="Freight" ColumnName="Freight" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Grand_Total" ColumnName="Grand_Total" />
+                <ScalarProperty Name="PO_Status" ColumnName="PO_Status" />
+                <ScalarProperty Name="Approved_By" ColumnName="Approved_By" />
+                <ScalarProperty Name="Approved_Date" ColumnName="Approved_Date" />
+                <ScalarProperty Name="Created_By" ColumnName="Created_By" />
+                <ScalarProperty Name="Created_Date" ColumnName="Created_Date" />
+                <ScalarProperty Name="Is_Active" ColumnName="Is_Active" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAMCs">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblAMC">
+              <MappingFragment StoreEntitySet="tblAMC">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlatNo" ColumnName="FlatNo" />
+                <ScalarProperty Name="Tittle" ColumnName="Tittle" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="PaidBy" ColumnName="PaidBy" />
+                <ScalarProperty Name="TransactionNo" ColumnName="TransactionNo" />
+                <ScalarProperty Name="PaidMode" ColumnName="PaidMode" />
+                <ScalarProperty Name="Receipt" ColumnName="Receipt" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblComplaints">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblComplaint">
+              <MappingFragment StoreEntitySet="tblComplaint">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlatNo" ColumnName="FlatNo" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Complaint" ColumnName="Complaint" />
+                <ScalarProperty Name="ComplaintDate" ColumnName="ComplaintDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ResolvedBy" ColumnName="ResolvedBy" />
+                <ScalarProperty Name="ResolveDate" ColumnName="ResolveDate" />
+                <ScalarProperty Name="Proof" ColumnName="Proof" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCorpusFunds">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblCorpusFund">
+              <MappingFragment StoreEntitySet="tblCorpusFund">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlatNo" ColumnName="FlatNo" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblExpenses">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblExpens">
+              <MappingFragment StoreEntitySet="tblExpenses">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlatNo" ColumnName="FlatNo" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
+                <ScalarProperty Name="PaidBy" ColumnName="PaidBy" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="TransactionNo" ColumnName="TransactionNo" />
+                <ScalarProperty Name="Receipt" ColumnName="Receipt" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblIncomes">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblIncome">
+              <MappingFragment StoreEntitySet="tblIncome">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="IncomeFrom" ColumnName="IncomeFrom" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblMaintenances">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblMaintenance">
+              <MappingFragment StoreEntitySet="tblMaintenance">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlatNo" ColumnName="FlatNo" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="TransactionNo" ColumnName="TransactionNo" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="Receipt" ColumnName="Receipt" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblResidents">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblResident">
+              <MappingFragment StoreEntitySet="tblResident">
+                <ScalarProperty Name="FlatNo" ColumnName="FlatNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Wing" ColumnName="Wing" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsParking" ColumnName="IsParking" />
+                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
+                <ScalarProperty Name="Adharcard" ColumnName="Adharcard" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="FlatType" ColumnName="FlatType" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTenants">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblTenant">
+              <MappingFragment StoreEntitySet="tblTenant">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlatNo" ColumnName="FlatNo" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PermanentAddress" ColumnName="PermanentAddress" />
+                <ScalarProperty Name="Adharcard" ColumnName="Adharcard" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="PoliceDocumentVerification" ColumnName="PoliceDocumentVerification" />
+                <ScalarProperty Name="RentedForm" ColumnName="RentedForm" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblVisitors">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblVisitor">
+              <MappingFragment StoreEntitySet="tblVisitor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlatNo" ColumnName="FlatNo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+                <ScalarProperty Name="VisitTime" ColumnName="VisitTime" />
+                <ScalarProperty Name="VehicleNo" ColumnName="VehicleNo" />
+                <ScalarProperty Name="Consent" ColumnName="Consent" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="VisitorDetails" ColumnName="VisitorDetails" />
+                <ScalarProperty Name="NoOfPerson" ColumnName="NoOfPerson" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendor_Master">
+            <EntityTypeMapping TypeName="ApptSoftModel.Vendor_Master">
+              <MappingFragment StoreEntitySet="Vendor_Master">
+                <ScalarProperty Name="Vendor_Id" ColumnName="Vendor_Id" />
+                <ScalarProperty Name="Vendor_Name" ColumnName="Vendor_Name" />
+                <ScalarProperty Name="Contact_Person" ColumnName="Contact_Person" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip_Code" ColumnName="Zip_Code" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="GST_Number" ColumnName="GST_Number" />
+                <ScalarProperty Name="Is_Active" ColumnName="Is_Active" />
+                <ScalarProperty Name="Created_Date" ColumnName="Created_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_emp">
+            <EntityTypeMapping TypeName="ApptSoftModel.C_emp">
+              <MappingFragment StoreEntitySet="_emp">
+                <ScalarProperty Name="emp_id" ColumnName="emp_id" />
+                <ScalarProperty Name="emp_name" ColumnName="emp_name" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="dept_id" ColumnName="dept_id" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+                <ScalarProperty Name="doj" ColumnName="doj" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_emp3411">
+            <EntityTypeMapping TypeName="ApptSoftModel.C_emp3411">
+              <MappingFragment StoreEntitySet="_emp3411">
+                <ScalarProperty Name="emp_id" ColumnName="emp_id" />
+                <ScalarProperty Name="emp_name" ColumnName="emp_name" />
+                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseOrder_Details">
+            <EntityTypeMapping TypeName="ApptSoftModel.PurchaseOrder_Details">
+              <MappingFragment StoreEntitySet="PurchaseOrder_Details">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Line_Total" ColumnName="Line_Total" />
+                <ScalarProperty Name="Unit_Price" ColumnName="Unit_Price" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Total_Quantity" ColumnName="Total_Quantity" />
+                <ScalarProperty Name="Bale_Count" ColumnName="Bale_Count" />
+                <ScalarProperty Name="Qty_Per_Bale" ColumnName="Qty_Per_Bale" />
+                <ScalarProperty Name="Item_Description" ColumnName="Item_Description" />
+                <ScalarProperty Name="Item_No" ColumnName="Item_No" />
+                <ScalarProperty Name="PO_Id" ColumnName="PO_Id" />
+                <ScalarProperty Name="POD_Id" ColumnName="POD_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobCard_Details">
+            <EntityTypeMapping TypeName="ApptSoftModel.JobCard_Details">
+              <MappingFragment StoreEntitySet="JobCard_Details">
+                <ScalarProperty Name="Completed_Qty" ColumnName="Completed_Qty" />
+                <ScalarProperty Name="Process_Type" ColumnName="Process_Type" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Total_Quantity" ColumnName="Total_Quantity" />
+                <ScalarProperty Name="Bale_Count" ColumnName="Bale_Count" />
+                <ScalarProperty Name="Qty_Per_Bale" ColumnName="Qty_Per_Bale" />
+                <ScalarProperty Name="Item_Description" ColumnName="Item_Description" />
+                <ScalarProperty Name="Item_No" ColumnName="Item_No" />
+                <ScalarProperty Name="JobCard_Id" ColumnName="JobCard_Id" />
+                <ScalarProperty Name="JCD_Id" ColumnName="JCD_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobCard_Master">
+            <EntityTypeMapping TypeName="ApptSoftModel.JobCard_Master">
+              <MappingFragment StoreEntitySet="JobCard_Master">
+                <ScalarProperty Name="Created_Date" ColumnName="Created_Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Buyer_Name" ColumnName="Buyer_Name" />
+                <ScalarProperty Name="Job_Date" ColumnName="Job_Date" />
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Vendor_Id" ColumnName="Vendor_Id" />
+                <ScalarProperty Name="PO_Number" ColumnName="PO_Number" />
+                <ScalarProperty Name="PO_Id" ColumnName="PO_Id" />
+                <ScalarProperty Name="JobCard_Number" ColumnName="JobCard_Number" />
+                <ScalarProperty Name="JobCard_Id" ColumnName="JobCard_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobCard_Production_Tracking">
+            <EntityTypeMapping TypeName="ApptSoftModel.JobCard_Production_Tracking">
+              <MappingFragment StoreEntitySet="JobCard_Production_Tracking">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Operator_Name" ColumnName="Operator_Name" />
+                <ScalarProperty Name="End_Time" ColumnName="End_Time" />
+                <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
+                <ScalarProperty Name="Machine_Name" ColumnName="Machine_Name" />
+                <ScalarProperty Name="Wastage_Qty" ColumnName="Wastage_Qty" />
+                <ScalarProperty Name="Output_Qty" ColumnName="Output_Qty" />
+                <ScalarProperty Name="Input_Qty" ColumnName="Input_Qty" />
+                <ScalarProperty Name="Operation_Name" ColumnName="Operation_Name" />
+                <ScalarProperty Name="JCD_Id" ColumnName="JCD_Id" />
+                <ScalarProperty Name="JobCard_Id" ColumnName="JobCard_Id" />
+                <ScalarProperty Name="Tracking_Id" ColumnName="Tracking_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Production_Operations">
+            <EntityTypeMapping TypeName="ApptSoftModel.Production_Operations">
+              <MappingFragment StoreEntitySet="Production_Operations">
+                <ScalarProperty Name="Sequence_No" ColumnName="Sequence_No" />
+                <ScalarProperty Name="Operation_Name" ColumnName="Operation_Name" />
+                <ScalarProperty Name="Operation_Id" ColumnName="Operation_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDispatches">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblDispatch">
+              <MappingFragment StoreEntitySet="tblDispatch">
+                <ScalarProperty Name="ORDER_QTY" ColumnName="ORDER_QTY" />
+                <ScalarProperty Name="Container_No" ColumnName="Container_No" />
+                <ScalarProperty Name="Item_No" ColumnName="Item_No" />
+                <ScalarProperty Name="Billing_Date" ColumnName="Billing_Date" />
+                <ScalarProperty Name="Created_Date" ColumnName="Created_Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Contractor" ColumnName="Contractor" />
+                <ScalarProperty Name="Total_Cost" ColumnName="Total_Cost" />
+                <ScalarProperty Name="Kg_Or_Pcs" ColumnName="Kg_Or_Pcs" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Total_Act_Wt" ColumnName="Total_Act_Wt" />
+                <ScalarProperty Name="Act_Wt" ColumnName="Act_Wt" />
+                <ScalarProperty Name="Actual_Quantity" ColumnName="Actual_Quantity" />
+                <ScalarProperty Name="Total_Req_Wt" ColumnName="Total_Req_Wt" />
+                <ScalarProperty Name="Req_Wt" ColumnName="Req_Wt" />
+                <ScalarProperty Name="Size_Of_Bag" ColumnName="Size_Of_Bag" />
+                <ScalarProperty Name="PO_Id" ColumnName="PO_Id" />
+                <ScalarProperty Name="PO_Number" ColumnName="PO_Number" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Sr_No" ColumnName="Sr_No" />
+                <ScalarProperty Name="Dispatch_Id" ColumnName="Dispatch_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDispatchContractors">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblDispatchContractor">
+              <MappingFragment StoreEntitySet="tblDispatchContractor">
+                <ScalarProperty Name="Created_Date" ColumnName="Created_Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Total_Cost" ColumnName="Total_Cost" />
+                <ScalarProperty Name="Kg_Or_Pcs" ColumnName="Kg_Or_Pcs" />
+                <ScalarProperty Name="Crate" ColumnName="Crate" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Total_Wt" ColumnName="Total_Wt" />
+                <ScalarProperty Name="Act_Wt" ColumnName="Act_Wt" />
+                <ScalarProperty Name="Actual_Quantity" ColumnName="Actual_Quantity" />
+                <ScalarProperty Name="Size_Of_Bag" ColumnName="Size_Of_Bag" />
+                <ScalarProperty Name="PO_Ref_No" ColumnName="PO_Ref_No" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Contractor_Name" ColumnName="Contractor_Name" />
+                <ScalarProperty Name="Contractor_Id" ColumnName="Contractor_Id" />
+                <ScalarProperty Name="Dispatch_Id" ColumnName="Dispatch_Id" />
+                <ScalarProperty Name="DisContr_Id" ColumnName="DisContr_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblContractors">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblContractor">
+              <MappingFragment StoreEntitySet="tblContractor">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Contractor_Name" ColumnName="Contractor_Name" />
+                <ScalarProperty Name="Contractor_Id" ColumnName="Contractor_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblsummaryreports">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblsummaryreport">
+              <MappingFragment StoreEntitySet="tblsummaryreport">
+                <ScalarProperty Name="Is_Customor" ColumnName="Is_Customor" />
+                <ScalarProperty Name="Belling_Amt" ColumnName="Belling_Amt" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="summary_month" ColumnName="summary_month" />
+                <ScalarProperty Name="Total_Amt" ColumnName="Total_Amt" />
+                <ScalarProperty Name="Non_Dispatch_Amt" ColumnName="Non_Dispatch_Amt" />
+                <ScalarProperty Name="Extra_Amt" ColumnName="Extra_Amt" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Contractor_Name" ColumnName="Contractor_Name" />
+                <ScalarProperty Name="Contractor_id" ColumnName="Contractor_id" />
+                <ScalarProperty Name="tblsummaryreport_id" ColumnName="tblsummaryreport_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
