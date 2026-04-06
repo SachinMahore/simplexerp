@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'E:\web D\Persnal Project\sachin sir\ApptSoft-master\ApptSoft.Data\ApptSoft.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\ApptSoftClone\ApptSoft.Data\ApptSoft.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

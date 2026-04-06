@@ -279,14 +279,14 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <Property Name="PO_Number" Type="nvarchar" MaxLength="100" />
           <Property Name="PO_Id" Type="int" />
           <Property Name="Size_Of_Bag" Type="nvarchar" MaxLength="100" />
-          <Property Name="Req_Wt" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Total_Req_Wt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Req_Wt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Total_Req_Wt" Type="decimal" Precision="18" Scale="4" />
           <Property Name="Actual_Quantity" Type="int" />
-          <Property Name="Act_Wt" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Total_Act_Wt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Act_Wt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Total_Act_Wt" Type="decimal" Precision="18" Scale="4" />
           <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Kg_Or_Pcs" Type="nvarchar" MaxLength="20" />
-          <Property Name="Total_Cost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Cost" Type="decimal" Precision="18" Scale="4" />
           <Property Name="Contractor" Type="nvarchar" MaxLength="200" />
           <Property Name="Status" Type="int" />
           <Property Name="Created_Date" Type="datetime" />
@@ -307,12 +307,12 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <Property Name="PO_Ref_No" Type="nvarchar" MaxLength="100" />
           <Property Name="Size_Of_Bag" Type="nvarchar" MaxLength="100" />
           <Property Name="Actual_Quantity" Type="int" />
-          <Property Name="Act_Wt" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Total_Wt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Act_Wt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Total_Wt" Type="decimal" Precision="18" Scale="4" />
           <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Crate" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Kg_Or_Pcs" Type="nvarchar" MaxLength="10" />
-          <Property Name="Total_Cost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Cost" Type="decimal" Precision="18" Scale="4" />
           <Property Name="Status" Type="int" />
           <Property Name="Created_Date" Type="datetime" />
         </EntityType>
@@ -1128,14 +1128,14 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <Property Name="PO_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PO_Id" Type="Int32" />
           <Property Name="Size_Of_Bag" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Req_Wt" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_Req_Wt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Req_Wt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Total_Req_Wt" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="Actual_Quantity" Type="Int32" />
-          <Property Name="Act_Wt" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_Act_Wt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Act_Wt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Total_Act_Wt" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Kg_Or_Pcs" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Total_Cost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Cost" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="Contractor" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" />
           <Property Name="Created_Date" Type="DateTime" Precision="3" />
@@ -1156,12 +1156,12 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <Property Name="PO_Ref_No" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Size_Of_Bag" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Actual_Quantity" Type="Int32" />
-          <Property Name="Act_Wt" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_Wt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Act_Wt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Total_Wt" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Crate" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Kg_Or_Pcs" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Total_Cost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Cost" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="Status" Type="Int32" />
           <Property Name="Created_Date" Type="DateTime" Precision="3" />
         </EntityType>
