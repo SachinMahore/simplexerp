@@ -371,7 +371,7 @@
 
         let total = qty * rate;
 
-        row.find('.lbltotalamount').text(total.toFixed(2));
+        row.find('.lbltotalamount').text(total.toFixed(4));
 
         updateContractorTotal();
     });
@@ -386,7 +386,7 @@
 
         let total = qty * rate;
 
-        row.find('.lbltotalamount').text(total.toFixed(2));
+        row.find('.lbltotalamount').text(total.toFixed(4));
 
         updateCustomerTotal();
     });
@@ -400,7 +400,7 @@
 
         let total = qty * rate;
 
-        row.find('.lbltotalamountRepack').text(total.toFixed(2));
+        row.find('.lbltotalamountRepack').text(total.toFixed(4));
 
         updateFinalGrandTotal(); // ✅ direct
     });
@@ -414,7 +414,7 @@
 
         let total = qty * rate;
 
-        row.find('.lbltotalamountLalel').text(total.toFixed(2));
+        row.find('.lbltotalamountLalel').text(total.toFixed(4));
 
         updateFinalGrandTotal(); // ✅ direct
     });
@@ -434,7 +434,7 @@
         });
 
         $('#totalQty').text(totalQty);
-        $('#totalAmt').text(totalAmt.toFixed(2));
+        $('#totalAmt').text(totalAmt.toFixed(4));
 
         updateFinalGrandTotal();
     }
@@ -454,7 +454,7 @@
         });
 
         $('#totalCustQty').text(totalQty);
-        $('#totalCustAmt').text(totalAmt.toFixed(2));
+        $('#totalCustAmt').text(totalAmt.toFixed(4));
 
         updateFinalGrandTotal();
     }
@@ -484,7 +484,7 @@
         let finalAmt = contractorAmt + customerAmt + repackAmt;
         let finalQty = contractorQty + customerQty + repackQty;
 
-        $('#finalGrandTotal').text(finalAmt.toFixed(2));
+        $('#finalGrandTotal').text(finalAmt.toFixed(4));
         $('#finalGrandQty').text(finalQty);
     }
 

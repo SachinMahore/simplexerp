@@ -1,549 +1,536 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title>Add / Edit Dispatch Details with Contractor </title>
+﻿<title>Add / Edit Dispatch Details with Contractor </title>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    input, select {
+        width: 100%;
+        padding: 5px;
+    }
 
-    <style>
-        input, select {
-            width: 100%;
-            padding: 5px;
+    table {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    button {
+        margin: 5px;
+    }
+</style>
+
+
+<h2>Billing Entry</h2>
+<a href="/Dispatch" class="btn btn-outline-success">Dispatch List</a>
+<a href="/Dispatch/ContractorReport" class="btn btn-outline-info">Contractor Report</a>
+<a href="/Dispatch/Dispatch" class="btn btn-outline-primary">Add New</a>
+<input type="hidden" id="Dispatch_Id" />
+
+<table border="0">
+
+    <tr>
+        <td>Date</td>
+        <td><input id="txtData" type="date" /></td>
+
+        <td>Customer</td>
+        <td>
+            <select id="Company_Id">
+                <option value="">Select Company</option>
+            </select>
+        </td>
+        @*<td><input id="Customer" /></td>*@
+
+        <td>Container No</td>
+        <td><input id="txtContainerno" /></td>
+    </tr>
+
+    <tr>
+        <td hidden>PO Number</td>
+        <td hidden><input id="PO_Number" /></td>
+        <td>Item No</td>
+        <td><input id="txtitemno" /></td>
+
+
+        <td>Bag Size</td>
+        <td><input id="Size_Of_Bag" /></td>
+        <td>Req Wt</td>
+        <td><input id="Req_Wt" class="calc" /></td>
+    </tr>
+
+
+
+    <tr>
+        <td hidden>Order  Qty</td>
+        <td hidden><input id="txtorderqty" class="" /></td>
+        <td>Total Req Wt</td>
+        <td><input id="Total_Req_Wt" readonly /></td>
+        <td>Actual Qty</td>
+        <td><input id="Actual_Quantity" class="calc" /></td>
+
+        <td>Total Act Wt</td>
+        <td><input id="Total_Act_Wt" class="calc" /></td>
+
+    </tr>
+    <tr>
+        <td>Act Wt</td>
+        <td><input id="Act_Wt" readonly /></td>
+        <td>Rate</td>
+        <td><input id="Rate" class="calc" /></td>
+        <td>Unit</td>
+        <td>
+            <select id="Kg_Or_Pcs">
+                <option value="KG">KG</option>
+                <option value="PCS">PCS</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+
+
+
+        <td>Total Cost</td>
+        <td><input id="Total_Cost" readonly /></td>
+        <td></td>
+        <td>
+            <button id="saveDispatch" class="btn btn-success">
+                Save / Update Dispatch
+            </button>
+        </td>
+    </tr>
+</table>
+
+<hr />
+
+<h3>Add Contractor</h3>
+
+<div class="container mt-3">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label class="form-label">Select Contractor</label>
+            <select id="Contractor_Id" class="form-control">
+                <option value="">--Select--</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Qty</label>
+            <input id="Contractor_Qty" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label"></label>
+            <button id="addContractor" class="form-control btn btn-info">Add</button>
+        </div>
+    </div>
+</div>
+
+<h3>Contractor List</h3>
+
+<table border="1" id="contractorTable" class="table table-bordered table-hover">
+    <thead class="text-primary">
+        <tr>
+            <th>Name</th>
+            <th>Qty</th>
+            <th>Wt</th>
+            <th>Total Wt</th>
+            <th>Rate</th>
+            <th>Total Cost</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<button id="saveContractor" class="btn btn-success">Save Contractor Data</button>
+
+<script>
+
+    // ================= LOAD CONTRACTOR =================
+    $(document).ready(function () {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        loadCompanies();
+        if (id) {
+            loadDispatch(id); // already given earlier
         }
+        loadContractors();
 
-        table {
-            width: 100%;
-            margin-top: 10px;
-        }
+    });
 
-        button {
-            margin: 5px;
-        }
-    </style>
-</head>
+    function loadCompanies() {
+        $.get("/Company/GetCompanies", function (data) {
+            $.each(data.model, function (i, v) {
+                $("#Company_Id").append("<option value='" + v.Company_Name + "'>" + v.Company_Name + "</option>");
 
-<body>
-
-    <h2>Billing Entry</h2>
-    <a href="/Dispatch" class="btn btn-outline-success">Dispatch List</a>
-    <a href="/Dispatch/ContractorReport" class="btn btn-outline-info">Contractor Report</a>
-    <a href="/Dispatch/Dispatch" class="btn btn-outline-primary">Add New</a>
-    <input type="hidden" id="Dispatch_Id" />
-
-    <table border="0">
-
-        <tr>
-            <td>Date</td>
-            <td><input id="txtData" type="date" /></td>
-
-            <td>Customer</td>
-            <td>
-                <select id="Company_Id">
-                    <option value="">Select Company</option>
-                </select>
-            </td>
-                @*<td><input id="Customer" /></td>*@
-
-          <td>Container No</td>
-            <td><input id="txtContainerno" /></td>
-        </tr>
-
-        <tr>
-            <td>PO Number</td>
-            <td><input id="PO_Number" /></td>
-            <td>Itme No</td>
-            <td><input id="txtitemno" /></td>
-
-
-            <td>Bag Size</td>
-            <td><input id="Size_Of_Bag" /></td>
-
-        </tr>
-
-
-
-        <tr>
-            <td>Order  Qty</td>
-            <td><input id="txtorderqty" class="" /></td>
-
-
-            <td>Req Wt</td>
-            <td><input id="Req_Wt" class="calc" /></td>
-
-            <td>Total Req Wt</td>
-            <td><input id="Total_Req_Wt" readonly /></td>
-
-
-        </tr>
-
-
-
-        <tr>
-            <td>Actual Qty</td>
-            <td><input id="Actual_Quantity" class="calc" /></td>
-
-            <td>Total Act Wt</td>
-            <td><input id="Total_Act_Wt" class="calc" /></td>
-
-
-            <td>Act Wt</td>
-            <td><input id="Act_Wt" readonly  /></td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>Rate</td>
-            <td><input id="Rate" class="calc" /></td>
-
-
-            <td>Unit</td>
-            <td>
-                <select id="Kg_Or_Pcs">
-                    <option value="KG">KG</option>
-                    <option  value="PCS">PCS</option>
-                </select>
-            </td>
-
-            <td>Total Cost</td>
-            <td><input id="Total_Cost" readonly /></td>
-        </tr>
-    </table>
-
-    <button id="saveDispatch" class="btn btn-success">Save / Update Dispatch</button>
-
-
-    <hr />
-
-    <h3>Add Contractor</h3>
-
-    <table>
-        <tr>
-            <td>Contractor</td>
-            <td>
-                <select id="Contractor_Id">
-                    <option value="">--Select--</option>
-                </select>
-            </td>
-
-            <td>Qty</td>
-            <td><input id="Contractor_Qty" /></td>
-            <td><button id="addContractor" class="btn btn-info">Add</button></td>
-        </tr>
-    </table>
-
-    <h3>Contractor List</h3>
-
-    <table border="1" id="contractorTable" class="table table-bordered table-hover">
-        <thead class="text-primary">
-            <tr>
-                <th>Name</th>
-                <th>Qty</th>
-                <th>Wt</th>
-                <th>Total Wt</th>
-                <th>Rate</th>
-                <th>Total Cost</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-
-    <button id="saveContractor" class="btn btn-success">Save Contractor Data</button>
-
-    <script>
-
-        // ================= LOAD CONTRACTOR =================
-        $(document).ready(function () {
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
-            loadCompanies();
-            if (id) {
-                loadDispatch(id); // already given earlier
-            }
-            loadContractors();
-      
+            });
         });
+    }
 
-        function loadCompanies() {
-            $.get("/Company/GetCompanies", function (data) {
-                $.each(data.model, function (i, v) {
-                    $("#Company_Id").append("<option value='" + v.Company_Name + "'>" + v.Company_Name + "</option>");
-
-                });
+    function loadContractors() {
+        $.get('/Contractor/GetAll', function (res) {
+            let html = '<option value="">--Select--</option>';
+            $.each(res.model, function (i, item) {
+                html += `<option value="${item.Contractor_Id}">${item.Contractor_Name}</option>`;
             });
-        }
-
-        function loadContractors() {
-            $.get('/Contractor/GetAll', function (res) {
-                let html = '<option value="">--Select--</option>';
-                $.each(res.model, function (i, item) {
-                    html += `<option value="${item.Contractor_Id}">${item.Contractor_Name}</option>`;
-                });
-                $("#Contractor_Id").html(html);
-            });
-        }
+            $("#Contractor_Id").html(html);
+        });
+    }
 
 
-        // ================= CALCULATION =================
-        $(document).on("keyup change", ".calc", function () {
+    // ================= CALCULATION =================
+    $(document).on("keyup change", ".calc", function () {
 
-            let qty = parseFloat($("#Actual_Quantity").val()) || 0;
-            let totalWt = parseFloat($("#Total_Act_Wt").val()) || 0;
-            let rate = parseFloat($("#Rate").val()) || 0;
-            let reqWt = parseFloat($("#Req_Wt").val()) || 0;
+        let qty = parseFloat($("#Actual_Quantity").val()) || 0;
+        let totalWt = parseFloat($("#Total_Act_Wt").val()) || 0;
+        let rate = parseFloat($("#Rate").val()) || 0;
+        let reqWt = parseFloat($("#Req_Wt").val()) || 0;
 
 
-            let wt = totalWt / qty;
+        let wt = totalWt / qty;
 
-            let totalReq = qty * reqWt;         
+        let totalReq = qty * reqWt;
+        let totalCost = totalWt * rate;
+
+        $("#Act_Wt").val(wt.toFixed(4));
+
+        $("#Total_Req_Wt").val(totalReq.toFixed(4));
+        $("#Total_Cost").val(totalCost.toFixed(4));
+    });
+
+
+    $("#Kg_Or_Pcs").change(function () {
+
+        let qty = parseFloat($("#Actual_Quantity").val()) || 0;
+        let totalWt = parseFloat($("#Total_Act_Wt").val()) || 0;
+        let rate = parseFloat($("#Rate").val()) || 0;
+        let reqWt = parseFloat($("#Req_Wt").val()) || 0;
+        if ($("#Kg_Or_Pcs").val() == "KG") {
             let totalCost = totalWt * rate;
+            $("#Total_Cost").val(totalCost.toFixed(4));
+        }
+        else {
+            let totalCost = qty * rate;
+            $("#Total_Cost").val(totalCost.toFixed(4));
 
-            $("#Act_Wt").val(wt.toFixed(8));
+        }
+        $("#contractorTable tbody tr").each(function () {
+            let row = $(this);
+            let qty = parseFloat(row.find(".qty").text()) || 0;
+            let wt = parseFloat(row.find(".wt").text()) || 0;
+            let rate = parseFloat(row.find(".rate").text()) || 0;
 
-            $("#Total_Req_Wt").val(totalReq.toFixed(2));        
-            $("#Total_Cost").val(totalCost.toFixed(2));
+            let totalWt = qty * wt;
+            let totalCost = 0;
+
+            if ($("#Kg_Or_Pcs").val() == "KG") {
+                totalCost = totalWt * rate;
+            } else {
+                totalCost = qty * rate;
+            }
+            row.find(".totalwt").text(totalWt.toFixed(4));
+            row.find(".totalcost").text(totalCost.toFixed(4));
+        });
+    })
+    // ================= SAVE / UPDATE DISPATCH =================
+    $("#saveDispatch").click(function () {
+
+        let dispatchId = $("#Dispatch_Id").val();
+
+        let model = {
+            Dispatch_Id: dispatchId,
+            Customer: $("#Company_Id option:selected").text(),
+            PO_Number: $("#PO_Number").val(),
+            PO_Id: $("#PO_Id").val(),
+            Size_Of_Bag: $("#Size_Of_Bag").val(),
+
+            Req_Wt: $("#Req_Wt").val(),
+            Total_Req_Wt: $("#Total_Req_Wt").val(),
+
+            Actual_Quantity: $("#Actual_Quantity").val(),
+            Act_Wt: $("#Act_Wt").val(),
+            Total_Act_Wt: $("#Total_Act_Wt").val(),
+
+            Rate: $("#Rate").val(),
+            Kg_Or_Pcs: $("#Kg_Or_Pcs").val(),
+            Total_Cost: $("#Total_Cost").val(),
+            Status: 1,
+
+            Billing_Date: $("#txtData").val(),
+            Item_No: $("#txtitemno").val(),
+            Container_No: $("#txtContainerno").val(),
+            ORDER_QTY: $("#txtorderqty").val()
+        };
+
+
+
+        let url = dispatchId ? '/Dispatch/Update' : '/Dispatch/Save';
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(model),
+            success: function (res) {
+                alert(dispatchId ? "Updated Successfully" : "Saved Successfully");
+
+                if (!dispatchId)
+                    $("#Dispatch_Id").val(res);
+            }
+        });
+    });
+
+
+    // ================= ADD CONTRACTOR =================
+    $("#addContractor").click(function () {
+
+        let contractorId = $("#Contractor_Id").val();
+        let contractorName = $("#Contractor_Id option:selected").text();
+        let qty = parseFloat($("#Contractor_Qty").val()) || 0;
+
+        let actWt = parseFloat($("#Act_Wt").val()) || 0;
+        let rate = parseFloat($("#Rate").val()) || 0;
+
+        if (!contractorId || qty <= 0) {
+            alert("Select contractor & qty");
+            return;
+        }
+
+        // duplicate check
+        let exists = false;
+        $("#contractorTable tbody tr").each(function () {
+            if ($(this).find("td:eq(0)").data("id") == contractorId)
+                exists = true;
         });
 
+        if (exists) {
+            alert("Contractor already added");
+            return;
+        }
 
-        $("#Kg_Or_Pcs").change(function () {
+        let mainQty = parseFloat($("#Actual_Quantity").val()) || 0;
+        let usedQty = 0;
 
-            let qty = parseFloat($("#Actual_Quantity").val()) || 0;
-            let totalWt = parseFloat($("#Total_Act_Wt").val()) || 0;
-            let rate = parseFloat($("#Rate").val()) || 0;
-            let reqWt = parseFloat($("#Req_Wt").val()) || 0;
-            if ($("#Kg_Or_Pcs").val() == "KG") {
-                let totalCost = totalWt * rate;
-                $("#Total_Cost").val(totalCost.toFixed(2));
-            }
-            else {
-                let totalCost = qty * rate;
-                $("#Total_Cost").val(totalCost.toFixed(2));
+        $(".qty").each(function () {
+            usedQty += parseFloat($(this).text()) || 0;
+        });
 
-            }
-            $("#contractorTable tbody tr").each(function () {
-                let row = $(this);
-                let qty = parseFloat(row.find(".qty").text()) || 0;
-                let wt = parseFloat(row.find(".wt").text()) || 0;
-                let rate = parseFloat(row.find(".rate").text()) || 0;
+        if ((usedQty + qty) > mainQty) {
+            alert("Qty exceeds dispatch quantity");
+            return;
+        }
+        let totalWt = qty * actWt;
+        let totalCost = 0;
 
-                let totalWt = qty * wt;
-                let totalCost = 0;
+        if ($("#Kg_Or_Pcs").val() == "KG") {
+            totalCost = totalWt * rate;
+        } else {
+            totalCost = qty * rate;
+        }
 
-                if ($("#Kg_Or_Pcs").val() == "KG") {
-                    totalCost = totalWt * rate;
-                } else {
-                    totalCost = qty * rate;
-                }
-                row.find(".totalwt").text(totalWt.toFixed(2));
-                row.find(".totalcost").text(totalCost.toFixed(2));
+        let row = `<tr>
+                                                    <td data-id="${contractorId}">${contractorName}</td>
+                                                    <td class="qty">${qty}</td>
+                                                    <td class="wt">${actWt}</td>
+                                                    <td class="totalwt">${totalWt.toFixed(4)}</td>
+                                                    <td class="rate">${rate}</td>
+                                                    <td class="totalcost">${totalCost.toFixed(4)}</td>
+                                                    <td>
+                                                        <button class="edit">Edit</button>
+                                                        <button class="remove">X</button>
+                                                    </td>
+                                                </tr>`;
+
+        $("#contractorTable tbody").append(row);
+
+        $("#Contractor_Qty").val('');
+        $("#Contractor_Id").val('');
+    });
+
+
+    // ================= EDIT CONTRACTOR =================
+    $(document).on("click", ".edit", function () {
+
+        let row = $(this).closest("tr");
+
+        let qty = row.find(".qty").text();
+        let wt = row.find(".wt").text();
+        let rate = row.find(".rate").text();
+
+        row.find(".qty").html(`<input class="editQty" value="${qty}" />`);
+        row.find(".wt").html(`<input class="editWt" value="${wt}" />`);
+        row.find(".rate").html(`<input class="editRate" value="${rate}" />`);
+
+        $(this).text("Update").removeClass("edit").addClass("update");
+    });
+
+
+    // ================= UPDATE CONTRACTOR =================
+    $(document).on("click", ".update", function () {
+
+        let row = $(this).closest("tr");
+
+        let qty = parseFloat(row.find(".editQty").val()) || 0;
+        let actWt = parseFloat(row.find(".editWt").val()) || 0;
+        let rate = parseFloat(row.find(".editRate").val()) || 0;
+
+        //let totalWt = qty * actWt;
+        //let totalCost = totalWt * rate;
+        let totalWt = qty * actWt;
+        let totalCost = 0;
+
+        if ($("#Kg_Or_Pcs").val() == "KG") {
+            totalCost = totalWt * rate;
+        } else {
+            totalCost = qty * rate;
+        }
+
+        row.find(".qty").text(qty);
+        row.find(".wt").text(wt);
+        row.find(".rate").text(rate);
+        row.find(".totalwt").text(totalWt.toFixed(4));
+        row.find(".totalcost").text(totalCost.toFixed(4));
+
+        $(this).text("Edit").removeClass("update").addClass("edit");
+    });
+
+
+    // ================= REMOVE =================
+    $(document).on("click", ".remove", function () {
+        $(this).closest("tr").remove();
+    });
+
+
+    // ================= LOAD DISPATCH =================
+    function loadDispatch(id) {
+
+        $.get('/Dispatch/GetById?id=' + id, function (res) {
+            debugger;
+            $("#Dispatch_Id").val(res.Dispatch_Id);
+            $("#Company_Id").val(res.Customer);
+            $("#PO_Number").val(res.PO_Number);
+            $("#PO_Id").val(res.PO_Id);
+            $("#Size_Of_Bag").val(res.Size_Of_Bag);
+
+            $("#Req_Wt").val(res.Req_Wt);
+            $("#Total_Req_Wt").val(res.Total_Req_Wt);
+
+            $("#Actual_Quantity").val(res.Actual_Quantity);
+            $("#Act_Wt").val(res.Act_Wt);
+            $("#Total_Act_Wt").val(res.Total_Act_Wt);
+
+            $("#Rate").val(res.Rate);
+            $("#Total_Cost").val(res.Total_Cost);
+            $("#Kg_Or_Pcs").val(res.Kg_Or_Pcs);
+
+            var millis = parseInt(res.Billing_Date.replace(/\/Date\((\d+)\)\//, "$1"));
+
+            var date = new Date(millis);
+
+            var formattedDate = date.getFullYear() + "-" +
+                String(date.getMonth() + 1).padStart(2, '0') + "-" +
+                String(date.getDate()).padStart(2, '0');
+
+            $("#txtData").val(formattedDate),
+                $("#txtitemno").val(res.Item_No),
+                $("#txtContainerno").val(res.Container_No),
+                $("#txtorderqty").val(res.ORDER_QTY)
+
+            loadContractorByDispatch(id);
+        });
+    }
+
+
+    // ================= LOAD CONTRACTOR FOR EDIT =================
+    function loadContractorByDispatch(dispatchId) {
+
+        $.get('/Dispatch/GetContractorByDispatchId?id=' + dispatchId, function (res) {
+
+            $("#contractorTable tbody").html("");
+
+            $.each(res, function (i, item) {
+
+                let row = `<tr>
+                                                            <td data-id="${item.Contractor_Id}">${item.Contractor_Name}</td>
+                                                            <td class="qty">${item.Actual_Quantity}</td>
+                                                            <td class="wt">${item.Act_Wt}</td>
+                                                            <td class="totalwt">${item.Total_Wt}</td>
+                                                            <td class="rate">${item.Rate}</td>
+                                                            <td class="totalcost">${item.Total_Cost}</td>
+                                                            <td>
+                                                                <button class="edit">Edit</button>
+                                                                <button class="remove">X</button>
+                                                            </td>
+                                                        </tr>`;
+
+                $("#contractorTable tbody").append(row);
             });
-        })
-        // ================= SAVE / UPDATE DISPATCH =================
-        $("#saveDispatch").click(function () {
+        });
+    }
 
-            let dispatchId = $("#Dispatch_Id").val();
+    $("#saveContractor").click(function () {
 
-            let model = {
-                Dispatch_Id: dispatchId,
-                Customer: $("#Company_Id option:selected").text(),
-                PO_Number: $("#PO_Number").val(),
-                PO_Id: $("#PO_Id").val(),
+        let dispatchId = $("#Dispatch_Id").val();
+
+        if (!dispatchId) {
+            alert("Please save Dispatch first!");
+            return;
+        }
+
+        let list = [];
+
+        $("#contractorTable tbody tr").each(function () {
+
+            let row = $(this);
+
+            list.push({
+                Dispatch_Id: parseInt(dispatchId),
+
+                Contractor_Id: parseInt(row.find("td:eq(0)").data("id")),
+                Contractor_Name: row.find("td:eq(0)").text(),
+
+                Customer: $("#Customer").val(),
+                PO_Ref_No: $("#PO_Number").val(),
                 Size_Of_Bag: $("#Size_Of_Bag").val(),
 
-                Req_Wt: $("#Req_Wt").val(),
-                Total_Req_Wt: $("#Total_Req_Wt").val(),
+                Actual_Quantity: parseFloat(row.find(".qty").text()) || 0,
+                Act_Wt: parseFloat(row.find(".wt").text()) || 0,
+                Total_Wt: parseFloat(row.find(".totalwt").text()) || 0,
 
-                Actual_Quantity: $("#Actual_Quantity").val(),
-                Act_Wt: $("#Act_Wt").val(),
-                Total_Act_Wt: $("#Total_Act_Wt").val(),
+                Rate: parseFloat(row.find(".rate").text()) || 0,
+                Crate: 0,
 
-                Rate: $("#Rate").val(),
                 Kg_Or_Pcs: $("#Kg_Or_Pcs").val(),
-                Total_Cost: $("#Total_Cost").val(),
-                Status: 1,
 
-                Billing_Date: $("#txtData").val(),
-                Item_No: $("#txtitemno").val(),
-                Container_No: $("#txtContainerno").val(),
-                ORDER_QTY: $("#txtorderqty").val()
-            };
+                Total_Cost: parseFloat(row.find(".totalcost").text()) || 0,
 
-                
-           
-            let url = dispatchId ? '/Dispatch/Update' : '/Dispatch/Save';
+                Status: 1
+            });
 
-            $.ajax({
-                url: url,
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(model),
-                success: function (res) {
-                    alert(dispatchId ? "Updated Successfully" : "Saved Successfully");
+        });
 
-                    if (!dispatchId)
-                        $("#Dispatch_Id").val(res);
+        console.log(list); // ✅ Debug
+
+        $.ajax({
+            url: '/Dispatch/SaveContractor',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(list),
+
+            success: function (res) {
+
+                if (res.success) {
+                    alert(res.message);
+                } else {
+                    alert("Save failed");
                 }
-            });
+
+            },
+
+            error: function (err) {
+                console.log(err);
+                alert("Server error");
+            }
         });
 
-
-        // ================= ADD CONTRACTOR =================
-        $("#addContractor").click(function () {
-
-            let contractorId = $("#Contractor_Id").val();
-            let contractorName = $("#Contractor_Id option:selected").text();
-            let qty = parseFloat($("#Contractor_Qty").val()) || 0;
-
-            let actWt = parseFloat($("#Act_Wt").val()) || 0;
-            let rate = parseFloat($("#Rate").val()) || 0;
-
-            if (!contractorId || qty <= 0) {
-                alert("Select contractor & qty");
-                return;
-            }
-
-            // duplicate check
-            let exists = false;
-            $("#contractorTable tbody tr").each(function () {
-                if ($(this).find("td:eq(0)").data("id") == contractorId)
-                    exists = true;
-            });
-
-            if (exists) {
-                alert("Contractor already added");
-                return;
-            }
-
-            let mainQty = parseFloat($("#Actual_Quantity").val()) || 0;
-            let usedQty = 0;
-
-            $(".qty").each(function () {
-                usedQty += parseFloat($(this).text()) || 0;
-            });
-
-            if ((usedQty + qty) > mainQty) {
-                alert("Qty exceeds dispatch quantity");
-                return;
-            }
-            let totalWt = qty * actWt;
-            let totalCost = 0;
-
-            if ($("#Kg_Or_Pcs").val() == "KG") {
-                totalCost = totalWt * rate;
-            } else {
-                totalCost = qty * rate;
-            }
-
-            let row = `<tr>
-                                        <td data-id="${contractorId}">${contractorName}</td>
-                                        <td class="qty">${qty}</td>
-                                        <td class="wt">${actWt}</td>
-                                        <td class="totalwt">${totalWt.toFixed(2)}</td>
-                                        <td class="rate">${rate}</td>
-                                        <td class="totalcost">${totalCost.toFixed(2)}</td>
-                                        <td>
-                                            <button class="edit">Edit</button>
-                                            <button class="remove">X</button>
-                                        </td>
-                                    </tr>`;
-
-            $("#contractorTable tbody").append(row);
-
-            $("#Contractor_Qty").val('');
-            $("#Contractor_Id").val('');
-        });
-
-
-        // ================= EDIT CONTRACTOR =================
-        $(document).on("click", ".edit", function () {
-
-            let row = $(this).closest("tr");
-
-            let qty = row.find(".qty").text();
-            let wt = row.find(".wt").text();
-            let rate = row.find(".rate").text();
-
-            row.find(".qty").html(`<input class="editQty" value="${qty}" />`);
-            row.find(".wt").html(`<input class="editWt" value="${wt}" />`);
-            row.find(".rate").html(`<input class="editRate" value="${rate}" />`);
-
-            $(this).text("Update").removeClass("edit").addClass("update");
-        });
-
-
-        // ================= UPDATE CONTRACTOR =================
-        $(document).on("click", ".update", function () {
-
-            let row = $(this).closest("tr");
-
-            let qty = parseFloat(row.find(".editQty").val()) || 0;
-            let actWt = parseFloat(row.find(".editWt").val()) || 0;
-            let rate = parseFloat(row.find(".editRate").val()) || 0;
-
-            //let totalWt = qty * actWt;
-            //let totalCost = totalWt * rate;
-            let totalWt = qty * actWt;
-            let totalCost = 0;
-
-            if ($("#Kg_Or_Pcs").val() == "KG") {
-                totalCost = totalWt * rate;
-            } else {
-                totalCost = qty * rate;
-            }
-
-            row.find(".qty").text(qty);
-            row.find(".wt").text(wt);
-            row.find(".rate").text(rate);
-            row.find(".totalwt").text(totalWt.toFixed(2));
-            row.find(".totalcost").text(totalCost.toFixed(2));
-
-            $(this).text("Edit").removeClass("update").addClass("edit");
-        });
-
-
-        // ================= REMOVE =================
-        $(document).on("click", ".remove", function () {
-            $(this).closest("tr").remove();
-        });
-
-
-        // ================= LOAD DISPATCH =================
-        function loadDispatch(id) {
-
-            $.get('/Dispatch/GetById?id=' + id, function (res) {
-                debugger;
-                $("#Dispatch_Id").val(res.Dispatch_Id);
-                $("#Company_Id").val(res.Customer);
-                $("#PO_Number").val(res.PO_Number);
-                $("#PO_Id").val(res.PO_Id);
-                $("#Size_Of_Bag").val(res.Size_Of_Bag);
-
-                $("#Req_Wt").val(res.Req_Wt);
-                $("#Total_Req_Wt").val(res.Total_Req_Wt);
-
-                $("#Actual_Quantity").val(res.Actual_Quantity);
-                $("#Act_Wt").val(res.Act_Wt);
-                $("#Total_Act_Wt").val(res.Total_Act_Wt);
-
-                $("#Rate").val(res.Rate);
-                $("#Total_Cost").val(res.Total_Cost);
-                $("#Kg_Or_Pcs").val(res.Kg_Or_Pcs);
-
-                var millis = parseInt(res.Billing_Date.replace(/\/Date\((\d+)\)\//, "$1"));
-
-                var date = new Date(millis);
-
-                var formattedDate = date.getFullYear() + "-" +
-                    String(date.getMonth() + 1).padStart(2, '0') + "-" +
-                    String(date.getDate()).padStart(2, '0');
-
-                $("#txtData").val(formattedDate),
-                    $("#txtitemno").val(res.Item_No),
-                    $("#txtContainerno").val(res.Container_No),
-                    $("#txtorderqty").val(res.ORDER_QTY)
-
-                loadContractorByDispatch(id);
-            });
-        }
-
-
-        // ================= LOAD CONTRACTOR FOR EDIT =================
-        function loadContractorByDispatch(dispatchId) {
-
-            $.get('/Dispatch/GetContractorByDispatchId?id=' + dispatchId, function (res) {
-
-                $("#contractorTable tbody").html("");
-
-                $.each(res, function (i, item) {
-
-                    let row = `<tr>
-                                                <td data-id="${item.Contractor_Id}">${item.Contractor_Name}</td>
-                                                <td class="qty">${item.Actual_Quantity}</td>
-                                                <td class="wt">${item.Act_Wt}</td>
-                                                <td class="totalwt">${item.Total_Wt}</td>
-                                                <td class="rate">${item.Rate}</td>
-                                                <td class="totalcost">${item.Total_Cost}</td>
-                                                <td>
-                                                    <button class="edit">Edit</button>
-                                                    <button class="remove">X</button>
-                                                </td>
-                                            </tr>`;
-
-                    $("#contractorTable tbody").append(row);
-                });
-            });
-        }
-
-        $("#saveContractor").click(function () {
-
-            let dispatchId = $("#Dispatch_Id").val();
-
-            if (!dispatchId) {
-                alert("Please save Dispatch first!");
-                return;
-            }
-
-            let list = [];
-
-            $("#contractorTable tbody tr").each(function () {
-
-                let row = $(this);
-
-                list.push({
-                    Dispatch_Id: parseInt(dispatchId),
-
-                    Contractor_Id: parseInt(row.find("td:eq(0)").data("id")),
-                    Contractor_Name: row.find("td:eq(0)").text(),
-
-                    Customer: $("#Customer").val(),
-                    PO_Ref_No: $("#PO_Number").val(),
-                    Size_Of_Bag: $("#Size_Of_Bag").val(),
-
-                    Actual_Quantity: parseFloat(row.find(".qty").text()) || 0,
-                    Act_Wt: parseFloat(row.find(".wt").text()) || 0,
-                    Total_Wt: parseFloat(row.find(".totalwt").text()) || 0,
-
-                    Rate: parseFloat(row.find(".rate").text()) || 0,
-                    Crate: 0,
-
-                    Kg_Or_Pcs: $("#Kg_Or_Pcs").val(),
-
-                    Total_Cost: parseFloat(row.find(".totalcost").text()) || 0,
-
-                    Status: 1
-                });
-
-            });
-
-            console.log(list); // ✅ Debug
-
-            $.ajax({
-                url: '/Dispatch/SaveContractor',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(list),
-
-                success: function (res) {
-
-                    if (res.success) {
-                        alert(res.message);
-                    } else {
-                        alert("Save failed");
-                    }
-
-                },
-
-                error: function (err) {
-                    console.log(err);
-                    alert("Server error");
-                }
-            });
-
-        });
-    </script>
+    });
+</script>
 
 </body>
 </html>

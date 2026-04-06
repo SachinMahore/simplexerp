@@ -37,7 +37,6 @@
 
         <!-- ================= TOP BAR ================= -->
         <div class="card shadow-sm top-bar">
-
             <div class="row">
 
                 <div class="col-md-2">
@@ -77,12 +76,9 @@
 
                 </div>
                 <div class="col-md-3 d-flex align-items-end">
-
                     <button class="btn btn-danger" onclick="printDiv('divprintdispatchlist')">Print</button>
                 </div>
-
             </div>
-
         </div>
 
         <!-- ================= TABLE ================= -->
@@ -93,13 +89,13 @@
                         <th>ID</th>
                         <th>Billing_Date</th>
                         <th>Customer</th>
-                        <th>Container No</th>
-                        <th>PO No</th>
-                        <th>Itme No</th>
+                        <th>Container / PO. No</th>
+                        @*<th>PO No</th>*@
+                        <th>Item No</th>
                         <th>Bag Size</th>
                         <th>Req. Wt</th>
                         <th>Total Req. Wt</th>
-                        <th>Order Qty</th>
+                        @*<th>Order Qty</th>*@
                         <th>Actual Quantity</th>
                         <th>Act Wt</th>
                         <th>Total Act Wt</th>
@@ -138,7 +134,9 @@
                 var TTotal_Cost = 0;
 
                 // ================= CONTAINER TOTAL =================
+                let currentKey = null;
                 let currentContainer = null;
+                let currentCustomer = null;
 
                 let cORDER_QTY = 0;
                 let cActual_Quantity = 0;
@@ -149,20 +147,23 @@
                 $.each(res, function (i, item) {
 
                     let container = item.Container_No || 'NA';
+                    let customer = item.Customer || '';
+                    // 👉 Combine both
+                    let groupKey = `${container}_${customer}`;
 
                     // 👉 INSERT TOTAL ROW WHEN CONTAINER CHANGES
-                    if (currentContainer !== null && currentContainer !== container) {
+                    if (currentKey !== null && currentKey !== groupKey) {
 
                         html += `<tr class="table-warning">
-                            <td colspan="4"><b>TOTAL - Container No. : ${currentContainer}</b></td>
-                            <td></td><td></td><td></td><td></td>
-                            <td>${cTotal_Req_Wt.toFixed(2)}</td>
-                            <td>${cORDER_QTY.toFixed(2)}</td>
-                            <td>${cActual_Quantity.toFixed(2)}</td>
+                            <td colspan="6"><b> Container : ${currentContainer}  | Customer : ${currentCustomer}       </b></td>
+                            <td><b>TOTAL -</b></td>
+                            <td>${cTotal_Req_Wt.toFixed(4)}</td>
+                         
+                            <td>${cActual_Quantity.toFixed(4)}</td>
                             <td></td>
-                            <td>${cTotal_Act_Wt.toFixed(2)}</td>
+                            <td>${cTotal_Act_Wt.toFixed(4)}</td>
                             <td></td><td></td>
-                            <td>${cTotal_Cost.toFixed(2)}</td>
+                            <td>${cTotal_Cost.toFixed(4)}</td>
                             <td></td><td></td>
                         </tr>`;
 
@@ -174,20 +175,21 @@
                         cTotal_Cost = 0;
                     }
 
+                    currentKey = groupKey;
                     currentContainer = container;
-
+                    currentCustomer = customer;
                     html += `<tr>
                                 <td>${item.Dispatch_Id}</td>
                                 <td>${formatDate(item.Billing_Date)}</td>
 
                                 <td>${item.Customer}</td>
                                  <td>${item.Container_No == null ? '-' : item.Container_No} </td>
-                                <td>${item.PO_Number}</td>
+                               
                                 <td>${item.Item_No == null ? '-' : item.Item_No}</td>
                                  <td>${item.Size_Of_Bag == null ? '-' : item.Size_Of_Bag}</td>
                                 <td>${item.Req_Wt}</td>
                                 <td>${item.Total_Req_Wt}</td>
-                                <td>${item.ORDER_QTY == null ? '-' : item.ORDER_QTY}</td>                                  
+                                                      
                                 <td>${item.Actual_Quantity}</td>
                                 <td>${item.Act_Wt}</td>
                                 <td>${item.Total_Act_Wt}</td>
@@ -203,14 +205,14 @@
                             </tr>`;
 
                     // ================= ADD TO CONTAINER TOTAL =================
-                    cORDER_QTY += parseFloat(item.ORDER_QTY || 0);
+                    //cORDER_QTY += parseFloat(item.ORDER_QTY || 0);
                     cActual_Quantity += parseFloat(item.Actual_Quantity || 0);
                     cTotal_Act_Wt += parseFloat(item.Total_Act_Wt || 0);
                     cTotal_Req_Wt += parseFloat(item.Total_Req_Wt || 0);
                     cTotal_Cost += parseFloat(item.Total_Cost || 0);
 
                     // ================= ADD TO GRAND TOTAL =================
-                    TORDER_QTY += parseFloat(item.ORDER_QTY || 0);
+                    //TORDER_QTY += parseFloat(item.ORDER_QTY || 0);
                     TActual_Quantity += parseFloat(item.Actual_Quantity || 0);
                     TTotal_Act_Wt += parseFloat(item.Total_Act_Wt || 0);
                     TTotal_Req_Wt += parseFloat(item.Total_Req_Wt || 0);
@@ -218,17 +220,17 @@
                 });
 
                 // 👉 LAST CONTAINER TOTAL
-                if (currentContainer !== null) {
+                if (currentKey !== null) {
                     html += `<tr class="table-warning">
-                        <td colspan="4"><b>TOTAL - ${currentContainer}</b></td>
-                        <td></td><td></td><td></td><td></td>
-                        <td>${cTotal_Req_Wt.toFixed(2)}</td>
-                        <td>${cORDER_QTY.toFixed(2)}</td>
-                        <td>${cActual_Quantity.toFixed(2)}</td>
+                         <td colspan="6"><b> Container : ${currentContainer}  | Customer : ${currentCustomer}       </b></td>
+                        <td>TOTAL - </td>
+                        <td>${cTotal_Req_Wt.toFixed(4)}</td>
+                        
+                        <td>${cActual_Quantity.toFixed(4)}</td>
                         <td></td>
-                        <td>${cTotal_Act_Wt.toFixed(2)}</td>
+                        <td>${cTotal_Act_Wt.toFixed(4)}</td>
                         <td></td><td></td>
-                        <td>${cTotal_Cost.toFixed(2)}</td>
+                        <td>${cTotal_Cost.toFixed(4)}</td>
                         <td></td><td></td>
                     </tr>`;
                 }
@@ -236,14 +238,13 @@
                 // ================= GRAND TOTAL ROW =================
                 html += `<tr class="table-success">
                     <td colspan="4"><b>GRAND TOTAL</b></td>
-                    <td></td><td></td><td></td><td></td>
-                    <td>${TTotal_Req_Wt.toFixed(2)}</td>
-                    <td>${TORDER_QTY.toFixed(2)}</td>
-                    <td>${TActual_Quantity.toFixed(2)}</td>
+                    <td></td><td></td><td></td>
+                    <td>${TTotal_Req_Wt.toFixed(4)}</td>
+                    <td>${TActual_Quantity.toFixed(4)}</td>
                     <td></td>
-                    <td>${TTotal_Act_Wt.toFixed(2)}</td>
+                    <td>${TTotal_Act_Wt.toFixed(4)}</td>
                     <td></td><td></td>
-                    <td>${TTotal_Cost.toFixed(2)}</td>
+                    <td>${TTotal_Cost.toFixed(4)}</td>
                     <td></td><td></td>
                 </tr>`;
 

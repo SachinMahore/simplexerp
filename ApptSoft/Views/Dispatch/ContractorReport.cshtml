@@ -37,9 +37,9 @@
 <body>
 
     <h2>Dispatch Contractor Report</h2>
-    <a href="/Dispatch/Dispatch" class="btn btn-outline-success">Add Dispatch</a>
-    <a href="/Dispatch" class="btn btn-outline-info">Dispatch List</a>
-    <button class="btn btn-outline-danger" onclick="printDiv('divprint')">Print</button>
+    @*<a href="/Dispatch/Dispatch" class="btn btn-outline-success">Add Dispatch</a>
+    <a href="/Dispatch" class="btn btn-outline-info">Dispatch List</a>*@
+
     <!-- FILTERS -->
     <div>
         <select id="filterContractor">
@@ -68,7 +68,8 @@
             <option value="2025">2025</option>
         </select>
 
-        <button onclick="loadReport()">Search</button>
+        <button  class="btn btn-outline-info" onclick="loadReport()">Search</button>
+        <button class="btn btn-outline-danger" onclick="printDiv('divprint')">Print</button>
     </div>
     <div id="divprint">
         <!-- TABLE -->
@@ -78,8 +79,7 @@
                     <th>Contractor_Name</th>
                     <th>billing_Date</th>
                     <th>Customer</th>
-                    <th>Container No</th>
-                    <th>PO No</th>
+                    <th>Container / PO. No</th>
                     <th>Item No</th>
                     <th>Bag Size</th>
                     <th>Act Qty</th>
@@ -152,7 +152,6 @@
                     <td>${formatDate(item.Date)}</td>
                      <td>${item.Customer}</td>
                     <td>${item.Container_No == null ? '-' : item.Container_No} </td>
-                    <td>${item.PO_Ref_No}</td>
                     <td>${item.Item_No == null ? '-' : item.Item_No}</td>
                     <td>${item.Size_Of_Bag}</td>
                     <td>${item.Actual_Quantity}</td>
@@ -170,22 +169,21 @@
 
                         html += `<tr>
                         <td><b>Grand Total</b></td>
-                        <td></td>
-                        <td></td>                 
-                        <td></td>
+                        <td></td>              
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>${TActual_quantity.toFixed(2)}</td>
                         <td></td>
-                        <td>${TTotal_Wt.toFixed(2)}</td>
+                        <td>${TActual_quantity.toFixed(4)}</td>
+                        <td></td>
+                        <td>${TTotal_Wt.toFixed(4)}</td>
                         <td></td>
                         <td></td>
-                        <td>${TTotal_Cost.toFixed(2)}</td>
+                        <td>${TTotal_Cost.toFixed(4)}</td>
                         </tr>`;
 
                 $("#reportTable tbody").html(html);
-                $("#totalCost").text(total.toFixed(2));
+                $("#totalCost").text(total.toFixed(4));
 
             } else {
                 alert("Error loading report");

@@ -74,16 +74,46 @@ namespace ApptSoft.Controllers
         }
         public JsonResult GetAll()
         {
-            //var data = db.tblDispatches
-            //    .OrderByDescending(x => x.Dispatch_Id)
-            //    .ToList();
-
+            // =====================================================
+            // ✅ FETCH DISPATCHES (ONLY REQUIRED DATA)
+            // =====================================================
             var dispatches = db.tblDispatches
-              .OrderByDescending(d => d.Dispatch_Id)
-              .ToList();
+                .AsNoTracking()
+                .Select(d => new
+                {
+                    d.Dispatch_Id,
+                    d.Customer,
+                    d.PO_Number,
+                    d.Actual_Quantity,
+                    d.Total_Act_Wt,
+                    d.Rate,
+                    d.Total_Cost,
+                    d.Billing_Date,
+                    d.Container_No,
+                    d.Item_No,
+                    d.ORDER_QTY,
+                    d.Size_Of_Bag,
+                    d.Act_Wt,
+                    d.Kg_Or_Pcs,
+                    d.Req_Wt,
+                    d.Total_Req_Wt
+                })
+                .ToList();
 
-            var contractors = db.tblDispatchContractors.ToList();
+            // =====================================================
+            // ✅ FETCH & GROUP CONTRACTORS (ONCE)
+            // =====================================================
+            var contractorMap = db.tblDispatchContractors
+                .AsNoTracking()
+                .GroupBy(c => c.Dispatch_Id)
+                .ToDictionary(
+                    g => g.Key,
+                    g => string.Join(", ", g.Select(x => x.Contractor_Name))
+                );
 
+            // =====================================================
+            // ✅ MERGE DATA (NO EXTRA DB CALLS)
+            // =====================================================
             var data = dispatches
                 .Select(d => new
                 {
@@ -103,36 +133,14 @@ namespace ApptSoft.Controllers
                     d.Kg_Or_Pcs,
                     d.Req_Wt,
                     d.Total_Req_Wt,
-                    ContractorNames = string.Join(", ",
-                            db.tblDispatchContractors
-                              .Where(c => c.Dispatch_Id == d.Dispatch_Id)
-                              .Select(c => c.Contractor_Name))
+
+                    ContractorNames = contractorMap.ContainsKey(d.Dispatch_Id)
+                        ? contractorMap[d.Dispatch_Id]
+                        : ""
                 })
+                .OrderBy(x => x.Billing_Date)   // better than re-ordering twice
                 .ToList();
 
-
-            //var data = db.tblDispatches
-            //        .AsEnumerable()   // 🔥 switch to LINQ to Objects
-            //        .Select(d => new
-            //        {
-            //            d.Dispatch_Id,
-            //            d.Customer,
-            //            d.PO_Number,
-            //            d.Actual_Quantity,
-            //            d.Total_Act_Wt,
-            //            d.Rate,
-            //            d.Total_Cost,
-            //            d.Billing_Date,
-            //            d.Container_No,
-            //            d.Item_No,
-            //            d.ORDER_QTY,
-            //            d.Size_Of_Bag,
-            //            ContractorNames = string.Join(", ",
-            //                db.tblDispatchContractors
-            //                  .Where(c => c.Dispatch_Id == d.Dispatch_Id)
-            //                  .Select(c => c.Contractor_Name))
-            //        })
-            //        .ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetById(int id)
@@ -488,19 +496,82 @@ namespace ApptSoft.Controllers
         {
             using (var wb = new XLWorkbook())
             {
+                wb.CalculateMode = XLCalculateMode.Manual;
+
                 // =====================================================
-                // ✅ FILTER DATA BY MONTH
+                // ✅ FETCH DISPATCH DATA (SAFE + OPTIMIZED)
                 // =====================================================
                 var dispatchList = db.tblDispatches
-                    .Where(x => x.Created_Date.Value.Month == month && x.Created_Date.Value.Year == year)
-                    .ToList();
-
-                var contractorList = db.tblDispatchContractors
-                    .Where(x => x.Created_Date.Value.Month == month && x.Created_Date.Value.Year == year)
+                    .AsNoTracking()
+                    .Where(x => x.Billing_Date.HasValue &&
+                                x.Billing_Date.Value.Month == month &&
+                                x.Billing_Date.Value.Year == year)
+                    .Select(x => new
+                    {
+                        x.Dispatch_Id,
+                        x.Sr_No,
+                        x.Customer,
+                        x.PO_Number,
+                        x.PO_Id,
+                        x.Size_Of_Bag,
+                        x.Req_Wt,
+                        x.Total_Req_Wt,
+                        x.Actual_Quantity,
+                        x.Act_Wt,
+                        x.Total_Act_Wt,
+                        x.Rate,
+                        x.Kg_Or_Pcs,
+                        x.Total_Cost,
+                        x.Contractor,
+                        x.Status,
+                        x.Created_Date
+                    })
                     .ToList();
 
                 // =====================================================
-                // ✅ DASHBOARD
+                // ✅ FETCH CONTRACTOR DATA (DB JOIN OPTIMIZED)
+                // =====================================================
+                var contractorList = (
+                    from q in db.tblDispatchContractors.AsNoTracking()
+                    join d in db.tblDispatches.AsNoTracking()
+                        on q.Dispatch_Id equals d.Dispatch_Id into dj
+                    from d in dj.DefaultIfEmpty()
+                    where d.Billing_Date.HasValue &&
+                          d.Billing_Date.Value.Month == month &&
+                          d.Billing_Date.Value.Year == year
+                    select new
+                    {
+                        q.Contractor_Id,
+                        q.Contractor_Name,
+                        Customer = d.Customer,
+                        q.PO_Ref_No,
+                        q.Size_Of_Bag,
+                        d.Item_No,
+                        q.Actual_Quantity,
+                        q.Act_Wt,
+                        q.Total_Wt,
+                        q.Rate,
+                        q.Total_Cost,
+                        q.Kg_Or_Pcs,
+                        q.Created_Date,
+                        Container_No = d.Container_No
+                    }
+                ).ToList();
+
+                // =====================================================
+                // ✅ PRE-CALCULATIONS (PERFORMANCE)
+                // =====================================================
+                var totalDispatch = dispatchList.Count;
+                var totalQty = dispatchList.Sum(x => x.Actual_Quantity ?? 0);
+                var totalWt = dispatchList.Sum(x => x.Total_Act_Wt ?? 0);
+                var totalCost = dispatchList.Sum(x => x.Total_Cost ?? 0);
+                var totalContractors = contractorList
+                                        .Select(x => x.Contractor_Id)
+                                        .Distinct()
+                                        .Count();
+
+                // =====================================================
+                // ✅ DASHBOARD SHEET
                 // =====================================================
                 var wsDash = wb.Worksheets.Add("Dashboard");
 
@@ -510,174 +581,95 @@ namespace ApptSoft.Controllers
                 wsDash.Range("A1:I1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
                 wsDash.Cell("A3").Value = "Total Dispatch";
-                wsDash.Cell("B3").Value = dispatchList.Count;
+                wsDash.Cell("B3").Value = totalDispatch;
 
                 wsDash.Cell("A4").Value = "Total Quantity";
-                wsDash.Cell("B4").Value = dispatchList.Sum(x => x.Actual_Quantity);
+                wsDash.Cell("B4").Value = totalQty;
 
                 wsDash.Cell("A5").Value = "Total Weight";
-                wsDash.Cell("B5").Value = dispatchList.Sum(x => x.Total_Act_Wt);
+                wsDash.Cell("B5").Value = totalWt;
 
                 wsDash.Cell("A6").Value = "Total Cost";
-                wsDash.Cell("B6").Value = dispatchList.Sum(x => x.Total_Cost);
+                wsDash.Cell("B6").Value = totalCost;
 
                 wsDash.Cell("A7").Value = "Total Contractors";
-                wsDash.Cell("B7").Value = contractorList.Select(x => x.Contractor_Id).Distinct().Count();
+                wsDash.Cell("B7").Value = totalContractors;
 
                 wsDash.Range("A3:B7").Style.Fill.BackgroundColor = XLColor.LightBlue;
 
+                // =====================================================
+                // ✅ MAIN DISPATCH SHEET
+                // =====================================================
+                var wsMain = wb.Worksheets.Add($"Dispatch-{month}-{year}");
 
-                var wsMain = wb.Worksheets.Add($"Dispatch -" + month + "-" + year);
-
-                // HEADER
-                wsMain.Cell(1, 1).Value = "Dispatch_Id";
-                wsMain.Cell(1, 2).Value = "Sr_No";
-                wsMain.Cell(1, 3).Value = "Customer";
-                wsMain.Cell(1, 4).Value = "PO_Number";
-                wsMain.Cell(1, 5).Value = "PO_Id";
-                wsMain.Cell(1, 6).Value = "Size_Of_Bag";
-                wsMain.Cell(1, 7).Value = "Req_Wt";
-                wsMain.Cell(1, 8).Value = "Total_Req_Wt";
-                wsMain.Cell(1, 9).Value = "Actual_Quantity";
-                wsMain.Cell(1, 10).Value = "Act_Wt";
-                wsMain.Cell(1, 11).Value = "Total_Act_Wt";
-                wsMain.Cell(1, 12).Value = "Rate";
-                wsMain.Cell(1, 13).Value = "Kg_Or_Pcs";
-                wsMain.Cell(1, 14).Value = "Total_Cost";
-                wsMain.Cell(1, 15).Value = "Contractor";
-                wsMain.Cell(1, 16).Value = "Status";
-                wsMain.Cell(1, 17).Value = "Created_Date";
-
-                int rMain = 2;
-
-                foreach (var d in dispatchList)
-                {
-                    wsMain.Cell(rMain, 1).Value = d.Dispatch_Id;
-                    wsMain.Cell(rMain, 2).Value = d.Sr_No;
-                    wsMain.Cell(rMain, 3).Value = d.Customer;
-                    wsMain.Cell(rMain, 4).Value = d.PO_Number;
-                    wsMain.Cell(rMain, 5).Value = d.PO_Id;
-                    wsMain.Cell(rMain, 6).Value = d.Size_Of_Bag;
-                    wsMain.Cell(rMain, 7).Value = d.Req_Wt;
-                    wsMain.Cell(rMain, 8).Value = d.Total_Req_Wt;
-                    wsMain.Cell(rMain, 9).Value = d.Actual_Quantity;
-                    wsMain.Cell(rMain, 10).Value = d.Act_Wt;
-                    wsMain.Cell(rMain, 11).Value = d.Total_Act_Wt;
-                    wsMain.Cell(rMain, 12).Value = d.Rate;
-                    wsMain.Cell(rMain, 13).Value = d.Kg_Or_Pcs;
-                    wsMain.Cell(rMain, 14).Value = d.Total_Cost;
-                    wsMain.Cell(rMain, 15).Value = d.Contractor;
-                    wsMain.Cell(rMain, 16).Value = d.Status;
-                    wsMain.Cell(rMain, 17).Value = d.Created_Date;
-
-                    rMain++;
-                }
+                wsMain.Cell(1, 1).InsertTable(dispatchList);
 
                 wsMain.Columns().AdjustToContents();
 
+                wsMain.Column(17).Style.DateFormat.Format = "dd-MM-yyyy";
+                wsMain.Column(14).Style.NumberFormat.Format = "₹ #,##0.00";
 
                 // =====================================================
-                // ✅ GET DISTINCT CONTRACTORS
+                // ✅ GROUP CONTRACTORS
                 // =====================================================
-                var contractors = contractorList
-                    .Select(x => new { x.Contractor_Id, x.Contractor_Name })
-                    .Distinct()
+                var contractorGroups = contractorList
+                    .GroupBy(x => new { x.Contractor_Id, x.Contractor_Name })
                     .ToList();
 
-
                 // =====================================================
-                // ✅ SHEET PER CONTRACTOR (ALL FIELDS)
+                // ✅ CONTRACTOR SHEETS
                 // =====================================================
-                foreach (var contractor in contractors)
+                foreach (var group in contractorGroups)
                 {
-                    var list = contractorList
-                        .Where(x => x.Contractor_Id == contractor.Contractor_Id)
-                        .OrderByDescending(x => x.Created_Date)
-                        .ToList();
+                    var contractor = group.Key;
+                    var list = group.OrderByDescending(x => x.Created_Date).ToList();
 
-                    string sheetName = contractor.Contractor_Name;
-                    if (sheetName.Length > 30)
-                        sheetName = sheetName.Substring(0, 30);
+                    // Safe sheet name
+                    string sheetName = contractor.Contractor_Name ?? "Contractor";
+                    sheetName = sheetName.Length > 30 ? sheetName.Substring(0, 30) : sheetName;
+
+                    string originalName = sheetName;
+                    int i = 1;
+
+                    while (wb.Worksheets.Any(w => w.Name == sheetName))
+                    {
+                        sheetName = originalName + "_" + i++;
+                    }
 
                     var ws = wb.Worksheets.Add(sheetName);
 
-                    // HEADER
-                    ws.Cell(1, 1).Value = "DisContr_Id";
-                    ws.Cell(1, 2).Value = "Dispatch_Id";
-                    ws.Cell(1, 3).Value = "Contractor_Id";
-                    ws.Cell(1, 4).Value = "Contractor_Name";
-                    ws.Cell(1, 5).Value = "Customer";
-                    ws.Cell(1, 6).Value = "PO_Ref_No";
-                    ws.Cell(1, 7).Value = "Size_Of_Bag";
-                    ws.Cell(1, 8).Value = "Actual_Quantity";
-                    ws.Cell(1, 9).Value = "Act_Wt";
-                    ws.Cell(1, 10).Value = "Total_Wt";
-                    ws.Cell(1, 11).Value = "Rate";
-                    ws.Cell(1, 12).Value = "Crate";
-                    ws.Cell(1, 13).Value = "Kg_Or_Pcs";
-                    ws.Cell(1, 14).Value = "Total_Cost";
-                    ws.Cell(1, 15).Value = "Status";
-                    ws.Cell(1, 16).Value = "Created_Date";
+                    // Bulk insert
+                    ws.Cell(1, 1).InsertTable(list);
 
-                    int r = 2;
-
-                    foreach (var item in list)
-                    {
-                        ws.Cell(r, 1).Value = item.DisContr_Id;
-                        ws.Cell(r, 2).Value = item.Dispatch_Id;
-                        ws.Cell(r, 3).Value = item.Contractor_Id;
-                        ws.Cell(r, 4).Value = item.Contractor_Name;
-                        ws.Cell(r, 5).Value = item.Customer;
-                        ws.Cell(r, 6).Value = item.PO_Ref_No;
-                        ws.Cell(r, 7).Value = item.Size_Of_Bag;
-                        ws.Cell(r, 8).Value = item.Actual_Quantity;
-                        ws.Cell(r, 9).Value = item.Act_Wt;
-                        ws.Cell(r, 10).Value = item.Total_Wt;
-                        ws.Cell(r, 11).Value = item.Rate;
-                        ws.Cell(r, 12).Value = item.Crate;
-                        ws.Cell(r, 13).Value = item.Kg_Or_Pcs;
-                        ws.Cell(r, 14).Value = item.Total_Cost;
-                        ws.Cell(r, 15).Value = item.Status;
-                        ws.Cell(r, 16).Value = item.Created_Date;
-
-                        r++;
-                    }
+                    int lastRow = list.Count + 2;
 
                     // TOTAL ROW
-                    ws.Cell(r, 7).Value = "TOTAL";
-                    ws.Cell(r, 8).Value = list.Sum(x => x.Actual_Quantity);
-                    ws.Cell(r, 10).Value = list.Sum(x => x.Total_Wt);
-                    ws.Cell(r, 14).Value = list.Sum(x => x.Total_Cost);
+                    ws.Cell(lastRow, 7).Value = "TOTAL";
+                    ws.Cell(lastRow, 8).Value = list.Sum(x => x.Actual_Quantity ?? 0);
+                    ws.Cell(lastRow, 10).Value = list.Sum(x => x.Total_Wt ?? 0);
+                    ws.Cell(lastRow, 14).Value = list.Sum(x => x.Total_Cost ?? 0);
 
-                    // STYLE
-                    ws.Range(1, 1, 1, 16).Style.Font.Bold = true;
-                    ws.Range(r, 1, r, 16).Style.Font.Bold = true;
+                    ws.Range(lastRow, 1, lastRow, 16).Style.Font.Bold = true;
 
-                    int totalRows = rMain - 1;
-                    int totalCols = 17;
-
-                    ApplyExcelStyle(wsMain, totalRows, totalCols);
-                    ws.Column(16).Style.DateFormat.Format = "dd-MM-yyyy";
+                    // Formatting
                     ws.Column(14).Style.NumberFormat.Format = "₹ #,##0.00";
+                    ws.Column(16).Style.DateFormat.Format = "dd-MM-yyyy";
 
                     ws.Columns().AdjustToContents();
                 }
 
-
                 // =====================================================
-                // ✅ DOWNLOAD
+                // ✅ DOWNLOAD (MEMORY OPTIMIZED)
                 // =====================================================
-                using (var stream = new MemoryStream())
-                {
-                    wb.SaveAs(stream);
-                    stream.Position = 0;
+                var stream = new MemoryStream();
+                wb.SaveAs(stream);
+                stream.Position = 0;
 
-                    return File(
-                        stream.ToArray(),
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "Dispatch_MDR_" + month + "_" + year + ".xlsx"
-                    );
-                }
+                return File(
+                    stream,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    $"Dispatch_MDR_{month}_{year}.xlsx"
+                );
             }
         }
         private void ApplyExcelStyle(IXLWorksheet ws, int totalRows, int totalCols)
