@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Composition Report</title>
+
+    <!-- ✅ Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .report-table th {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .report-table td {
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .total-row {
+            color: red;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <div class="container mt-4">
+
+        <h3 class="text-primary">Composition Report</h3>
+
+        <!-- ================= FILTER ================= -->
+        <div class="card p-3 shadow mb-3">
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <label class="form-label">Select PO Number</label>
+                    <select id="poDropdown" class="form-select">
+                        <option value="">-- Select PO --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-success w-100" onclick="loadComposition()">
+                        Load Report
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= TABLE ================= -->
+        <div class="card shadow p-3">
+
+            <div class="table-responsive">
+                <table class="table table-bordered report-table">
+                    <thead class="table-light">
+                        <tr>
+                            <th>SR NO.</th>
+                            <th>Customer</th>
+                            <th>PO NO.</th>
+                            <th>REF NO.</th>
+                            <th>BAG SIZE</th>
+                            <th>ORDER QTY</th>
+                            <th>PALLET PCS</th>
+                            <th>NO. OF PALLET</th>
+                            <th>REQ. WT</th>
+                            <th>ACT. WT</th>
+                            <th>PALLET WT</th>
+                            <th>TOTAL WT</th>
+                            <th>REMARK</th>
+                        </tr>
+                    </thead>
+                    <tbody id="compBody"></tbody>
+
+                    <!-- TOTAL ROW -->
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="5">TOTAL</td>
+                            <td id="totalQty"></td>
+                            <td></td>
+                            <td id="totalPallet"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td id="totalWt"></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+// ================= LOAD PO DROPDOWN =================
+        $(document).ready(function () {
+
+            loadPO();          // dropdown
+            loadComposition(); // ✅ load ALL by default
+        });
+
+
+        // ================= LOAD PO DROPDOWN =================
+        function loadPO() {
+
+            $.get('/PurchaseOrder/GetAll', function (data) {
+
+                let html = '<option value="">ALL PO</option>';
+
+                let uniquePO = [];
+
+                $.each(data, function (i, v) {
+
+                    if (!uniquePO.includes(v.PO_Number)) {
+                        uniquePO.push(v.PO_Number);
+                        html += `<option value="${v.PO_Number}">${v.PO_Number}</option>`;
+                    }
+
+                });
+
+                $("#poDropdown").html(html);
+            });
+        }
+        function loadComposition() {
+
+            let poNumber = $("#poDropdown").val();
+
+            let url = '/PurchaseOrder/GetComposition';
+
+            if (poNumber) {
+                url += '?poNumber=' + poNumber;
+            }
+
+            $.get(url, function (data) {
+
+                let html = "";
+
+                let totalQty = 0;
+                let totalPallet = 0;
+                let totalWt = 0;
+
+                $.each(data, function (i, v) {
+
+                    totalQty += v.ORDER_QTY;
+                    totalPallet += v.NO_OF_PALLET;
+                    totalWt += v.TOTAL_WT;
+
+                    html += `<tr>
+                <td>${v.SR_NO}</td>
+                <td>${v.Customer}</td>
+                <td>${v.PO_Number}</td>
+                <td>${v.REF_NO}</td>
+                <td>${v.Size_Of_Bag}</td>
+                <td>${v.ORDER_QTY}</td>
+                <td>${v.PALLET_PCS}</td>
+                <td>${v.NO_OF_PALLET.toFixed(4)}</td>
+                <td>${v.Req_Wt}</td>
+                <td>${v.Act_Wt}</td>
+                <td>${v.PALLET_WT.toFixed(4)}</td>
+                <td>${v.TOTAL_WT.toFixed(4)}</td>
+                <td></td>
+            </tr>`;
+                });
+
+                $("#compBody").html(html);
+
+                $("#totalQty").text(totalQty);
+                $("#totalPallet").text(totalPallet.toFixed(4));
+                $("#totalWt").text(totalWt.toFixed(4));
+            });
+        }
+
+    </script>
+
+</body>
+</html>

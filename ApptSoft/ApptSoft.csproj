@@ -164,12 +164,9 @@
     <Compile Include="Models\DispatchModel.cs" />
     <Compile Include="Models\ExpensesModel.cs" />
     <Compile Include="Models\IncomeModel.cs" />
-    <Compile Include="Models\JobCardDetailsModel.cs" />
-    <Compile Include="Models\JobCardModel.cs" />
+    <Compile Include="Models\JobCardFullModel.cs" />
     <Compile Include="Models\LogInModel.cs" />
     <Compile Include="Models\MaintenanceModel.cs" />
-    <Compile Include="Models\ProductionTrackingModel.cs" />
-    <Compile Include="Models\PurchaseOrderDetailsModel.cs" />
     <Compile Include="Models\PurchaseOrderModel.cs" />
     <Compile Include="Models\ResidentModel.cs" />
     <Compile Include="Models\TenantModel.cs" />
@@ -186,7 +183,6 @@
     <Content Include="Content\assets\img\eye %281%29.png" />
     <Content Include="Content\assets\img\favicon.png" />
     <Content Include="Content\assets\img\KASTURI.jpg" />
-    <Content Include="Content\assets\img\logo.png" />
     <Content Include="Content\assets\img\messages-1.jpg" />
     <Content Include="Content\assets\img\messages-2.jpg" />
     <Content Include="Content\assets\img\messages-3.jpg" />
@@ -533,7 +529,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="k3.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -739,8 +734,6 @@
     <Content Include="Views\PurchaseOrder\Add.cshtml" />
     <Content Include="Views\PurchaseOrder\Index.cshtml" />
     <Content Include="Views\PurchaseOrder\PrintPO.cshtml" />
-    <Content Include="Views\JobCard\Index.cshtml" />
-    <Content Include="Views\JobCard\GenerateJobCard.cshtml" />
     <Content Include="Views\Dispatch\Index.cshtml" />
     <Content Include="Views\Dispatch\Dispatch.cshtml" />
     <Content Include="Views\Dispatch\ContractorReport.cshtml" />
@@ -748,9 +741,13 @@
     <Content Include="Views\Dispatch\BallingBill.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Contractor\Index.cshtml" />
+    <Content Include="Views\PurchaseOrder\Composition.cshtml" />
+    <Content Include="Views\JobCard\Index.cshtml" />
+    <Content Include="Views\JobCard\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\" />
     <Folder Include="Views\Vendor\" />
   </ItemGroup>
   <ItemGroup>
@@ -899,7 +896,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52760</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44363/</IISUrl>
+          <IISUrl>https://localhost:44365/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

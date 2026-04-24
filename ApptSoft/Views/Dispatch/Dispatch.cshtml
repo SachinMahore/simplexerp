@@ -267,11 +267,26 @@
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(model),
-            success: function (res) {
-                alert(dispatchId ? "Updated Successfully" : "Saved Successfully");
 
-                if (!dispatchId)
-                    $("#Dispatch_Id").val(res);
+            success: function (res) {
+
+                if (res.success) {
+
+                    alert(dispatchId ? "Updated Successfully" : "Saved Successfully");
+
+                    // Set ID after insert
+                    if (!dispatchId) {
+                        $("#Dispatch_Id").val(res.id);
+                    }
+
+                } else {
+                    alert(res.message); // duplicate or error message
+                }
+            },
+
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                alert("Something went wrong while saving");
             }
         });
     });

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>ApptSoft</title>
+    <title>eSankalpIX</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -41,9 +41,8 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="#" class="logo d-flex align-items-center">
                 <img src="~/Content/assets/img/logo.png" alt="">
-                <span class="d-none d-lg-block">ApptSoft</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
@@ -85,74 +84,86 @@
     <aside id="sidebar" class="sidebar">
 
         <ul class="sidebar-nav" id="sidebar-nav">
-            <li class="nav-item">
-                <a class="nav-link " href="/DashBoard/DashBoardIndex">
-                    <i class="bi bi-grid"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li><!-- End Dashboard Nav -->
-            <!--<li class="nav-item">
-        <a class="nav-link collapsed" href="/PurchaseOrder/Index">
-            <i class="bi bi-dash-circle"></i>
-            <span>Purchase Order List</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="/PurchaseOrder/Add">
-            <i class="bi bi-gender-trans"></i>
-            <span>Add Purchase Order</span>
-        </a>
-    </li>-->
-            <!-- End Profile Page Nav -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/Dispatch/Dispatch">
-                    <i class="bi bi-save-fill"></i>
-                    <span>Billing Entry</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/Dispatch">
-                    <i class="bi bi-list-check"></i>
-                    <span>MDR Report</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/Dispatch/ContractorReport">
-                    <i class="bi bi-gender-trans"></i>
-                    <span>Contractor Bill Report</span>
-                </a>
-            </li><!-- End Profile Page Nav -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/Dispatch/Summary">
-                    <i class="bi bi-speaker-fill"></i>
-                    <span>Summary Sheet</span>
-                </a>
-            </li><!-- End Profile Page Nav -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/Dispatch/BallingBill">
-                    <i class="bi bi-bell-slash-fill"></i>
-                    <span>Belling Bill</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/company/Index">
-                    <i class="bi bi-person-add"></i>
-                    <span>Customer Master</span>
-                </a>
-            </li><!-- End Profile Page Nav -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/Contractor/Index">
-                    <i class="bi bi-person-badge-fill"></i>
-                    <span>Contractor Master</span>
-                </a>
-            </li>
-            <!--<li class="nav-item">
-        <a class="nav-link collapsed" href="/Resident/ResidentIndex">
-            <i class="bi bi-person"></i>
-            <span>Employee</span>
-        </a>
-    </li>-->
-            <!-- End Profile Page Nav -->
+            @if (Session["dept"] != null && Session["dept"].ToString() == "mdr")
+            {
+                <li class="nav-item">
+                    <a class="nav-link " href="/DashBoard/DashBoardIndex">
+                        <i class="bi bi-grid"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li><!-- End Dashboard Nav -->
+                <!-- End Profile Page Nav -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/Dispatch/Dispatch">
+                        <i class="bi bi-save-fill"></i>
+                        <span>Billing Entry</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/Dispatch">
+                        <i class="bi bi-list-check"></i>
+                        <span>MDR Report</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/Dispatch/ContractorReport">
+                        <i class="bi bi-gender-trans"></i>
+                        <span>Contractor Bill Report</span>
+                    </a>
+                </li><!-- End Profile Page Nav -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/Dispatch/Summary">
+                        <i class="bi bi-speaker-fill"></i>
+                        <span>Summary Sheet</span>
+                    </a>
+                </li><!-- End Profile Page Nav -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/Dispatch/BallingBill">
+                        <i class="bi bi-bell-slash-fill"></i>
+                        <span>Belling Bill</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/company/Index">
+                        <i class="bi bi-person-add"></i>
+                        <span>Customer Master</span>
+                    </a>
+                </li><!-- End Profile Page Nav -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/Contractor/Index">
+                        <i class="bi bi-person-badge-fill"></i>
+                        <span>Contractor Master</span>
+                    </a>
+                </li>
+            }
+            <!-- End MDR Nav -->
+            @if (Session["dept"] != null && Session["dept"].ToString() == "production")
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/PurchaseOrder/Add">
+                        <i class="bi bi-gender-trans"></i>
+                        <span>Add Purchase Order</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/PurchaseOrder/Composition">
+                        <i class="bi bi-dash-circle"></i>
+                        <span>Composition</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/JobCard">
+                        <i class="bi bi-journal-bookmark-fill"></i>
+                        <span>JobCard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/JobCard/Create">
+                        <i class="bi bi-journal-bookmark"></i>
+                        <span>Create JobCard</span>
+                    </a>
+                </li>
+            }
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/Login/ChangePassword">
                     <i class="bi bi-lock-fill"></i>

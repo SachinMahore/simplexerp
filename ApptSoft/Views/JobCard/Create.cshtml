@@ -1,0 +1,1553 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>FIBC Job Card</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- ✅ Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background: #f5f5f5;
+        }
+
+        .jobcard {
+            background: #fff;
+            border: 2px solid black;
+            padding: 10px;
+        }
+        /* Decimal fields */
+        .decimal {
+            background-color: #e6f7ff; /* light blue */
+            border: 1px solid #3399ff;
+        }
+
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 28px;
+            border-bottom: 2px solid black;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            border: 1px solid black;
+            padding: 6px;
+            /*font-weight: 600;*/
+        }
+
+        .label {
+            background: #eaeaea;
+            width: 20%;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            border: none;
+            outline: none;
+            /*font-weight: bold;*/
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4">
+
+        <div class="jobcard">
+            <input type="hidden" id="JobCardId" />
+            <div class="title">FIBC JOB CARD <a href="/JobCard/Create" class="btn btn-success mb-3"> New Job Card</a></div>
+            <table>
+                <tr>
+                    <td class="label">PURCHASE NO</td>
+                    <td colspan="2"><select id="PO_Id" class="form-select"></select></td>
+
+                    <td class="label">STITCHING TYPE</td>
+                    <td colspan="2">
+                        <select id="StitchingType" class="form-control">
+                            <option value="">-- Select Stitching --</option>
+                            <option value="HIRACLE_SAFETY">HIRACLE + SAFETY</option>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">CUSTOMER</td>
+                    <td colspan="2"><input id="Customer"></td>
+
+                    <td class="label">BAG TYPE</td>
+                    <td colspan="2">
+                        <select id="BagType" class="form-control">
+                            <option value="">-- Select Bag Type --</option>
+                            <option value="U2">U+2</option>
+                            <option value="4P1">4+1</option>
+                            <option value="TUBULAR">Tubular</option>
+                            <option value="Q_BAG">Q Bag</option>
+                            <option value="SINGLE_LOOP">Single Loop</option>
+                            <option value="CONTAINER_LINER">Container Liner</option>
+                            <option value="SLEEVE">Sleeve</option>
+                            <option value="4P1_Q_BAG">4+1 Q Bag</option>
+                            <option value="U2_Q_BAG">U+2 Q Bag</option>
+                            <option value="TUBULAR_Q_BAG">Tubular Q Bag</option>
+                            <option value="FLAT_SHEET">Flat Sheet</option>
+                            <option value="BOX_LINER">Box Liner</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">REF. NO</td>
+                    <td colspan="2"><input id="RefNo"></td>
+
+                    <td class="label">PRINT</td>
+                    <td colspan="2">
+                        <select id="PrintSC" class="form-control">
+                            <option value="">-- Select Printing --</option>
+                            <option value="Print">Print</option>
+                            <option value="Unprinted">Unprinted</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label">ORDER QTY</td>
+                    <td colspan="2"><input id="OrderQty" class="center"></td>
+
+                    <td class="label">LOOP ATT. TYPE</td>
+                    <td colspan="2">
+                        <select id="LoopType" class="form-control">
+                            <option value="">-- Select Loop Type --</option>
+                            <option value="Corner Loop">Corner Loop</option>
+                            <option value="Cross Corner Loop">Cross Corner Loop</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label">BAG SIZE (L)</td>
+                    <td colspan="2">
+                        <div class="row g-0">
+                            <div class="col"><input id="BagSizeL" placeholder="L" class="decimal"></div>
+                            <div class="col"><input id="BagSizeW" placeholder="W" class="decimal"></div>
+                            <div class="col"><input id="BagSizeH" placeholder="H" class="decimal"></div>
+                        </div>
+                    </td>
+
+
+                    <td class="label">LOOP gm/mm/color</td>
+                    <td colspan="2">
+                        <div class="row g-0">
+                            <div class="col"><input id="LoopGM" placeholder="GM" class="decimal"></div>
+                            <div class="col"><input id="LoopMM" placeholder="MM" class="decimal"></div>
+                            <div class="col"><input id="LoopColor" placeholder="Color"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">FILLING TYPE</td>
+                    <td colspan="2">
+                        <div class="row g-0">
+                            <div class="col">
+                                <select id="FillingType" class="form-control">
+                                    <option>Open</option>
+                                    <option>Skirt</option>
+                                    <option>FS (FILLING SPOUT)</option>
+                                    <option>Flap</option>
+                                    <option>Skirt+Flap</option>
+                                    <option>Box</option>
+                                    <option>FS round</option>
+                                </select>
+                            </div>
+                            <div class="col"><input id="FillingDaya" placeholder="DAYA" class="decimal"></div>
+                            <div class="col"><input id="FillingHeight" placeholder="H" class="decimal"></div>
+                        </div>
+                    </td>
+                    <td class="label">LOOP ATTACHMENT</td>
+                    <td colspan="3">
+                        <div class="row g-0">
+                            <div class="col"><input id="LoopFree" placeholder="Free" class="decimal"></div>
+                            <div class="col"><input id="LoopLong" placeholder="Long" class="decimal"></div>
+                            <div class="col"><input id="LoopShort" placeholder="Short" class="decimal"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">DISCHARGE TYPE</td>
+                    <td colspan="2">
+                        <div class="row g-0">
+                            <div class="col">
+                                <select id="DischargeType" class="form-control">
+                                    <option>Flat</option>
+                                    <option>DS (DISCHARGE SPOUT)</option>
+                                    <option>IRIS</option>
+                                </select>
+                            </div>
+                            <div class="col"><input id="DischargeDaya" placeholder="DAYA" class="decimal"></div>
+                            <div class="col"><input id="DischargeHeight" placeholder="H" class="decimal"></div>
+                        </div>
+                    </td>
+                    <td class="label">LINER SIZE & MC</td>
+                    <td colspan="3">
+                        <div class="row g-0">
+                            <div class="col"><input id="LinerWidth" placeholder="Width" class="decimal"></div>
+                            <div class="col"><input id="LinerHeight" placeholder="Height" class="decimal"></div>
+                            <div class="col"><input id="LinerMicron" placeholder="Micron" class="decimal"></div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label">FABRIC GSM</td>
+                    <td colspan="2">
+                        <div class="row g-0">
+                            <div class="col"><input id="FabricGSM" placeholder="GSM" class="decimal"></div>
+                            <div class="col"><input id="FabricCoatingGSM" placeholder="CGSM" class="decimal"></div>
+                            <div class="col"><input id="FabricColor" placeholder="Color"></div>
+                        </div>
+                    </td>
+                    <td class="label">SWL / SF</td>
+                    <td><input id="SWL" class="decimal"></td>
+                    <td><input id="SF"></td>
+                </tr>
+
+            </table>
+            <table border="1" style="width:100%; border-collapse:collapse; text-align:center;" id="fabricTable" hidden>
+                <thead style="background:#d9d9d9;">
+                    <tr>
+                        <th>COMPONENT</th>
+                        <th>COLOUR</th>
+                        <th>WIDTH</th>
+                        <th>CUT LEN.</th>
+                        <th>GSM</th>
+                        <th>LAM</th>
+                        <th>TOTAL</th>
+                        <th>CUT WT</th>
+                        <th>TOTAL MTR</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <!-- BODY -->
+                    <tr>
+                        <td><b>BODY FAB.</b></td>
+                        <td><input id="Body_Colour" name="Body_Colour"></td>
+                        <td><input id="Body_Width" name="Body_Width" class="decimal"></td>
+                        <td><input id="Body_CutLen" name="Body_CutLen" class="decimal"></td>
+                        <td><input id="Body_GSM" name="Body_GSM" class="decimal"></td>
+                        <td><input id="Body_Lam" name="Body_Lam" class="decimal"></td>
+                        <td><input id="Body_Total" name="Body_Total" class="decimal"></td>
+                        <td><input id="Body_CutWt" name="Body_CutWt" class="decimal"></td>
+                        <td><input id="Body_TotalMtr" name="Body_TotalMtr" class="decimal"></td>
+                    </tr>
+
+                    <!-- SIDE -->
+                    <tr>
+                        <td><b>SIDE FAB.</b></td>
+                        <td><input id="Side_Colour" name="Side_Colour"></td>
+                        <td><input id="Side_Width" name="Side_Width" class="decimal"></td>
+                        <td><input id="Side_CutLen" name="Side_CutLen" class="decimal"></td>
+                        <td><input id="Side_GSM" name="Side_GSM" class="decimal"></td>
+                        <td><input id="Side_Lam" name="Side_Lam" class="decimal"></td>
+                        <td><input id="Side_Total" name="Side_Total" class="decimal"></td>
+                        <td><input id="Side_CutWt" name="Side_CutWt" class="decimal"></td>
+                        <td><input id="Side_TotalMtr" name="Side_TotalMtr" class="decimal"></td>
+                    </tr>
+
+                    <!-- TOP -->
+                    <tr>
+                        <td><b>TOP FAB.</b></td>
+                        <td><input id="Top_Colour" name="Top_Colour"></td>
+                        <td><input id="Top_Width" name="Top_Width" class="decimal"></td>
+                        <td><input id="Top_CutLen" name="Top_CutLen" class="decimal"></td>
+                        <td><input id="Top_GSM" name="Top_GSM" class="decimal total"></td>
+                        <td><input id="Top_Lam" name="Top_Lam" class="decimal total"></td>
+                        <td><input id="Top_Total" name="Top_Total" class="decimal"></td>
+                        <td><input id="Top_CutWt" name="Top_CutWt" class="decimal"></td>
+                        <td><input id="Top_TotalMtr" name="Top_TotalMtr" class="decimal"></td>
+                    </tr>
+
+                    <!-- FLAP -->
+                    <tr>
+                        <td><b>FLAP FAB.</b></td>
+                        <td><input id="Flap_Colour" name="Flap_Colour"></td>
+                        <td><input id="Flap_Width" name="Flap_Width" class="decimal"></td>
+                        <td><input id="Flap_CutLen" name="Flap_CutLen" class="decimal"></td>
+                        <td><input id="Flap_GSM" name="Flap_GSM" class="decimal total"></td>
+                        <td><input id="Flap_Lam" name="Flap_Lam" class="decimal total"></td>
+                        <td><input id="Flap_Total" name="Flap_Total" class="decimal"></td>
+                        <td><input id="Flap_CutWt" name="Flap_CutWt" class="decimal"></td>
+                        <td><input id="Flap_TotalMtr" name="Flap_TotalMtr" class="decimal"></td>
+                    </tr>
+
+                    <!-- F/S -->
+                    <tr>
+                        <td><b>F/S FAB.</b></td>
+                        <td><input id="FS_Colour" name="FS_Colour"></td>
+                        <td><input id="FS_Width" name="FS_Width" class="decimal"></td>
+                        <td><input id="FS_CutLen" name="FS_CutLen" class="decimal"></td>
+                        <td><input id="FS_GSM" name="FS_GSM" class="decimal total"></td>
+                        <td><input id="FS_Lam" name="FS_Lam" class="decimal total"></td>
+                        <td><input id="FS_Total" name="FS_Total" class="decimal"></td>
+                        <td><input id="FS_CutWt" name="FS_CutWt" class="decimal"></td>
+                        <td><input id="FS_TotalMtr" name="FS_TotalMtr" class="decimal"></td>
+                    </tr>
+
+                    <!-- SKT -->
+                    <tr>
+                        <td><b>SKT FAB.</b></td>
+                        <td><input id="SKT_Colour" name="SKT_Colour"></td>
+                        <td><input id="SKT_Width" name="SKT_Width" class="decimal"></td>
+                        <td><input id="SKT_CutLen" name="SKT_CutLen" class="decimal"></td>
+                        <td><input id="SKT_GSM" name="SKT_GSM" class="decimal total"></td>
+                        <td><input id="SKT_Lam" name="SKT_Lam" class="decimal total"></td>
+                        <td><input id="SKT_Total" name="SKT_Total" class="decimal"></td>
+                        <td><input id="SKT_CutWt" name="SKT_CutWt" class="decimal"></td>
+                        <td><input id="SKT_TotalMtr" name="SKT_TotalMtr" class="decimal"></td>
+                    </tr>
+
+                    <!-- DS -->
+                    <tr>
+                        <td><b>DS/PATEL FAB.</b></td>
+                        <td><input id="DS_Colour" name="DS_Colour"></td>
+                        <td><input id="DS_Width" name="DS_Width" class="decimal"></td>
+                        <td><input id="DS_CutLen" name="DS_CutLen" class="decimal"></td>
+                        <td><input id="DS_GSM" name="DS_GSM" class="decimal total"></td>
+                        <td><input id="DS_Lam" name="DS_Lam" class="decimal total"></td>
+                        <td><input id="DS_Total" name="DS_Total" class="decimal"></td>
+                        <td><input id="DS_CutWt" name="DS_CutWt" class="decimal"></td>
+                        <td><input id="DS_TotalMtr" name="DS_TotalMtr" class="decimal"></td>
+                    </tr>
+
+                    <!-- IRIS -->
+                    <tr>
+                        <td><b>IRIS FAB.</b></td>
+                        <td><input id="Iris_Colour" name="Iris_Colour"></td>
+                        <td><input id="Iris_Width" name="Iris_Width" class="decimal"></td>
+                        <td><input id="Iris_CutLen" name="Iris_CutLen" class="decimal"></td>
+                        <td><input id="Iris_GSM" name="Iris_GSM" class="decimal total"></td>
+                        <td><input id="Iris_Lam" name="Iris_Lam" class="decimal total"></td>
+                        <td><input id="Iris_Total" name="Iris_Total" class="decimal"></td>
+                        <td><input id="Iris_CutWt" name="Iris_CutWt" class="decimal"></td>
+                        <td><input id="Iris_TotalMtr" name="Iris_TotalMtr" class="decimal"></td>
+                    </tr>
+
+                    <!-- EXTRA -->
+                    <tr>
+                        <td><b>EXTRA FAB.</b></td>
+                        <td><input id="Extra_Colour" name="Extra_Colour"></td>
+                        <td><input id="Extra_Width" name="Extra_Width" class="decimal"></td>
+                        <td><input id="Extra_CutLen" name="Extra_CutLen" class="decimal"></td>
+                        <td><input id="Extra_GSM" name="Extra_GSM" class="decimal total"></td>
+                        <td><input id="Extra_Lam" name="Extra_Lam" class="decimal total"></td>
+                        <td><input id="Extra_Total" name="Extra_Total" class="decimal"></td>
+                        <td><input id="Extra_CutWt" name="Extra_CutWt" class="decimal"></td>
+                        <td><input id="Extra_TotalMtr" name="Extra_TotalMtr" class="decimal"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <table border="1" style="width:100%; border-collapse:collapse; text-align:center;" id="componentTable" hidden>
+                <thead style="background:#d9d9d9;">
+                    <tr>
+                        <th>COMPONENT</th>
+                        <th>COLOUR / TYPE</th>
+                        <th>WIDTH / THK</th>
+                        <th>CUT LEN.</th>
+                        <th>GM / MICRON</th>
+                        <th>MTR</th>
+                        <th>TOTAL PCS</th>
+                        <th>CUT WT</th>
+                        <th>TOTAL KG</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <!-- LOOP 1 -->
+                    <tr>
+                        <td><b>LOOP 1</b></td>
+                        <td><input id="Loop1_Colour" name="Loop1_Colour"></td>
+                        <td><input id="Loop1_Width" name="Loop1_Width" class="decimal"></td>
+                        <td><input id="Loop1_CutLength" name="Loop1_CutLength" class="decimal"></td>
+                        <td><input id="Loop1_GM" name="Loop1_GM" class="decimal"></td>
+                        <td>-</td>
+                        <td><input id="Loop1_TotalPcs" name="Loop1_TotalPcs" class="decimal"></td>
+                        <td><input id="Loop1_CutWt" name="Loop1_CutWt" class="decimal"></td>
+                        <td><input id="Loop1_TotalKg" name="Loop1_TotalKg" class="decimal"></td>
+                    </tr>
+
+                    <!-- LOOP 2 -->
+                    <tr>
+                        <td><b>LOOP 2</b></td>
+                        <td><input id="Loop2_Colour" name="Loop2_Colour"></td>
+                        <td><input id="Loop2_Width" name="Loop2_Width" class="decimal"></td>
+                        <td><input id="Loop2_CutLength" name="Loop2_CutLength" class="decimal"></td>
+                        <td><input id="Loop2_GM" name="Loop2_GM" class="decimal"></td>
+                        <td>-</td>
+                        <td><input id="Loop2_TotalPcs" name="Loop2_TotalPcs" class="decimal"></td>
+                        <td><input id="Loop2_CutWt" name="Loop2_CutWt" class="decimal"></td>
+                        <td><input id="Loop2_TotalKg" name="Loop2_TotalKg" class="decimal"></td>
+                    </tr>
+
+                    <!-- TOP BEND -->
+                    <tr>
+                        <td><b>TOP BEND</b></td>
+                        <td><input id="TopBend_Colour" name="TopBend_Colour"></td>
+                        <td><input id="TopBend_Thickness" name="TopBend_Thickness" class="decimal"></td>
+                        <td><input id="TopBend_CutLength" name="TopBend_CutLength" class="decimal"></td>
+                        <td>-</td>
+                        <td><input id="TopBend_MTR" name="TopBend_MTR" class="decimal"></td>
+                        <td><input id="TopBend_TotalPcs" name="TopBend_TotalPcs" class="decimal"></td>
+                        <td><input id="TopBend_CutWt" name="TopBend_CutWt" class="decimal"></td>
+                        <td><input id="TopBend_TotalKg" name="TopBend_TotalKg" class="decimal"></td>
+
+                    </tr>
+
+                    <!-- TIE CORD -->
+                    <tr>
+                        <td><b>TIE CORD</b></td>
+                        <td><input id="TieCord_Colour" name="TieCord_Colour"></td>
+                        <td><input id="TieCord_Width" name="TieCord_Width" class="decimal"></td>
+                        <td><input id="TieCord_CutLength" name="TieCord_CutLength" class="decimal"></td>
+                        <td>-</td>
+                        <td><input id="TieCord_MTR" name="TieCord_MTR" class="decimal"></td>
+                        <td><input id="TieCord_TotalPcs" name="TieCord_TotalPcs" class="decimal"></td>
+                        <td><input id="TieCord_CutWt" name="TieCord_CutWt" class="decimal"></td>
+                        <td><input id="TieCord_TotalKg" name="TieCord_TotalKg" class="decimal"></td>
+                    </tr>
+
+                    <!-- ROPE CORD -->
+                    <tr>
+                        <td><b>ROPE CORD</b></td>
+                        <td><input id="RopeCord_Colour" name="RopeCord_Colour"></td>
+                        <td><input id="RopeCord_Width" name="RopeCord_Width" class="decimal"></td>
+                        <td><input id="RopeCord_CutLength" name="RopeCord_CutLength" class="decimal"></td>
+                        <td>-</td>
+                        <td><input id="RopeCord_MTR" name="RopeCord_MTR" class="decimal"></td>
+                        <td><input id="RopeCord_TotalPcs" name="RopeCord_TotalPcs" class="decimal"></td>
+                        <td><input id="RopeCord_CutWt" name="RopeCord_CutWt" class="decimal"></td>
+                        <td><input id="RopeCord_TotalKg" name="RopeCord_TotalKg" class="decimal"></td>
+                    </tr>
+
+                    <!-- LINER -->
+                    <tr>
+                        <td><b>LINER</b></td>
+                        <td><input id="Liner_Type" name="Liner_Type"></td>
+                        <td><input id="Liner_Width" name="Liner_Width" class="decimal"></td>
+                        <td><input id="Liner_Height" name="Liner_Height" class="decimal"></td>
+                        <td><input id="Liner_Micron" name="Liner_Micron" class="decimal"></td>
+                        <td>-</td>
+                        <td><input id="Liner_TotalPcs" name="Liner_TotalPcs" class="decimal"></td>
+                        <td><input id="Liner_CutWt" name="Liner_CutWt" class="decimal"></td>
+                        <td><input id="Liner_TotalKg" name="Liner_TotalKg" class="decimal"></td>
+                    </tr>
+
+                    <!-- DOC -->
+                    <tr>
+                        <td><b>DOC</b></td>
+                        <td><input id="DOC_Type" name="DOC_Type"></td>
+                        <td><input id="DOC_Width" name="DOC_Width" class="decimal"></td>
+                        <td><input id="DOC_Length" name="DOC_Length" class="decimal"></td>
+                        <td><input id="DOC_Micron" name="DOC_Micron" class="decimal"></td>
+                        <td>-</td>
+                        <td><input id="DOC_TotalPcs" name="DOC_TotalPcs" class="decimal"></td>
+                        <td><input id="DOC_CutWt" name="DOC_CutWt" class="decimal"></td>
+                        <td>-</td>
+                    </tr>
+
+                    <!-- LABEL -->
+                    <tr>
+                        <td><b>LABEL</b></td>
+                        <td><input id="Label_Type" name="Label_Type"></td>
+                        <td colspan="2"><input id="Label_Customer" name="Label_Customer"></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td><input id="Label_CutWt" name="Label_CutWt" class="decimal"></td>
+                        <td>-</td>
+                    </tr>
+
+                    <!-- EXTRA LABEL -->
+                    <tr>
+                        <td><b>EXTRA LABEL</b></td>
+                        <td><input id="ExtraLabel_Type" name="ExtraLabel_Type"></td>
+                        <td colspan="2"><input id="ExtraLabel_Customer" name="ExtraLabel_Customer"></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td><input id="ExtraLabel_CutWt" name="ExtraLabel_CutWt" class="decimal"></td>
+                        <td>-</td>
+                    </tr>
+
+                    <!-- SHIFTPROOF -->
+                    <tr>
+                        <td><b>SHIFTPROOF</b></td>
+                        <td><input id="Shiftproof_Type" name="Shiftproof_Type"></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td><input id="Shiftproof_MTR" name="Shiftproof_MTR" class="decimal"></td>
+                        <td><input id="Shiftproof_TotalStitch" name="Shiftproof_TotalStitch" class="decimal"></td>
+                        <td><input id="Shiftproof_CutWt" name="Shiftproof_CutWt" class="decimal"></td>
+                        <td><input id="Shiftproof_TotalKg" name="Shiftproof_TotalKg" class="decimal"></td>
+                    </tr>
+
+                    <!-- THREAD -->
+                    <tr>
+                        <td><b>THREAD</b></td>
+                        <td><input id="Thread_Colour" name="Thread_Colour"></td>
+                        @*<td><input id="Thread_Width" name="Thread_Width" class="decimal"></td>
+            <td><input id="Thread_CutLength" name="Thread_CutLength" class="decimal"></td>*@
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td><input id="Thread_GM" name="Thread_GM" class="decimal"></td>
+
+                        <td><input id="Thread_TotalPcs" name="Thread_TotalPcs" class="decimal"></td>
+                        <td><input id="Thread_CutWt" name="Thread_CutWt" class="decimal"></td>
+                        <td><input id="Thread_TotalKg" name="Thread_TotalKg" class="decimal"></td>
+                    </tr>
+
+                    <!-- B-LOCK -->
+                    <tr>
+                        <td><b>B-LOCK</b></td>
+                        <td><input id="BLock_Colour" name="BLock_Colour"></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td><input id="BLock_MTR" name="BLock_MTR" class="decimal"></td>
+                        <td><input id="BLock_TotalStitch" name="BLock_TotalStitch" class="decimal"></td>
+                        <td><input id="BLock_CutWt" name="BLock_CutWt" class="decimal"></td>
+                        <td><input id="BLock_TotalKg" name="BLock_TotalKg" class="decimal"></td>
+                    </tr>
+
+                    <!-- PRINT -->
+                    <tr>
+                        <td><b>PRINT</b></td>
+                        <td colspan="2">
+                            Color: <input id="Print_NoOfColor" name="Print_NoOfColor" class="decimal">
+                        </td>
+                        <td colspan="2">
+                            Side: <input id="Print_NoOfSide" name="Print_NoOfSide" class="decimal">
+                        </td>
+                        <td colspan="4">-</td>
+                    </tr>
+
+                    <!-- EXTRA COMPONENT -->
+                    <tr>
+                        <td><b>EXTRA COMPONENT</b></td>
+                        <td><input id="ExtraComp_Colour" name="ExtraComp_Colour"></td>
+                        <td><input id="ExtraComp_Width" name="ExtraComp_Width" class="decimal"></td>
+                        <td><input id="ExtraComp_CutLength" name="ExtraComp_CutLength" class="decimal"></td>
+                        <td><input id="ExtraComp_GM" name="ExtraComp_GM" class="decimal"></td>
+                        <td>-</td>
+                        <td><input id="ExtraComp_TotalPcs" name="ExtraComp_TotalPcs" class="decimal"></td>
+                        <td><input id="ExtraComp_CutWt" name="ExtraComp_CutWt" class="decimal"></td>
+                        <td><input id="ExtraComp_TotalKg" name="ExtraComp_TotalKg" class="decimal"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="8"><button type="button" onclick="calculateGrandTotalKg()">Calculate Total</button> </td>
+                        <td><input id="Grand_CutWt" name="Grand_CutWt" readonly></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- ================= IMPORTANT INSTRUCTION ================= -->
+            <table border="1" style="width:100%; border-collapse:collapse; margin-top:10px;" id="jobcardfooter" hidden>
+                <tr style="background:#d9d9d9; text-align:center;">
+                    <td colspan="6"><b>IMPORTANT INSTRUCTIONS</b></td>
+                </tr>
+
+                <tr>
+                    <td style="width:25%"><b>CUSTOMER SAMPLE REC.</b></td>
+                    <td colspan="5"><input id="CustomerSampleRec"></td>
+                </tr>
+
+                <tr>
+                    <td><b>WE SEND SAMPLE CUST.APP</b></td>
+                    <td colspan="5"><input id="SendSampleApproval"></td>
+                </tr>
+
+                <tr>
+                    <td><b>PREVIOUS PO NUMBER</b></td>
+                    <td colspan="5"><input id="PreviousPONumber"></td>
+                </tr>
+
+                <tr>
+                    <td><b>ANY COMPLAINTS THIS REF.</b></td>
+                    <td colspan="5"><input id="ComplaintRef"></td>
+                </tr>
+
+                <!-- WEIGHT SECTION -->
+                <tr>
+                    <td colspan="3"></td>
+                    <td><b>REQ WT</b></td>
+                    <td colspan="2"><input id="ReqWt" class="decimal"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="3"></td>
+                    <td><b>ACT. WT</b></td>
+                    <td colspan="2"><input id="ActWt" class="decimal"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="3"></td>
+                    <td><b>DIF. WT</b></td>
+                    <td colspan="2"><input id="DifWt" class="decimal" readonly></td>
+                </tr>
+
+                <!-- FINISHING COST -->
+                <tr style="background:#eaeaea;">
+                    <td colspan="6"><b>FINISHING COST</b></td>
+                </tr>
+
+                <tr>
+                    <td colspan="6"><input id="FinishingCost" class="decimal"></td>
+                </tr>
+
+                <!-- SIGNATURES -->
+                <tr>
+                    <td colspan="2" class="text-center"><b>PREPAID BY</b></td>
+                    <td colspan="2" class="text-center"><b>CHECKED BY</b></td>
+                    <td colspan="2" class="text-center"><b>APPROVED BY</b></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><input id="PrepaidBy"></td>
+                    <td colspan="2"><input id="CheckedBy"></td>
+                    <td colspan="2"><input id="ApprovedBy"></td>
+                </tr>
+            </table>
+            <div class="mt-3 text-center">
+                <button class="btn btn-success" id="btnSaveJobCard">Save Job Card</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        loadPO();
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        if (id) {
+            loadFullJobCard(id);
+        }
+        // Allow only numbers + decimal
+        $(document).on("input", ".decimal", function () {
+            let val = $(this).val();
+
+            val = val.replace(/[^0-9.]/g, '');
+
+            if ((val.match(/\./g) || []).length > 1) {
+                val = val.substring(0, val.length - 1);
+            }
+
+            $(this).val(val);
+        });
+     
+        $("#PrintSC").change(function () {
+            if ($(this).val() === "Unprinted") {
+                $("#Print_NoOfColor").prop("disabled", true);
+                $("#Print_NoOfSide").prop("disabled", true);
+            } else {
+                $("#Print_NoOfColor").prop("disabled", false);
+                $("#Print_NoOfSide").prop("disabled", false);
+            }
+        });
+
+    });
+
+    function loadPO() {
+
+        $.get('/PurchaseOrder/GetAll', function (data) {
+            let html = '<option value="">Select PO</option>';
+            $.each(data, function (i, v) {
+                html += `<option value="${v.PO_Id}">${v.PO_Number} - ${v.Item_No}</option>`;
+            });
+            $("#PO_Id").html(html);
+        });
+    }
+
+    $("#PO_Id").change(function () {
+        let id = $(this).val();
+        if (!id) return;
+        $.get('/PurchaseOrder/GetById?id=' + id, function (res) {
+
+            // 🔥 AUTO FILL FIELDS
+            $("#Customer").val(res.Customer);
+            $("#RefNo").val(res.Item_No);
+            $("#OrderQty").val(res.ORDER_QTY);
+
+            // BAG SIZE (if stored combined like 110X110X115)
+            if (res.Size_Of_Bag) {
+                let size = res.Size_Of_Bag.split('X');
+                $("#BagSizeL").val(size[0]);
+                $("#BagSizeW").val(size[1]);
+                $("#BagSizeH").val(size[2]);
+            }
+
+            // WEIGHT
+            $("#ReqWt").val(res.Req_Wt);
+            //$("#ActWt").val(res.Act_Wt);
+            $("#Label_Customer").val(res.Customer);
+            
+            // ✅ Call calculation AFTER values are set
+            calculateSideBodyTopFlabWidth();
+            calculateBody_CutLen();
+        });
+    });
+
+    //Fibre details calulation - Width
+    function calculateSideBodyTopFlabWidth() {
+        let bagW = parseFloat($("#BagSizeW").val()) || 0;
+        $("#Body_Width").val((bagW + 12).toFixed(2));
+        let bagL = parseFloat($("#BagSizeL").val()) || 0;
+        $("#Side_Width").val((bagL + 12).toFixed(2));
+        $("#Top_Width").val((bagL + 12).toFixed(2));
+        $("#Flap_Width").val((bagL + 12).toFixed(2));
+        $("#TopBend_CutLength").val((((bagL + bagW) * 2 * 2.54) + 10).toFixed(2));
+        $("#TopBend_TotalPcs").val(((((bagL + bagW) * 2 * 2.54) + 10) / 100).toFixed(2));
+
+    }
+    $("#BagSizeL").on("input", calculateSideBodyTopFlabWidth);
+
+    $(document).on("keyup change", "#TopBend_MTR", function () {
+        let TopBend_MTR = $("#TopBend_MTR").val();
+        let TopBend_TotalPcs = $("#TopBend_TotalPcs").val();
+        let TopBend_CutWt = TopBend_TotalPcs * TopBend_MTR;
+        $("#TopBend_CutWt").val((TopBend_CutWt).toFixed(2));
+        let qty = parseFloat($("#OrderQty").val()) || 0;
+        $("#TopBend_TotalKg").val((TopBend_CutWt  * qty / 1000).toFixed(4));
+    });
+
+    function calculateFSSKT_Width() {
+        let FillingHeight = parseFloat($("#FillingHeight").val()) || 0;
+        $("#FS_Width").val((FillingHeight + 5).toFixed(2));
+        $("#SKT_Width").val((FillingHeight + 5).toFixed(2));
+    }
+    $("#FillingHeight").on("input", calculateFSSKT_Width);
+
+    function calculateDS_Width() {
+        let DischargeDaya = parseFloat($("#DischargeDaya").val()) || 0;
+        $("#DS_Width").val((DischargeDaya + 5).toFixed(2));
+
+        let DischargeHeight = parseFloat($("#DischargeHeight").val()) || 0;
+        $("#Iris_Width").val(((DischargeDaya / 2 + DischargeHeight) + 17).toFixed(2));
+
+        let qty = parseFloat($("#OrderQty").val()) || 0;
+        // Cut Length
+        let cutLen = (DischargeDaya * Math.PI) + 13;
+        $("#DS_CutLen").val((cutLen).toFixed(2));
+        $("#Iris_CutLen").val((cutLen).toFixed(2));
+        // Total Meter
+        let l18 = (cutLen * qty) / 100;
+        let m18 = (l18 * 8 / 100);
+        $("#DS_TotalMtr").val((l18 + m18).toFixed(2));
+        $("#Iris_TotalMtr").val((l18 + m18).toFixed(2));
+    }
+    $("#DischargeDaya").on("input", calculateDS_Width);
+    $("#DischargeHeight").on("input", calculateDS_Width);
+
+    //Cut Length
+    function calculateBody_CutLen() {
+        let bagH = parseFloat($("#BagSizeH").val()) || 0;
+        let bagL = parseFloat($("#BagSizeL").val()) || 0;
+        $("#Body_CutLen").val(((bagH * 2) + bagL + 14).toFixed(2));
+        $("#Side_CutLen").val((bagH + 12).toFixed(2));
+        let bagW = parseFloat($("#BagSizeW").val()) || 0;
+        $("#Top_CutLen").val((bagW + 12).toFixed(2));
+        $("#Flap_CutLen").val((bagW + 12).toFixed(2));
+
+        $("#SKT_CutLen").val((((bagW * 2) + (bagL * 2)) + 13).toFixed(2));
+
+        let qty = parseFloat($("#OrderQty").val()) || 0;
+        let l12 = (((((bagH * 2) + bagL + 14) / 100) * qty)); 
+        let m12 = (l12 * 8 / 100); 
+        $("#Body_TotalMtr").val((l12 + m12).toFixed(2));
+
+        let l13 = ((((bagH + 12) * 2) / 100) * qty);
+        let m13 = (l13 * 8 / 100); 
+        $("#Side_TotalMtr").val((l13 + m13).toFixed(2));
+
+        let l14 = (((bagW + 12)* qty)/100);
+        let m14 = (l14 * 8 / 100);
+        $("#Top_TotalMtr").val((l14 + m14).toFixed(2));
+        $("#Flap_TotalMtr").val((l14 + m14).toFixed(2));
+
+        let l17 = ((((bagW * 2) + (bagL * 2)) + 13))  * qty / 100;
+        let m17 = (l17 * 8 / 100);
+        $("#SKT_TotalMtr").val((l17 + m17).toFixed(2));
+    }
+
+    function calculateFS_CutLen() {
+        let FillingDaya = parseFloat($("#FillingDaya").val()) || 0;
+        let qty = parseFloat($("#OrderQty").val()) || 0;
+        // Cut Length
+        let cutLen = (FillingDaya * Math.PI) + 13;
+        $("#FS_CutLen").val(cutLen.toFixed(2));
+        // Total Meter
+        let m15 = (cutLen * qty) / 100;   
+        let m16 = (m15 * 8 / 100);   
+        $("#FS_TotalMtr").val((m15 + m16).toFixed(2));
+    }
+    $("#FillingDaya").on("input", calculateFS_CutLen);
+
+    //GSM
+    function calculateGSM() {
+        let FabricGSM = parseFloat($("#FabricGSM").val()) || 0;
+        $("#Body_GSM").val((FabricGSM * 1).toFixed(2));
+        $("#Side_GSM").val((FabricGSM * 1).toFixed(2));
+
+        totalcalc("Body");
+        totalcalc("Side");
+      
+    }
+    $("#FabricGSM").on("input", calculateGSM);
+
+    function calculateGSMCoating() {
+        let FabricCoatingGSM = parseFloat($("#FabricCoatingGSM").val()) || 0;
+        $("#Body_Lam").val((FabricCoatingGSM * 1).toFixed(2));
+        $("#Side_Lam").val((FabricCoatingGSM * 1).toFixed(2));
+
+        totalcalc("Body");
+        totalcalc("Side");
+    }
+    $("#FabricCoatingGSM").on("input", calculateGSMCoating);
+
+    $(document).on("input", ".total", function () {
+        totalcalc("Top");
+        totalcalc("Flap");
+        totalcalc("FS");
+        totalcalc("SKT");
+        totalcalc("DS");
+        totalcalc("Iris");
+        totalcalc("Extra");
+    });
+
+    //TOTAL
+    function totalcalc(prefix) {
+        let gsm = +$("#" + prefix + "_GSM").val() || 0;
+        let lam = +$("#" + prefix + "_Lam").val() || 0;
+        // ===== FORMULA =====
+        let total = (gsm + lam);
+        $("#" + prefix + "_Total").val(total.toFixed(2));
+
+        let width = +$("#" + prefix + "_Width").val() || 0;
+        let cutlen = +$("#" + prefix + "_CutLen").val() || 0;
+
+        $("#" + prefix + "_CutWt").val(((total * width * cutlen) / 10000).toFixed(2));
+        if (prefix == "Side") {
+            $("#" + prefix + "_CutWt").val((((total * width * cutlen) / 10000)*2).toFixed(2));
+        } 
+        //$("#" + prefix + "_TotalMtr").val(totalMtr.toFixed(2));
+    }
+
+
+    //Component details
+    $(document).on("keyup change", "#LoopColor", function () {
+        let LoopColor = $("#LoopColor").val();
+        $("#Loop1_Colour").val(LoopColor);
+    });
+    $(document).on("keyup change", "#LoopMM", function () {
+        let LoopMM = $("#LoopMM").val();
+        $("#Loop1_Width").val(LoopMM);
+        $("#Loop2_Width").val(LoopMM);
+    });
+    $(document).on("keyup change", "#LoopFree, #LoopLong , #LoopShort", function () {
+        let LoopFree = parseFloat($("#LoopFree").val()) || 0;
+        let LoopLong = parseFloat($("#LoopLong").val()) || 0;
+        let LoopShort = parseFloat($("#LoopShort").val()) || 0;
+        let cutlength = ((LoopFree * 2) + LoopLong + LoopShort);
+        $("#Loop1_CutLength").val(cutlength);
+        $("#Loop1_TotalPcs").val(((cutlength * 4) / 100).toFixed(2));
+
+        let LoopGM = $("#LoopGM").val();
+        $("#Loop1_CutWt").val((LoopGM * ((cutlength * 4) / 100)).toFixed(2));
+        let qty = parseFloat($("#OrderQty").val()) || 0;
+        $("#Loop1_TotalKg").val(((LoopGM * ((cutlength * 4) / 100))* qty / 1000).toFixed(4));
+    });
+
+    $(document).on("keyup change", "#LinerWidth, #LinerHeight, #LinerMicron", function () {
+        let LinerWidth = $("#LinerWidth").val();
+        $("#Liner_Width").val(LinerWidth);
+        let LinerHeight = $("#LinerHeight").val();
+        $("#Liner_Height").val(LinerHeight);
+        let LinerMicron = $("#LinerMicron").val();
+        $("#Liner_Micron").val(LinerMicron);
+
+        $("#Liner_CutWt").val(((LinerWidth * LinerHeight * LinerMicron * 0.923) * 2 / 10000).toFixed(4));
+        let qty = parseFloat($("#OrderQty").val()) || 0;
+        $("#Liner_TotalKg").val((((LinerWidth * LinerHeight * LinerMicron * 0.923) * 2 / 10000) * qty / 1000).toFixed(4));
+    });
+    
+    $(document).on("keyup change", "#LoopGM", function () {
+        let LoopGM = $("#LoopGM").val();
+        $("#Loop1_GM").val(LoopGM);
+        $("#Loop2_GM").val(LoopGM);
+    });
+
+
+    $(document).on("keyup change", "#Loop2_CutLength", function () {
+        let Loop2_CutLength = $("#Loop2_CutLength").val();
+        $("#Loop2_TotalPcs").val((Loop2_CutLength * 2) / 100);
+        let LoopGM = $("#LoopGM").val();
+        let cutwt = (((Loop2_CutLength * 2) / 100) * LoopGM);
+        $("#Loop2_CutWt").val(cutwt);
+        let qty = parseFloat($("#OrderQty").val()) || 0;
+        $("#Loop2_TotalKg").val(((cutwt) * qty / 1000).toFixed(4));
+    });
+    $(document).on("keyup change", "#TieCord_CutLength, #TieCord_MTR", function () {
+        let TieCord_CutLength = $("#TieCord_CutLength").val();
+        $("#TieCord_TotalPcs").val((TieCord_CutLength * 3) / 100);
+        let TieCord_MTR = $("#TieCord_MTR").val();      
+        $("#TieCord_CutWt").val((((TieCord_CutLength * 3) / 100) * TieCord_MTR).toFixed(2));
+        let qty = parseFloat($("#OrderQty").val()) || 0;
+        $("#TieCord_TotalKg").val(((((TieCord_CutLength * 3) / 100) * TieCord_MTR) * qty / 1000).toFixed(4));
+    });
+    $(document).on("keyup change", "#RopeCord_CutLength, #RopeCord_MTR", function () {
+        let RopeCord_CutLength = $("#RopeCord_CutLength").val();
+        $("#RopeCord_TotalPcs").val(RopeCord_CutLength / 100);
+        let RopeCord_MTR = $("#RopeCord_MTR").val();
+        $("#RopeCord_CutWt").val(((RopeCord_CutLength / 100) * RopeCord_MTR).toFixed(4));
+        let qty = parseFloat($("#OrderQty").val()) || 0;
+        $("#RopeCord_TotalKg").val((((RopeCord_CutLength / 100) * RopeCord_MTR) * qty / 1000).toFixed(4));
+    });
+    $(document).on("keyup change", "#DOC_Width, #DOC_Length, #DOC_Micron", function () {
+        let DOC_Width = $("#DOC_Width").val();
+        let DOC_Micron = $("#DOC_Micron").val();
+        let DOC_Length = $("#DOC_Length").val();
+        $("#DOC_CutWt").val((((DOC_Width * DOC_Length * 2.54 * 2 * DOC_Micron * 0.923)) / 1000));
+    });
+
+    $(document).on("keyup change", "#Shiftproof_TotalStitch, #Shiftproof_MTR", function () {
+        let Shiftproof_TotalStitch = $("#Shiftproof_TotalStitch").val();
+        let Shiftproof_MTR = $("#Shiftproof_MTR").val();
+        $("#Shiftproof_CutWt").val(Shiftproof_TotalStitch * Shiftproof_MTR);
+        let qty = parseFloat($("#OrderQty").val()) || 0;
+        $("#Shiftproof_TotalKg").val(((Shiftproof_TotalStitch * Shiftproof_MTR) * qty / 1000).toFixed(4));
+    });
+    $(document).on("keyup change", "#Thread_GM, #Thread_TotalPcs", function () {
+        let Thread_GM = $("#Thread_GM").val();
+        let Thread_TotalPcs = $("#Thread_TotalPcs").val();
+        $("#Thread_CutWt").val(Thread_GM * Thread_TotalPcs);
+        let qty = parseFloat($("#OrderQty").val()) || 0;
+        $("#Thread_TotalKg").val(((Thread_GM * Thread_TotalPcs) * qty / 1000).toFixed(4));
+    });
+    $(document).on("keyup change", "#BLock_TotalStitch, #BLock_MTR", function () {
+        let BLock_TotalStitch = $("#BLock_TotalStitch").val();
+        let BLock_MTR = $("#BLock_MTR").val();
+        $("#BLock_CutWt").val(BLock_TotalStitch * BLock_MTR);
+    });
+
+    function calculateGrandTotalKg() {
+        let totalwt = 0;
+        $("[id$='_CutWt']").each(function () {
+            totalwt += parseFloat($(this).val()) || 0;
+        });
+        $("#Grand_CutWt").val(totalwt.toFixed(4)); 
+        $("#ActWt").val(totalwt.toFixed(4));
+        let req = +$("#ReqWt").val() || 0;
+        let diff = totalwt - req;
+
+        $("#DifWt").val(diff.toFixed(2));
+    }
+
+
+    function loadFullJobCard(id) {
+
+        $.get('/JobCard/GetFullJobCard?id=' + id, function (res) {
+
+            setJobCardData(res.job);
+            setFabricData(res.fabric);
+            setComponentData(res.component);
+
+        });
+    }
+    $("#btnSaveJobCard").click(function () {
+        $("#jobcardfooter").removeAttr("hidden");
+        $("#fabricTable").removeAttr("hidden");
+        $("#componentTable").removeAttr("hidden");
+        let model = {
+            JobCard: getJobCardData(),
+            Fabric: getFabricData(),
+            Component: getComponentData()
+        };
+
+        $.ajax({
+            url: '/JobCard/SaveFullJobCard',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(model),
+
+            success: function (res) {
+
+                if (res.success) {
+                    alert("Saved Successfully");
+                    // set ID for edit mode
+                    $("#JobCardId").val(res.id);
+                }
+                else {
+                    alert(res.message);
+                }
+            },
+
+            error: function () {
+                alert("Server error");
+            }
+        });
+    });
+    function getJobCardData() {
+        return {
+
+            JobCardId: +$("#JobCardId").val() || 0,
+            PO_Id: +$("#PO_Id").val() || 0,
+            PurchaseNo: $("#PO_Id option:selected").text(),
+            Customer: $("#Customer").val(),
+            RefNo: $("#RefNo").val(),
+            OrderQty: +$("#OrderQty").val() || 0,
+
+            StitchingType: $("#StitchingType").val(),
+            BagType: $("#BagType").val(),
+            PrintSC: $("#PrintSC").val(),
+            LoopAttType: $("#LoopType").val(),
+
+            // BAG SIZE
+            BagSizeL: +$("#BagSizeL").val() || 0,
+            BagSizeW: +$("#BagSizeW").val() || 0,
+            BagSizeH: +$("#BagSizeH").val() || 0,
+
+            // LOOP DETAILS
+            LoopGM: +$("#LoopGM").val() || 0,
+            LoopMM: +$("#LoopMM").val() || 0,
+            LoopColor: $("#LoopColor").val(),
+
+            LoopAttachmentFree: +$("#LoopFree").val() || 0,
+            LoopAttachmentLong: +$("#LoopLong").val() || 0,
+            LoopAttachmentShort: +$("#LoopShort").val() || 0,
+
+            // FILLING
+            FillingType: $("#FillingType").val(),
+            FillingDaya: +$("#FillingDaya").val() || 0,
+            FillingHeight: +$("#FillingHeight").val() || 0,
+
+            // DISCHARGE
+            DischargeType: $("#DischargeType").val(),
+            DischargeDaya: +$("#DischargeDaya").val() || 0,
+            DischargeHeight: +$("#DischargeHeight").val() || 0,
+
+            // LINER
+            LinerWidth: +$("#LinerWidth").val() || 0,
+            LinerHeight: +$("#LinerHeight").val() || 0,
+            LinerMicron: +$("#LinerMicron").val() || 0,
+
+            // FABRIC MASTER
+            FabricGSM: +$("#FabricGSM").val() || 0,
+            FabricCoatingGSM: +$("#FabricCoatingGSM").val() || 0,
+            FabricColor: $("#FabricColor").val(),
+
+            // STRENGTH
+            SWL: +$("#SWL").val() || 0,
+            SF: $("#SF").val(),
+            // NEW FIELDS
+            CustomerSampleRec: $("#CustomerSampleRec").val(),
+            SampleSent: $("#SendSampleApproval").val(),
+            PreviousPONumber: $("#PreviousPONumber").val(),
+            Complaints: $("#ComplaintRef").val(),
+
+            ReqWt: +$("#ReqWt").val() || 0,
+            //ActWt: +$("#ActWt").val() || 0,
+            DifWt: +$("#DifWt").val() || 0,
+
+            FinishingCost: +$("#FinishingCost").val() || 0,
+
+            PreparedBy: $("#PrepaidBy").val(),
+            CheckedBy: $("#CheckedBy").val(),
+            ApprovedBy: $("#ApprovedBy").val()
+        };
+    }
+     function getFabricData() {
+
+        return {
+
+            // BODY
+            Body_Colour: $("#Body_Colour").val(),
+            Body_Width: +$("#Body_Width").val() || 0,
+            Body_CutLen: +$("#Body_CutLen").val() || 0,
+            Body_GSM: +$("#Body_GSM").val() || 0,
+            Body_Lam: +$("#Body_Lam").val() || 0,
+            Body_Total: +$("#Body_Total").val() || 0,
+            Body_CutWt: +$("#Body_CutWt").val() || 0,
+            Body_TotalMtr: +$("#Body_TotalMtr").val() || 0,
+
+            // SIDE
+            Side_Colour: $("#Side_Colour").val(),
+            Side_Width: +$("#Side_Width").val() || 0,
+            Side_CutLen: +$("#Side_CutLen").val() || 0,
+            Side_GSM: +$("#Side_GSM").val() || 0,
+            Side_Lam: +$("#Side_Lam").val() || 0,
+            Side_Total: +$("#Side_Total").val() || 0,
+            Side_CutWt: +$("#Side_CutWt").val() || 0,
+            Side_TotalMtr: +$("#Side_TotalMtr").val() || 0,
+
+            // TOP
+            Top_Colour: $("#Top_Colour").val(),
+            Top_Width: +$("#Top_Width").val() || 0,
+            Top_CutLen: +$("#Top_CutLen").val() || 0,
+            Top_GSM: +$("#Top_GSM").val() || 0,
+            Top_Lam: +$("#Top_Lam").val() || 0,
+            Top_Total: +$("#Top_Total").val() || 0,
+            Top_CutWt: +$("#Top_CutWt").val() || 0,
+            Top_TotalMtr: +$("#Top_TotalMtr").val() || 0,
+
+            // FLAP
+            Flap_Colour: $("#Flap_Colour").val(),
+            Flap_Width: +$("#Flap_Width").val() || 0,
+            Flap_CutLen: +$("#Flap_CutLen").val() || 0,
+            Flap_GSM: +$("#Flap_GSM").val() || 0,
+            Flap_Lam: +$("#Flap_Lam").val() || 0,
+            Flap_Total: +$("#Flap_Total").val() || 0,
+            Flap_CutWt: +$("#Flap_CutWt").val() || 0,
+            Flap_TotalMtr: +$("#Flap_TotalMtr").val() || 0,
+
+            // FS
+            FS_Colour: $("#FS_Colour").val(),
+            FS_Width: +$("#FS_Width").val() || 0,
+            FS_CutLen: +$("#FS_CutLen").val() || 0,
+            FS_GSM: +$("#FS_GSM").val() || 0,
+            FS_Lam: +$("#FS_Lam").val() || 0,
+            FS_Total: +$("#FS_Total").val() || 0,
+            FS_CutWt: +$("#FS_CutWt").val() || 0,
+            FS_TotalMtr: +$("#FS_TotalMtr").val() || 0,
+
+            // SKT
+            SKT_Colour: $("#SKT_Colour").val(),
+            SKT_Width: +$("#SKT_Width").val() || 0,
+            SKT_CutLen: +$("#SKT_CutLen").val() || 0,
+            SKT_GSM: +$("#SKT_GSM").val() || 0,
+            SKT_Lam: +$("#SKT_Lam").val() || 0,
+            SKT_Total: +$("#SKT_Total").val() || 0,
+            SKT_CutWt: +$("#SKT_CutWt").val() || 0,
+            SKT_TotalMtr: +$("#SKT_TotalMtr").val() || 0,
+
+            // DS
+            DS_Colour: $("#DS_Colour").val(),
+            DS_Width: +$("#DS_Width").val() || 0,
+            DS_CutLen: +$("#DS_CutLen").val() || 0,
+            DS_GSM: +$("#DS_GSM").val() || 0,
+            DS_Lam: +$("#DS_Lam").val() || 0,
+            DS_Total: +$("#DS_Total").val() || 0,
+            DS_CutWt: +$("#DS_CutWt").val() || 0,
+            DS_TotalMtr: +$("#DS_TotalMtr").val() || 0,
+
+            // IRIS
+            Iris_Colour: $("#Iris_Colour").val(),
+            Iris_Width: +$("#Iris_Width").val() || 0,
+            Iris_CutLen: +$("#Iris_CutLen").val() || 0,
+            Iris_GSM: +$("#Iris_GSM").val() || 0,
+            Iris_Lam: +$("#Iris_Lam").val() || 0,
+            Iris_Total: +$("#Iris_Total").val() || 0,
+            Iris_CutWt: +$("#Iris_CutWt").val() || 0,
+            Iris_TotalMtr: +$("#Iris_TotalMtr").val() || 0,
+
+            // EXTRA
+            Extra_Colour: $("#Extra_Colour").val(),
+            Extra_Width: +$("#Extra_Width").val() || 0,
+            Extra_CutLen: +$("#Extra_CutLen").val() || 0,
+            Extra_GSM: +$("#Extra_GSM").val() || 0,
+            Extra_Lam: +$("#Extra_Lam").val() || 0,
+            Extra_Total: +$("#Extra_Total").val() || 0,
+            Extra_CutWt: +$("#Extra_CutWt").val() || 0,
+            Extra_TotalMtr: +$("#Extra_TotalMtr").val() || 0
+        };
+    }
+     function getComponentData() {
+
+        return {
+
+            // LOOP 1
+            Loop1_Colour: $("#Loop1_Colour").val(),
+            Loop1_Width: +$("#Loop1_Width").val() || 0,
+            Loop1_CutLength: +$("#Loop1_CutLength").val() || 0,
+            Loop1_GM: +$("#Loop1_GM").val() || 0,
+            Loop1_TotalPcs: +$("#Loop1_TotalPcs").val() || 0,
+            Loop1_CutWt: +$("#Loop1_CutWt").val() || 0,
+            Loop1_TotalKg: +$("#Loop1_TotalKg").val() || 0,
+
+            // LOOP 2
+            Loop2_Colour: $("#Loop2_Colour").val(),
+            Loop2_Width: +$("#Loop2_Width").val() || 0,
+            Loop2_CutLength: +$("#Loop2_CutLength").val() || 0,
+            Loop2_GM: +$("#Loop2_GM").val() || 0,
+            Loop2_TotalPcs: +$("#Loop2_TotalPcs").val() || 0,
+            Loop2_CutWt: +$("#Loop2_CutWt").val() || 0,
+            Loop2_TotalKg: +$("#Loop2_TotalKg").val() || 0,
+
+            // TOP BEND
+            TopBend_Colour: $("#TopBend_Colour").val(),
+            TopBend_Thickness: +$("#TopBend_Thickness").val() || 0,
+            TopBend_CutLength: +$("#TopBend_CutLength").val() || 0,
+            TopBend_MTR: +$("#TopBend_MTR").val() || 0,
+            TopBend_TotalPcs: +$("#TopBend_TotalPcs").val() || 0,
+            TopBend_CutWt: +$("#TopBend_CutWt").val() || 0,
+            TopBend_TotalKg: +$("#TopBend_TotalKg").val() || 0,
+
+            // TIE CORD
+            TieCord_Colour: $("#TieCord_Colour").val(),
+            TieCord_Width: +$("#TieCord_Width").val() || 0,
+            TieCord_CutLength: +$("#TieCord_CutLength").val() || 0,
+            TieCord_MTR: +$("#TieCord_MTR").val() || 0,
+            TieCord_TotalPcs: +$("#TieCord_TotalPcs").val() || 0,
+            TieCord_CutWt: +$("#TieCord_CutWt").val() || 0,
+            TieCord_TotalKg: +$("#TieCord_TotalKg").val() || 0,
+
+            // ROPE
+            RopeCord_Colour: $("#RopeCord_Colour").val(),
+            RopeCord_Width: +$("#RopeCord_Width").val() || 0,
+            RopeCord_CutLength: +$("#RopeCord_CutLength").val() || 0,
+            RopeCord_MTR: +$("#RopeCord_MTR").val() || 0,
+            RopeCord_TotalPcs: +$("#RopeCord_TotalPcs").val() || 0,
+            RopeCord_CutWt: +$("#RopeCord_CutWt").val() || 0,
+            RopeCord_TotalKg: +$("#RopeCord_TotalKg").val() || 0,
+
+            // LINER
+            Liner_Type: $("#Liner_Type").val(),
+            Liner_Width: +$("#Liner_Width").val() || 0,
+            Liner_Height: +$("#Liner_Height").val() || 0,
+            Liner_Micron: +$("#Liner_Micron").val() || 0,
+            Liner_TotalPcs: +$("#Liner_TotalPcs").val() || 0,
+            Liner_CutWt: +$("#Liner_CutWt").val() || 0,
+            Liner_TotalKg: +$("#Liner_TotalKg").val() || 0,
+
+            // DOC
+            DOC_Type: $("#DOC_Type").val(),
+            DOC_Width: +$("#DOC_Width").val() || 0,
+            DOC_Length: +$("#DOC_Length").val() || 0,
+            DOC_Micron: +$("#DOC_Micron").val() || 0,
+            DOC_TotalPcs: +$("#DOC_TotalPcs").val() || 0,
+            DOC_CutWt: +$("#DOC_CutWt").val() || 0,
+
+            // LABEL
+            Label_Type: $("#Label_Type").val(),
+            Label_Customer: $("#Label_Customer").val(),
+            Label_CutWt: +$("#Label_CutWt").val() || 0,
+
+            // EXTRA LABEL
+            ExtraLabel_Type: $("#ExtraLabel_Type").val(),
+            ExtraLabel_Customer: $("#ExtraLabel_Customer").val(),
+            ExtraLabel_CutWt: +$("#ExtraLabel_CutWt").val() || 0,
+
+            // SHIFTPROOF
+            Shiftproof_Type: $("#Shiftproof_Type").val(),
+            Shiftproof_MTR: +$("#Shiftproof_MTR").val() || 0,
+            Shiftproof_TotalStitch: +$("#Shiftproof_TotalStitch").val() || 0,
+            Shiftproof_CutWt: +$("#Shiftproof_CutWt").val() || 0,
+            Shiftproof_TotalKg: +$("#Shiftproof_TotalKg").val() || 0,
+
+            // THREAD
+            Thread_Colour: $("#Thread_Colour").val(),
+            //Thread_Width: +$("#Thread_Width").val() || 0,
+            //Thread_CutLength: +$("#Thread_CutLength").val() || 0,
+            Thread_GM: +$("#Thread_GM").val() || 0,
+            Thread_TotalPcs: +$("#Thread_TotalPcs").val() || 0,
+            Thread_CutWt: +$("#Thread_CutWt").val() || 0,
+            Thread_TotalKg: +$("#Thread_TotalKg").val() || 0,
+
+            // B-LOCK
+            BLock_Colour: $("#BLock_Colour").val(),
+            BLock_MTR: +$("#BLock_MTR").val() || 0,
+            BLock_TotalStitch: +$("#BLock_TotalStitch").val() || 0,
+            BLock_CutWt: +$("#BLock_CutWt").val() || 0,
+            BLock_TotalKg: +$("#BLock_TotalKg").val() || 0,
+
+            // PRINT
+            Print_NoOfColor: +$("#Print_NoOfColor").val() || 0,
+            Print_NoOfSide: +$("#Print_NoOfSide").val() || 0,
+
+            // EXTRA
+            ExtraComp_Colour: $("#ExtraComp_Colour").val(),
+            ExtraComp_Width: +$("#ExtraComp_Width").val() || 0,
+            ExtraComp_CutLength: +$("#ExtraComp_CutLength").val() || 0,
+            ExtraComp_GM: +$("#ExtraComp_GM").val() || 0,
+            ExtraComp_TotalPcs: +$("#ExtraComp_TotalPcs").val() || 0,
+            ExtraComp_CutWt: +$("#ExtraComp_CutWt").val() || 0,
+            ExtraComp_TotalKg: +$("#ExtraComp_TotalKg").val() || 0
+        };
+    }
+    function setJobCardData(data) {
+
+        $("#JobCardId").val(data.JobCardId);
+        $("#PO_Id").val(data.PO_Id);
+
+        $("#Customer").val(data.Customer);
+        $("#RefNo").val(data.RefNo);
+        $("#OrderQty").val(data.OrderQty);
+
+        $("#StitchingType").val(data.StitchingType);
+        $("#BagType").val(data.BagType);
+        $("#PrintSC").val(data.PrintSC);
+        $("#LoopType").val(data.LoopAttType);
+
+        $("#BagSizeL").val(data.BagSizeL);
+        $("#BagSizeW").val(data.BagSizeW);
+        $("#BagSizeH").val(data.BagSizeH);
+
+        $("#LoopGM").val(data.LoopGM);
+        $("#LoopMM").val(data.LoopMM);
+        $("#LoopColor").val(data.LoopColor);
+
+        $("#LoopFree").val(data.LoopAttachmentFree);
+        $("#LoopLong").val(data.LoopAttachmentLong);
+        $("#LoopShort").val(data.LoopAttachmentShort);
+
+        $("#FillingType").val(data.FillingType);
+        $("#FillingDaya").val(data.FillingDaya);
+        $("#FillingHeight").val(data.FillingHeight);
+
+        $("#DischargeType").val(data.DischargeType);
+        $("#DischargeDaya").val(data.DischargeDaya);
+        $("#DischargeHeight").val(data.DischargeHeight);
+
+        $("#LinerWidth").val(data.LinerWidth);
+        $("#LinerHeight").val(data.LinerHeight);
+        $("#LinerMicron").val(data.LinerMicron);
+
+        $("#FabricGSM").val(data.FabricGSM);
+        $("#FabricCoatingGSM").val(data.FabricCoatingGSM);
+        $("#FabricColor").val(data.FabricColor);
+
+        $("#SWL").val(data.SWL);
+        $("#SF").val(data.SF);
+        $("#CustomerSampleRec").val(data.CustomerSampleRec);
+        $("#SendSampleApproval").val(data.SampleSent);
+        $("#PreviousPONumber").val(data.PreviousPONumber);
+        $("#ComplaintRef").val(data.Complaints);
+
+        $("#ReqWt").val(data.ReqWt);
+        $("#ActWt").val(data.ActWt);
+        $("#DifWt").val(data.DifWt);
+
+        $("#FinishingCost").val(data.FinishingCost);
+
+        $("#PrepaidBy").val(data.PreparedBy);
+        $("#CheckedBy").val(data.CheckedBy);
+        $("#ApprovedBy").val(data.ApprovedBy);
+    }
+    function setFabricData(data) {
+
+        if (!data) return;
+
+        // BODY
+        $("#Body_Colour").val(data.Body_Colour);
+        $("#Body_Width").val(data.Body_Width);
+        $("#Body_CutLen").val(data.Body_CutLen);
+        $("#Body_GSM").val(data.Body_GSM);
+        $("#Body_Lam").val(data.Body_Lam);
+        $("#Body_Total").val(data.Body_Total);
+        $("#Body_CutWt").val(data.Body_CutWt);
+        $("#Body_TotalMtr").val(data.Body_TotalMtr);
+
+        // SIDE
+        $("#Side_Colour").val(data.Side_Colour);
+        $("#Side_Width").val(data.Side_Width);
+        $("#Side_CutLen").val(data.Side_CutLen);
+        $("#Side_GSM").val(data.Side_GSM);
+        $("#Side_Lam").val(data.Side_Lam);
+        $("#Side_Total").val(data.Side_Total);
+        $("#Side_CutWt").val(data.Side_CutWt);
+        $("#Side_TotalMtr").val(data.Side_TotalMtr);
+
+        // TOP
+        $("#Top_Colour").val(data.Top_Colour);
+        $("#Top_Width").val(data.Top_Width);
+        $("#Top_CutLen").val(data.Top_CutLen);
+        $("#Top_GSM").val(data.Top_GSM);
+        $("#Top_Lam").val(data.Top_Lam);
+        $("#Top_Total").val(data.Top_Total);
+        $("#Top_CutWt").val(data.Top_CutWt);
+        $("#Top_TotalMtr").val(data.Top_TotalMtr);
+
+        // FLAP
+        $("#Flap_Colour").val(data.Flap_Colour);
+        $("#Flap_Width").val(data.Flap_Width);
+        $("#Flap_CutLen").val(data.Flap_CutLen);
+        $("#Flap_GSM").val(data.Flap_GSM);
+        $("#Flap_Lam").val(data.Flap_Lam);
+        $("#Flap_Total").val(data.Flap_Total);
+        $("#Flap_CutWt").val(data.Flap_CutWt);
+        $("#Flap_TotalMtr").val(data.Flap_TotalMtr);
+
+        // FS
+        $("#FS_Colour").val(data.FS_Colour);
+        $("#FS_Width").val(data.FS_Width);
+        $("#FS_CutLen").val(data.FS_CutLen);
+        $("#FS_GSM").val(data.FS_GSM);
+        $("#FS_Lam").val(data.FS_Lam);
+        $("#FS_Total").val(data.FS_Total);
+        $("#FS_CutWt").val(data.FS_CutWt);
+        $("#FS_TotalMtr").val(data.FS_TotalMtr);
+
+        // SKT
+        $("#SKT_Colour").val(data.SKT_Colour);
+        $("#SKT_Width").val(data.SKT_Width);
+        $("#SKT_CutLen").val(data.SKT_CutLen);
+        $("#SKT_GSM").val(data.SKT_GSM);
+        $("#SKT_Lam").val(data.SKT_Lam);
+        $("#SKT_Total").val(data.SKT_Total);
+        $("#SKT_CutWt").val(data.SKT_CutWt);
+        $("#SKT_TotalMtr").val(data.SKT_TotalMtr);
+
+        // DS
+        $("#DS_Colour").val(data.DS_Colour);
+        $("#DS_Width").val(data.DS_Width);
+        $("#DS_CutLen").val(data.DS_CutLen);
+        $("#DS_GSM").val(data.DS_GSM);
+        $("#DS_Lam").val(data.DS_Lam);
+        $("#DS_Total").val(data.DS_Total);
+        $("#DS_CutWt").val(data.DS_CutWt);
+        $("#DS_TotalMtr").val(data.DS_TotalMtr);
+
+        // IRIS
+        $("#Iris_Colour").val(data.Iris_Colour);
+        $("#Iris_Width").val(data.Iris_Width);
+        $("#Iris_CutLen").val(data.Iris_CutLen);
+        $("#Iris_GSM").val(data.Iris_GSM);
+        $("#Iris_Lam").val(data.Iris_Lam);
+        $("#Iris_Total").val(data.Iris_Total);
+        $("#Iris_CutWt").val(data.Iris_CutWt);
+        $("#Iris_TotalMtr").val(data.Iris_TotalMtr);
+
+        // EXTRA
+        $("#Extra_Colour").val(data.Extra_Colour);
+        $("#Extra_Width").val(data.Extra_Width);
+        $("#Extra_CutLen").val(data.Extra_CutLen);
+        $("#Extra_GSM").val(data.Extra_GSM);
+        $("#Extra_Lam").val(data.Extra_Lam);
+        $("#Extra_Total").val(data.Extra_Total);
+        $("#Extra_CutWt").val(data.Extra_CutWt);
+        $("#Extra_TotalMtr").val(data.Extra_TotalMtr);
+    }
+    function setComponentData(data) {
+
+        if (!data) return;
+
+        // LOOP 1
+        $("#Loop1_Colour").val(data.Loop1_Colour);
+        $("#Loop1_Width").val(data.Loop1_Width);
+        $("#Loop1_CutLength").val(data.Loop1_CutLength);
+        $("#Loop1_GM").val(data.Loop1_GM);
+        $("#Loop1_TotalPcs").val(data.Loop1_TotalPcs);
+        $("#Loop1_CutWt").val(data.Loop1_CutWt);
+        $("#Loop1_TotalKg").val(data.Loop1_TotalKg);
+
+        // LOOP 2
+        $("#Loop2_Colour").val(data.Loop2_Colour);
+        $("#Loop2_Width").val(data.Loop2_Width);
+        $("#Loop2_CutLength").val(data.Loop2_CutLength);
+        $("#Loop2_GM").val(data.Loop2_GM);
+        $("#Loop2_TotalPcs").val(data.Loop2_TotalPcs);
+        $("#Loop2_CutWt").val(data.Loop2_CutWt);
+        $("#Loop2_TotalKg").val(data.Loop2_TotalKg);
+
+        // TOP BEND
+        $("#TopBend_Colour").val(data.TopBend_Colour);
+        $("#TopBend_Thickness").val(data.TopBend_Thickness);
+        $("#TopBend_CutLength").val(data.TopBend_CutLength);
+        $("#TopBend_TotalPcs").val(data.TopBend_TotalPcs);
+        $("#TopBend_MTR").val(data.TopBend_MTR);
+        $("#TopBend_CutWt").val(data.TopBend_MTR);
+        $("#TopBend_TotalKg").val(data.TopBend_TotalKg);
+        // TIE CORD
+        $("#TieCord_Colour").val(data.TieCord_Colour);
+        $("#TieCord_Width").val(data.TieCord_Width);
+        $("#TieCord_CutLength").val(data.TieCord_CutLength);
+        $("#TieCord_MTR").val(data.TieCord_MTR);
+        $("#TieCord_TotalPcs").val(data.TieCord_TotalPcs);
+        $("#TieCord_CutWt").val(data.TieCord_CutWt);
+        $("#TieCord_TotalKg").val(data.TieCord_TotalKg);
+
+        // ROPE CORD
+        $("#RopeCord_Colour").val(data.RopeCord_Colour);
+        $("#RopeCord_Width").val(data.RopeCord_Width);
+        $("#RopeCord_CutLength").val(data.RopeCord_CutLength);
+        $("#RopeCord_MTR").val(data.RopeCord_MTR);
+        $("#RopeCord_TotalPcs").val(data.RopeCord_TotalPcs);
+        $("#RopeCord_CutWt").val(data.RopeCord_CutWt);
+        $("#RopeCord_TotalKg").val(data.RopeCord_TotalKg);
+
+        // LINER
+        $("#Liner_Type").val(data.Liner_Type);
+        $("#Liner_Width").val(data.Liner_Width);
+        $("#Liner_Height").val(data.Liner_Height);
+        $("#Liner_Micron").val(data.Liner_Micron);
+        $("#Liner_TotalPcs").val(data.Liner_TotalPcs);
+        $("#Liner_CutWt").val(data.Liner_CutWt);
+        $("#Liner_TotalKg").val(data.Liner_TotalKg);
+
+        // DOC
+        $("#DOC_Type").val(data.DOC_Type);
+        $("#DOC_Width").val(data.DOC_Width);
+        $("#DOC_Length").val(data.DOC_Length);
+        $("#DOC_Micron").val(data.DOC_Micron);
+        $("#DOC_TotalPcs").val(data.DOC_TotalPcs);
+        $("#DOC_CutWt").val(data.DOC_CutWt);
+
+        // LABEL
+        $("#Label_Type").val(data.Label_Type);
+        $("#Label_Customer").val(data.Label_Customer);
+        $("#Label_CutWt").val(data.Label_CutWt);
+
+        // EXTRA LABEL
+        $("#ExtraLabel_Type").val(data.ExtraLabel_Type);
+        $("#ExtraLabel_Customer").val(data.ExtraLabel_Customer);
+        $("#ExtraLabel_CutWt").val(data.ExtraLabel_CutWt);
+
+        // SHIFTPROOF
+        $("#Shiftproof_Type").val(data.Shiftproof_Type);
+        $("#Shiftproof_MTR").val(data.Shiftproof_MTR);
+        $("#Shiftproof_TotalStitch").val(data.Shiftproof_TotalStitch);
+        $("#Shiftproof_CutWt").val(data.Shiftproof_CutWt);
+        $("#Shiftproof_TotalKg").val(data.Shiftproof_TotalKg);
+
+        // THREAD
+        $("#Thread_Colour").val(data.Thread_Colour);
+        //$("#Thread_Width").val(data.Thread_Width);
+        //$("#Thread_CutLength").val(data.Thread_CutLength);
+        $("#Thread_GM").val(data.Thread_GM);
+        $("#Thread_TotalPcs").val(data.Thread_TotalPcs);
+        $("#Thread_CutWt").val(data.Thread_CutWt);
+        $("#Thread_TotalKg").val(data.Thread_TotalKg);
+
+        // B-LOCK
+        $("#BLock_Colour").val(data.BLock_Colour);
+        $("#BLock_MTR").val(data.BLock_MTR);
+        $("#BLock_TotalStitch").val(data.BLock_TotalStitch);
+        $("#BLock_CutWt").val(data.BLock_CutWt);
+        $("#BLock_TotalKg").val(data.BLock_TotalKg);
+
+        // PRINT
+        $("#Print_NoOfColor").val(data.Print_NoOfColor);
+        $("#Print_NoOfSide").val(data.Print_NoOfSide);
+
+        // EXTRA COMPONENT
+        $("#ExtraComp_Colour").val(data.ExtraComp_Colour);
+        $("#ExtraComp_Width").val(data.ExtraComp_Width);
+        $("#ExtraComp_CutLength").val(data.ExtraComp_CutLength);
+        $("#ExtraComp_GM").val(data.ExtraComp_GM);
+        $("#ExtraComp_TotalPcs").val(data.ExtraComp_TotalPcs);
+        $("#ExtraComp_CutWt").val(data.ExtraComp_CutWt);
+        $("#ExtraComp_TotalKg").val(data.ExtraComp_TotalKg);
+    }
+
+</script>

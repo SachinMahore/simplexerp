@@ -1,471 +1,308 @@
-﻿@{
-    ViewBag.Title = "Add Purchase Order";
-}
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Purchase Order Entry</title>
 
-<h2>Purchase Order</h2>
+    <!-- ✅ Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-<table width="100%">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <tr>
-        <td>PO Number</td>
-        <td><input type="text" id="PO_Number" /></td>
+</head>
 
-        <td>PO Date</td>
-        <td><input type="date" id="PO_Date" /></td>
-    </tr>
+<body class="bg-light">
 
-    <tr>
-        <td>Vendor</td>
-        <td>
-            <select id="Vendor_Id">
-                <option value="">Select Vendor</option>
-            </select>
-            <button type="button" id="btnAddVendor">Add Vendor</button>
-        </td>
+    <div class="container mt-4">
 
-        <td>Company</td>
-        <td>
-            <select id="Company_Id">
-                <option value="">Select Company</option>
-            </select>
-            <button type="button" id="btnAddCompany">Add Company</button>
-        </td>
-    </tr>
+        <h3 class="text-primary mb-3">Purchase Order Entry</h3>
 
-    <tr>
-        <td>Buyer Name</td>
-        <td><input type="text" id="Buyer_Name" /></td>
+        <input type="hidden" id="PO_Id" />
 
-        <td>Buyer Phone</td>
-        <td><input type="text" id="Buyer_Phone" /></td>
-    </tr>
+        <div class="card shadow p-3 mb-4">
+            <div class="row g-3">
 
-    <tr>
-        <td>Ship Via</td>
-        <td><input type="text" id="Ship_Via" /></td>
+                <!-- Date -->
+                <div class="col-md-3">
+                    <label class="form-label">Date</label>
+                    <input type="date" id="Billing_Date" class="form-control" />
+                </div>
 
-        <td>Receive By Date</td>
-        <td><input type="date" id="Receive_By_Date" /></td>
-    </tr>
+                <!-- Customer Dropdown -->
+                <div class="col-md-3">
+                    <label class="form-label">Customer</label>
+                    <select id="Customer" class="form-select">
+                        <option value="">Select Customer</option>
+                    </select>
+                </div>
 
-    <tr>
-        <td>Payment Terms</td>
-        <td colspan="3">
-            <input type="text" id="Payment_Terms" style="width:100%" />
-        </td>
-    </tr>
+                <!-- Container -->
+                <div class="col-md-3">
+                    <label class="form-label">Container No</label>
+                    <input id="Container_No" class="form-control" />
+                </div>
 
-</table>
+                <!-- PO Number -->
+                <div class="col-md-3">
+                    <label class="form-label">PO Number</label>
+                    <input id="PO_Number" class="form-control" />
+                </div>
 
-<br />
+                <!-- Item -->
+                <div class="col-md-3">
+                    <label class="form-label">Item No</label>
+                    <input id="Item_No" class="form-control" />
+                </div>
 
-<h3>Items</h3>
+                <!-- Bag Size -->
+                <div class="col-md-3">
+                    <label class="form-label">Bag Size</label>
+                    <input id="Size_Of_Bag" class="form-control" />
+                </div>
 
-<table border="1" width="100%" id="itemTable">
+                <!-- Order Qty -->
+                <div class="col-md-3">
+                    <label class="form-label">Order Qty</label>
+                    <input id="ORDER_QTY" class="form-control calc" />
+                </div>
 
-    <thead>
+                <!-- Req Wt -->
+                <div class="col-md-3">
+                    <label class="form-label">Req Wt</label>
+                    <input id="Req_Wt" class="form-control calc" />
+                </div>
 
-        <tr>
+                <!-- Total Req Wt -->
+                <div class="col-md-3">
+                    <label class="form-label">Total Req Wt</label>
+                    <input id="Total_Req_Wt" class="form-control" readonly />
+                </div>
+                <!-- Act Wt -->
+                <div class="col-md-3">
+                    <label class="form-label">Act Wt</label>
+                    <input id="Act_Wt" class="form-control calc"  />
+                </div>
 
-            <th>#</th>
-            <th>Item No</th>
-            <th>Description</th>
-            <th>Qty/Bale</th>
-            <th>Bale Count</th>
-            <th>Total Qty</th>
-            <th>Unit</th>
-            <th>Unit Price</th>
-            <th>Line Total</th>
-            <th>Remove</th>
+                <!-- Total Act Wt -->
+                <div class="col-md-3">
+                    <label class="form-label">Total Act Wt</label>
+                    <input id="Total_Act_Wt" class="form-control calc" readonly/>
+                </div>
+                <!-- Pcs Per Pallet -->
+                <div class="col-md-3">
+                    <label class="form-label">Pcs / Pallet</label>
+                    <input id="PcsPerPallet" class="form-control" />
+                </div>
 
-        </tr>
+                <!-- File -->
+                <div class="col-md-3">
+                    <label class="form-label">Attachment</label>
+                    <input type="file" id="Attachment" class="form-control" />
+                </div>
 
-    </thead>
+            </div>
 
-    <tbody></tbody>
+            <div class="mt-3">
+                <button id="savePO" class="btn btn-success">
+                    Save / Update
+                </button>
+            </div>
+        </div>
 
-</table>
+        <!-- ================= TABLE ================= -->
+        <div class="card shadow p-3">
+            <h5 class="text-secondary">Purchase Order List</h5>
 
-<br />
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>PO No</th>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Total Wt</th>
+                            <th>Attachment</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="poTable"></tbody>
+                </table>
+            </div>
+        </div>
 
-<button id="addRow">Add Item</button>
+    </div>
 
-<br /><br />
+    <script>
 
-<h3>Totals</h3>
-
-<table width="40%">
-
-    <tr>
-        <td>Sub Total</td>
-        <td><input type="text" id="Sub_Total" readonly /></td>
-    </tr>
-
-    <tr>
-        <td>Discount</td>
-        <td><input type="text" id="Discount" value="0" /></td>
-    </tr>
-
-    <tr>
-        <td>Tax Amount</td>
-        <td><input type="text" id="Tax_Amount" value="0" /></td>
-    </tr>
-
-    <tr>
-        <td><b>Grand Total</b></td>
-        <td><input type="text" id="Grand_Total" readonly /></td>
-    </tr>
-
-</table>
-
-<br />
-
-<button id="savePO">Save Purchase Order</button>
+        $(document).ready(function () {
+            loadCustomers();
+            loadPO();
+        });
 
 
-<div id="vendorModal" style="display:none; border:1px solid #000; padding:15px; width:400px; background:#fff; position:fixed; top:30%; left:35%;">
-    <h3>Add Vendor</h3>
-    Vendor Name
-    <input type="text" id="Vendor_Name" /><br /><br />
-    Contact Person
-    <input type="text" id="Contact_Person" /><br /><br />
-    Phone
-    <input type="text" id="Vendor_Phone" /><br /><br />
-    Email
-    <input type="text" id="Vendor_Email" /><br /><br />
+        // ================= LOAD CUSTOMER =================
+        function loadCustomers() {
 
-    <button id="saveVendor">Save</button>
-    <button onclick="$('#vendorModal').hide()">Close</button>
-</div>
-<div id="companyModal" style="display:none; border:1px solid #000; padding:15px; width:400px; background:#fff; position:fixed; top:30%; left:35%;">
-    <h3>Add Company</h3>
-    Company Name
-    <input type="text" id="Company_Name" /><br /><br />
-    Address
-    <input type="text" id="Company_Address1" /><br /><br />
+            $.get("/Company/GetCompanies", function (res) {
 
-    Phone
-    <input type="text" id="Company_Phone" /><br /><br />
+                let html = '<option value="">Select Customer</option>';
 
-    <button id="saveCompany">Save</button>
-    <button onclick="$('#companyModal').hide()">Close</button>
+                $.each(res.model, function (i, v) {
+                    html += `<option value="${v.Company_Name}">${v.Company_Name}</option>`;
+                });
 
-</div>
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
-
-<script>
-
-    $(document).ready(function () {
-
-        $("#PO_Date").val(new Date().toISOString().substr(0, 10));
-
-        loadVendors();
-        loadCompanies();
-
-        addRow();
-
-    });
-
-    function loadVendors() {
-
-        $.get("/Vendor/GetVendors", function (data) {
-
-            $.each(data.model, function (i, v) {
-
-                $("#Vendor_Id").append("<option value='" + v.Vendor_Id + "'>" + v.Vendor_Name + "</option>");
-
+                $("#Customer").html(html);
             });
+        }
 
+
+        // ================= CALC =================
+        $(document).on("keyup change", ".calc", function () {
+
+            let qty = parseFloat($("#ORDER_QTY").val()) || 0;
+            let reqWt = parseFloat($("#Req_Wt").val()) || 0;
+            let wt = parseFloat($("#Act_Wt").val()) || 0;
+            let totalReq = qty * reqWt;
+
+            $("#Total_Req_Wt").val(totalReq.toFixed(4));
+
+            let totalWt = wt * qty;
+            $("#Total_Act_Wt").val(totalWt.toFixed(4));
         });
 
-    }
+        // ================= SAVE =================
+        $("#savePO").click(function () {
 
-    function loadCompanies() {
+            let formData = new FormData();
 
-        $.get("/Company/GetCompanies", function (data) {
+            formData.append("PO_Id", $("#PO_Id").val());
+            formData.append("Billing_Date", $("#Billing_Date").val());
+            formData.append("Customer", $("#Customer").val());
+            formData.append("Container_No", $("#Container_No").val());
 
-            $.each(data.model, function (i, v) {
+            formData.append("PO_Number", $("#PO_Number").val());
+            formData.append("Item_No", $("#Item_No").val());
+            formData.append("Size_Of_Bag", $("#Size_Of_Bag").val());
+            formData.append("ORDER_QTY", $("#ORDER_QTY").val());
 
-                $("#Company_Id").append("<option value='" + v.Company_Id + "'>" + v.Company_Name + "</option>");
+            formData.append("Req_Wt", $("#Req_Wt").val());
+            formData.append("Total_Req_Wt", $("#Total_Req_Wt").val());
 
-            });
+            formData.append("Act_Wt", $("#Act_Wt").val());
+            formData.append("Total_Act_Wt", $("#Total_Act_Wt").val());
 
-        });
+            formData.append("PcsPerPallet", $("#PcsPerPallet").val());
 
-    }
-
-    $("#addRow").click(function () {
-
-        addRow();
-
-    });
-
-    function addRow() {
-
-        var count = $("#itemTable tbody tr").length + 1;
-
-        var row = `<tr>
-
-<td>`+ count + `</td>
-
-<td><input class="itemno"/></td>
-
-<td><input class="desc"/></td>
-
-<td><input class="qtyperbale"/></td>
-
-<td><input class="balecount"/></td>
-
-<td><input class="totalqty" readonly/></td>
-
-<td>
-<select class="unit">
-<option value="KG">KG</option>
-<option value="MT">MT</option>
-<option value="PCS">PCS</option>
-</select>
-</td>
-
-<td><input class="price"/></td>
-
-<td><input class="linetotal" readonly/></td>
-
-<td><button class="removeRow">X</button></td>
-
-</tr>`;
-
-        $("#itemTable tbody").append(row);
-
-    }
-
-    $(document).on("keyup", ".qtyperbale,.balecount,.price", function () {
-
-        var row = $(this).closest("tr");
-
-        var qtyPerBale = parseFloat(row.find(".qtyperbale").val()) || 0;
-
-        var baleCount = parseFloat(row.find(".balecount").val()) || 0;
-
-        var price = parseFloat(row.find(".price").val()) || 0;
-
-        var totalQty = qtyPerBale * baleCount;
-
-        row.find(".totalqty").val(totalQty);
-
-        var lineTotal = totalQty * price;
-
-        row.find(".linetotal").val(lineTotal);
-
-        calculateTotals();
-
-    });
-
-    $(document).on("click", ".removeRow", function () {
-
-        $(this).closest("tr").remove();
-
-        reindex();
-
-        calculateTotals();
-
-    });
-
-    function reindex() {
-
-        $("#itemTable tbody tr").each(function (index) {
-
-            $(this).find("td:first").text(index + 1);
-
-        });
-
-    }
-
-    $("#Discount,#Tax_Amount").keyup(function () {
-
-        calculateTotals();
-
-    });
-
-    function calculateTotals() {
-
-        var subTotal = 0;
-
-        $(".linetotal").each(function () {
-
-            subTotal += parseFloat($(this).val()) || 0;
-
-        });
-
-        $("#Sub_Total").val(subTotal);
-
-        var discount = parseFloat($("#Discount").val()) || 0;
-
-        var tax = parseFloat($("#Tax_Amount").val()) || 0;
-
-        var grandTotal = subTotal - discount + tax;
-
-        $("#Grand_Total").val(grandTotal);
-
-    }
-
-    $("#savePO").click(function () {
-
-        var items = [];
-
-        $("#itemTable tbody tr").each(function () {
-
-            var row = $(this);
-
-            items.push({
-
-                Item_No: row.find(".itemno").val(),
-
-                Item_Description: row.find(".desc").val(),
-
-                Qty_Per_Bale: row.find(".qtyperbale").val(),
-
-                Bale_Count: row.find(".balecount").val(),
-
-                Total_Quantity: row.find(".totalqty").val(),
-
-                Unit: row.find(".unit").val(),
-
-                Unit_Price: row.find(".price").val(),
-
-                Line_Total: row.find(".linetotal").val()
-
-            });
-
-        });
-
-        var model = {
-
-            PO_Id: 0,
-
-            PO_Number: $("#PO_Number").val(),
-
-            PO_Date: $("#PO_Date").val(),
-
-            Vendor_Id: $("#Vendor_Id").val(),
-
-            Company_Id: $("#Company_Id").val(),
-
-            Buyer_Name: $("#Buyer_Name").val(),
-
-            Buyer_Phone: $("#Buyer_Phone").val(),
-
-            Ship_Via: $("#Ship_Via").val(),
-
-            Receive_By_Date: $("#Receive_By_Date").val(),
-
-            Payment_Terms: $("#Payment_Terms").val(),
-
-            Sub_Total: $("#Sub_Total").val(),
-
-            Discount: $("#Discount").val(),
-
-            Tax_Amount: $("#Tax_Amount").val(),
-
-            Grand_Total: $("#Grand_Total").val(),
-
-            Items: items
-
-        };
-
-        $.ajax({
-
-            url: '/PurchaseOrder/SavePurchaseOrder',
-
-            type: 'POST',
-
-            data: JSON.stringify(model),
-
-            contentType: 'application/json',
-
-            success: function (data) {
-
-                alert(data.Message);
-
-                location.reload();
-
+            let fileInput = $("#Attachment")[0];
+            if (fileInput.files.length > 0) {
+                formData.append("Attachment", fileInput.files[0]);
             }
 
+            let url = $("#PO_Id").val() ? "/PurchaseOrder/Update" : "/PurchaseOrder/Save";
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+
+                success: function (res) {
+                    if (res.success) {
+                        alert(res.message || "Saved Successfully");
+                        location.reload();
+                    } else {
+                        alert(res.message);
+                    }
+                }
+            });
         });
 
-    });
-    $("#btnAddVendor").click(function () {
 
-        $("#vendorModal").show();
+        // ================= LOAD TABLE =================
+        function loadPO() {
 
-    });
+            $.get("/PurchaseOrder/GetAll", function (data) {
 
+                let html = "";
 
-    $("#btnAddCompany").click(function () {
+                $.each(data, function (i, v) {
 
-        $("#companyModal").show();
+                    html += `<tr>
+                    <td>${formatDate(v.Billing_Date)}</td>
+                    <td>${v.Customer}</td>
+                    <td>${v.PO_Number}</td>
+                    <td>${v.Item_No}</td>
+                    <td>${v.ORDER_QTY}</td>
+                    <td>${v.Total_Act_Wt}</td>
+                    <td>${
+                        v.Attachment
+                            ? `<a href="${v.Attachment}" target="_blank" class="btn btn-sm btn-info">Download</a>`
+                            : `<span class="text-muted">No File</span>`
+                    } </td>
 
-    });
+                    <td>
+                        <button class="btn btn-sm btn-warning" onclick="edit(${v.PO_Id})">Edit</button>
+                        <button class="btn btn-sm btn-danger" onclick="deletePO(${v.PO_Id})">Delete</button>
+                    </td>
+                </tr>`;
+                });
 
-
-    $("#saveVendor").click(function () {
-
-        var model = {
-
-            Vendor_Name: $("#Vendor_Name").val(),
-            Contact_Person: $("#Contact_Person").val(),
-            Phone: $("#Vendor_Phone").val(),
-            Email: $("#Vendor_Email").val()
-
-        };
-
-        $.ajax({
-
-            url: "/Vendor/SaveVendor",
-            type: "POST",
-            data: JSON.stringify(model),
-            contentType: "application/json",
-            success: function (data) {
-
-                alert(data.message);
-
-                $("#vendorModal").hide();
-
-                loadVendors();
-
-            }
-
-        });
-
-    });
+                $("#poTable").html(html);
+            });
+        }
 
 
-    $("#saveCompany").click(function () {
+        // ================= EDIT =================
+        function edit(id) {
 
-        var model = {
+            $.get("/PurchaseOrder/GetById?id=" + id, function (res) {
 
-            Company_Name: $("#Company_Name").val(),
-            Address1: $("#Company_Address1").val(),
-            Phone: $("#Company_Phone").val()
+                $("#PO_Id").val(res.PO_Id);
+                $("#Billing_Date").val(formatDateInput(res.Billing_Date));
 
-        };
+                $("#Customer").val(res.Customer);
+                $("#Container_No").val(res.Container_No);
 
-        $.ajax({
+                $("#PO_Number").val(res.PO_Number);
+                $("#Item_No").val(res.Item_No);
+                $("#Size_Of_Bag").val(res.Size_Of_Bag);
 
-            url: "/Company/SaveCompany",
-            type: "POST",
-            data: JSON.stringify(model),
-            contentType: "application/json",
-            success: function (data) {
+                $("#ORDER_QTY").val(res.ORDER_QTY);
+                $("#Req_Wt").val(res.Req_Wt);
+                $("#Total_Req_Wt").val(res.Total_Req_Wt);
 
-                alert(data.message);
+                $("#Act_Wt").val(res.Act_Wt);
+                $("#Total_Act_Wt").val(res.Total_Act_Wt);
 
-                $("#companyModal").hide();
+                $("#PcsPerPallet").val(res.PcsPerPallet);
+            });
+        }
 
-                loadCompanies();
 
-            }
+        // ================= DELETE =================
+        function deletePO(id) {
+            if (!confirm("Delete record?")) return;
+            $.post("/PurchaseOrder/Delete", { id: id }, function () {
+                loadPO();
+            });
+        }
 
-        });
 
-    });
-</script>
+        // ================= DATE =================
+        function formatDate(date) {
+            let d = new Date(parseInt(date.replace(/\/Date\((\d+)\)\//, "$1")));
+            return d.toLocaleDateString();
+        }
+
+        function formatDateInput(date) {
+            let d = new Date(parseInt(date.replace(/\/Date\((\d+)\)\//, "$1")));
+            return d.toISOString().split('T')[0];
+        }
+
+    </script>
+
+</body>
+</html>

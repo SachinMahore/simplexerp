@@ -40,6 +40,23 @@ namespace ApptSoft.Controllers
         {
             tblDispatch d = new tblDispatch();
 
+            var billingDate = Convert.ToDateTime(model.Billing_Date).Date;
+            var nextDate = billingDate.AddDays(1);
+
+            var exists = db.tblDispatches.Any(x =>
+                x.PO_Number == model.PO_Number &&
+                x.Size_Of_Bag == model.Size_Of_Bag &&
+                x.Item_No == model.Item_No &&
+                x.Actual_Quantity == model.Actual_Quantity &&
+                x.Customer == model.Customer &&
+                x.Billing_Date >= billingDate &&
+                x.Billing_Date < nextDate
+            );
+
+            if (exists)
+             {
+                 return Json(new { success = false, message = "Duplicate record already exists!" });
+             }
             var item = model;
 
             d.Customer = item.Customer;
@@ -70,7 +87,7 @@ namespace ApptSoft.Controllers
             db.tblDispatches.Add(d);
             db.SaveChanges();
 
-            return Json(d.Dispatch_Id); // ✅ MUST RETURN ID
+            return Json(new { success = true, id = d.Dispatch_Id });
         }
         public JsonResult GetAll()
         {
@@ -511,9 +528,8 @@ namespace ApptSoft.Controllers
                         x.Dispatch_Id,
                         x.Sr_No,
                         x.Customer,
-                        x.PO_Number,
-                        x.PO_Id,
-                        x.Size_Of_Bag,
+                        x.Item_No,
+                         x.Size_Of_Bag,
                         x.Req_Wt,
                         x.Total_Req_Wt,
                         x.Actual_Quantity,
@@ -544,17 +560,17 @@ namespace ApptSoft.Controllers
                         q.Contractor_Id,
                         q.Contractor_Name,
                         Customer = d.Customer,
-                        q.PO_Ref_No,
-                        q.Size_Of_Bag,
+                        Container_No = d.Container_No,
                         d.Item_No,
+                        q.Size_Of_Bag,
                         q.Actual_Quantity,
                         q.Act_Wt,
                         q.Total_Wt,
                         q.Rate,
                         q.Total_Cost,
                         q.Kg_Or_Pcs,
-                        q.Created_Date,
-                        Container_No = d.Container_No
+                        q.Created_Date
+                      
                     }
                 ).ToList();
 

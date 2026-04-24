@@ -108,53 +108,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <Property Name="DeptID" Type="int" />
           <Property Name="JoiningDate" Type="datetime" />
         </EntityType>
-        <EntityType Name="JobCard_Details">
-          <Key>
-            <PropertyRef Name="JCD_Id" />
-          </Key>
-          <Property Name="JCD_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="JobCard_Id" Type="int" />
-          <Property Name="Item_No" Type="varchar" MaxLength="50" />
-          <Property Name="Item_Description" Type="varchar(max)" />
-          <Property Name="Qty_Per_Bale" Type="int" />
-          <Property Name="Bale_Count" Type="int" />
-          <Property Name="Total_Quantity" Type="int" />
-          <Property Name="Unit" Type="varchar" MaxLength="10" />
-          <Property Name="Process_Type" Type="varchar" MaxLength="100" />
-          <Property Name="Completed_Qty" Type="int" />
-        </EntityType>
-        <EntityType Name="JobCard_Master">
-          <Key>
-            <PropertyRef Name="JobCard_Id" />
-          </Key>
-          <Property Name="JobCard_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="JobCard_Number" Type="varchar" MaxLength="50" />
-          <Property Name="PO_Id" Type="int" />
-          <Property Name="PO_Number" Type="varchar" MaxLength="50" />
-          <Property Name="Vendor_Id" Type="int" />
-          <Property Name="Company_Id" Type="int" />
-          <Property Name="Job_Date" Type="datetime" />
-          <Property Name="Buyer_Name" Type="varchar" MaxLength="200" />
-          <Property Name="Status" Type="int" />
-          <Property Name="Created_Date" Type="datetime" />
-        </EntityType>
-        <EntityType Name="JobCard_Production_Tracking">
-          <Key>
-            <PropertyRef Name="Tracking_Id" />
-          </Key>
-          <Property Name="Tracking_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="JobCard_Id" Type="int" />
-          <Property Name="JCD_Id" Type="int" />
-          <Property Name="Operation_Name" Type="varchar" MaxLength="100" />
-          <Property Name="Input_Qty" Type="int" />
-          <Property Name="Output_Qty" Type="int" />
-          <Property Name="Wastage_Qty" Type="int" />
-          <Property Name="Machine_Name" Type="varchar" MaxLength="100" />
-          <Property Name="Start_Time" Type="datetime" />
-          <Property Name="End_Time" Type="datetime" />
-          <Property Name="Operator_Name" Type="varchar" MaxLength="100" />
-          <Property Name="Status" Type="int" />
-        </EntityType>
         <EntityType Name="Production_Operations">
           <Key>
             <PropertyRef Name="Operation_Id" />
@@ -162,50 +115,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <Property Name="Operation_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Operation_Name" Type="varchar" MaxLength="100" />
           <Property Name="Sequence_No" Type="int" />
-        </EntityType>
-        <EntityType Name="PurchaseOrder">
-          <Key>
-            <PropertyRef Name="PO_Id" />
-          </Key>
-          <Property Name="PO_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PO_Number" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="PO_Date" Type="date" Nullable="false" />
-          <Property Name="Vendor_Id" Type="int" Nullable="false" />
-          <Property Name="Company_Id" Type="int" Nullable="false" />
-          <Property Name="Buyer_Name" Type="varchar" MaxLength="100" />
-          <Property Name="Buyer_Phone" Type="varchar" MaxLength="20" />
-          <Property Name="Ship_Via" Type="varchar" MaxLength="50" />
-          <Property Name="Receive_By_Date" Type="date" />
-          <Property Name="Payment_Terms" Type="varchar" MaxLength="200" />
-          <Property Name="Currency" Type="varchar" MaxLength="10" />
-          <Property Name="Sub_Total" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Tax_Amount" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Freight" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Discount" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Grand_Total" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="PO_Status" Type="varchar" MaxLength="20" />
-          <Property Name="Approved_By" Type="varchar" MaxLength="100" />
-          <Property Name="Approved_Date" Type="datetime" />
-          <Property Name="Created_By" Type="varchar" MaxLength="50" />
-          <Property Name="Created_Date" Type="datetime" />
-          <Property Name="Is_Active" Type="bit" />
-          <Property Name="Status" Type="int" />
-        </EntityType>
-        <EntityType Name="PurchaseOrder_Details">
-          <Key>
-            <PropertyRef Name="POD_Id" />
-          </Key>
-          <Property Name="POD_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PO_Id" Type="int" Nullable="false" />
-          <Property Name="Item_No" Type="varchar" MaxLength="50" />
-          <Property Name="Item_Description" Type="varchar(max)" />
-          <Property Name="Qty_Per_Bale" Type="int" />
-          <Property Name="Bale_Count" Type="int" />
-          <Property Name="Total_Quantity" Type="int" />
-          <Property Name="Unit" Type="varchar" MaxLength="10" />
-          <Property Name="Unit_Price" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Line_Total" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Remarks" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="tblAMC">
           <Key>
@@ -455,6 +364,249 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <Property Name="Is_Active" Type="bit" />
           <Property Name="Created_Date" Type="datetime" />
         </EntityType>
+        <EntityType Name="FIBC_ComponentDetails">
+          <Key>
+            <PropertyRef Name="ComponentId" />
+          </Key>
+          <Property Name="ComponentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobCardId" Type="int" />
+          <Property Name="Loop1_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="Loop1_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Loop1_CutLength" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Loop1_GM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Loop1_TotalPcs" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Loop1_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Loop1_TotalKg" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Loop2_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="Loop2_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Loop2_CutLength" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Loop2_GM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Loop2_TotalPcs" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Loop2_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Loop2_TotalKg" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="TopBend_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="TopBend_Thickness" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TopBend_CutLength" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TopBend_TotalPcs" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="TieCord_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="TieCord_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TieCord_CutLength" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TieCord_MTR" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TieCord_TotalPcs" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="TieCord_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="TieCord_TotalKg" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="RopeCord_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="RopeCord_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="RopeCord_CutLength" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="RopeCord_MTR" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="RopeCord_TotalPcs" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="RopeCord_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="RopeCord_TotalKg" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Liner_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="Liner_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Liner_Height" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Liner_Micron" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Liner_TotalPcs" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Liner_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Liner_TotalKg" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="DOC_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="DOC_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DOC_Length" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DOC_Micron" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DOC_TotalPcs" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="DOC_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Label_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="Label_Customer" Type="nvarchar" MaxLength="100" />
+          <Property Name="Label_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ExtraLabel_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExtraLabel_Customer" Type="nvarchar" MaxLength="100" />
+          <Property Name="ExtraLabel_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Shiftproof_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="Shiftproof_MTR" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Shiftproof_TotalStitch" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Shiftproof_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Shiftproof_TotalKg" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Thread_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="Thread_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Thread_CutLength" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Thread_GM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Thread_TotalPcs" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Thread_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Thread_TotalKg" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="BLock_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="BLock_MTR" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="BLock_TotalStitch" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="BLock_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="BLock_TotalKg" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Print_NoOfColor" Type="int" />
+          <Property Name="Print_NoOfSide" Type="int" />
+          <Property Name="ExtraComp_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExtraComp_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ExtraComp_CutLength" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ExtraComp_GM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ExtraComp_TotalPcs" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ExtraComp_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ExtraComp_TotalKg" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="TopBend_MTR" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="TopBend_TotalKg" Type="decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="FIBC_FabricDetails">
+          <Key>
+            <PropertyRef Name="FabricId" />
+          </Key>
+          <Property Name="FabricId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobCardId" Type="int" />
+          <Property Name="Body_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="Body_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Body_CutLen" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Body_GSM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Body_Lam" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Body_Total" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Body_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Body_TotalMtr" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Side_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="Side_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Side_CutLen" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Side_GSM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Side_Lam" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Side_Total" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Side_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Side_TotalMtr" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Top_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="Top_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Top_CutLen" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Top_GSM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Top_Lam" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Top_Total" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Top_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Top_TotalMtr" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Flap_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="Flap_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Flap_CutLen" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Flap_GSM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Flap_Lam" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Flap_Total" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Flap_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Flap_TotalMtr" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FS_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="FS_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="FS_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FS_CutLen" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FS_GSM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FS_Lam" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FS_Total" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FS_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FS_TotalMtr" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="SKT_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="SKT_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="SKT_CutLen" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="SKT_GSM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="SKT_Lam" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="SKT_Total" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="SKT_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="SKT_TotalMtr" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="DS_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="DS_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="DS_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DS_CutLen" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DS_GSM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DS_Lam" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DS_Total" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="DS_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="DS_TotalMtr" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Iris_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="Iris_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Iris_CutLen" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Iris_GSM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Iris_Lam" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Iris_Total" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Iris_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Iris_TotalMtr" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Extra_Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="Extra_Width" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Extra_CutLen" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Extra_GSM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Extra_Lam" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Extra_Total" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Extra_CutWt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Extra_TotalMtr" Type="decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="FIBC_JobCard">
+          <Key>
+            <PropertyRef Name="JobCardId" />
+          </Key>
+          <Property Name="JobCardId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Customer" Type="nvarchar" MaxLength="200" />
+          <Property Name="PurchaseNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="RefNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="BagType" Type="nvarchar" MaxLength="100" />
+          <Property Name="StitchingType" Type="nvarchar" MaxLength="100" />
+          <Property Name="PrintSC" Type="nvarchar" MaxLength="100" />
+          <Property Name="OrderQty" Type="int" />
+          <Property Name="BagSizeL" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="BagSizeW" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="BagSizeH" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FillingType" Type="nvarchar" MaxLength="100" />
+          <Property Name="FillingDaya" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FillingHeight" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DischargeType" Type="nvarchar" MaxLength="100" />
+          <Property Name="DischargeDaya" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DischargeHeight" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FabricGSM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FabricCoatingGSM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FabricColor" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoopAttType" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoopGM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="LoopMM" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="LoopColor" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoopAttachmentFree" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="LoopAttachmentLong" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="LoopAttachmentShort" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="LinerWidth" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="LinerHeight" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="LinerMicron" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="SWL" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="SF" Type="nvarchar" MaxLength="50" />
+          <Property Name="TotalWt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="GrandTotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ReqWt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ActWt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DifWt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="FinishingCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CustomerSampleRec" Type="nvarchar" MaxLength="200" />
+          <Property Name="SampleSent" Type="nvarchar" MaxLength="200" />
+          <Property Name="PreviousPONumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="Complaints" Type="nvarchar" MaxLength="500" />
+          <Property Name="PreparedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CheckedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ApprovedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="PO_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="tblPurchaseOrders">
+          <Key>
+            <PropertyRef Name="PO_Id" />
+          </Key>
+          <Property Name="PO_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Billing_Date" Type="date" Nullable="false" />
+          <Property Name="Customer" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Container_No" Type="nvarchar" MaxLength="100" />
+          <Property Name="PO_Number" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Item_No" Type="nvarchar" MaxLength="100" />
+          <Property Name="Size_Of_Bag" Type="nvarchar" MaxLength="100" />
+          <Property Name="ORDER_QTY" Type="nvarchar" MaxLength="50" />
+          <Property Name="Req_Wt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Total_Req_Wt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Act_Wt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Total_Act_Wt" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="PcsPerPallet" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Attachment" Type="nvarchar" MaxLength="500" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="Created_Date" Type="datetime" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="Updated_Date" Type="datetime" />
+        </EntityType>
         <EntityType Name="tblsummaryreport">
           <Key>
             <PropertyRef Name="tblsummaryreport_id" />
@@ -496,42 +648,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PO_Company">
-          <End Role="Company_Master" Type="Self.Company_Master" Multiplicity="1" />
-          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company_Master">
-              <PropertyRef Name="Company_Id" />
-            </Principal>
-            <Dependent Role="PurchaseOrder">
-              <PropertyRef Name="Company_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PO_Details">
-          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="1" />
-          <End Role="PurchaseOrder_Details" Type="Self.PurchaseOrder_Details" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PurchaseOrder">
-              <PropertyRef Name="PO_Id" />
-            </Principal>
-            <Dependent Role="PurchaseOrder_Details">
-              <PropertyRef Name="PO_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PO_Vendor">
-          <End Role="Vendor_Master" Type="Self.Vendor_Master" Multiplicity="1" />
-          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor_Master">
-              <PropertyRef Name="Vendor_Id" />
-            </Principal>
-            <Dependent Role="PurchaseOrder">
-              <PropertyRef Name="Vendor_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ApptSoftModelStoreContainer">
           <EntitySet Name="_Address" EntityType="Self._Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="_Client_01" EntityType="Self._Client_01" Schema="dbo" store:Type="Tables" />
@@ -540,12 +656,7 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empl" EntityType="Self.Empl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="JobCard_Details" EntityType="Self.JobCard_Details" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="JobCard_Master" EntityType="Self.JobCard_Master" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="JobCard_Production_Tracking" EntityType="Self.JobCard_Production_Tracking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Production_Operations" EntityType="Self.Production_Operations" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PurchaseOrder" EntityType="Self.PurchaseOrder" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PurchaseOrder_Details" EntityType="Self.PurchaseOrder_Details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAMC" EntityType="Self.tblAMC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblComplaint" EntityType="Self.tblComplaint" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblContractor" EntityType="Self.tblContractor" Schema="dbo" store:Type="Tables" />
@@ -559,6 +670,10 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <EntitySet Name="tblTenant" EntityType="Self.tblTenant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblVisitor" EntityType="Self.tblVisitor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendor_Master" EntityType="Self.Vendor_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FIBC_ComponentDetails" EntityType="Self.FIBC_ComponentDetails" Schema="esankal1_Dharvik" store:Type="Tables" />
+          <EntitySet Name="FIBC_FabricDetails" EntityType="Self.FIBC_FabricDetails" Schema="esankal1_Dharvik" store:Type="Tables" />
+          <EntitySet Name="FIBC_JobCard" EntityType="Self.FIBC_JobCard" Schema="esankal1_Dharvik" store:Type="Tables" />
+          <EntitySet Name="tblPurchaseOrders" EntityType="Self.tblPurchaseOrders" Schema="esankal1_Dharvik" store:Type="Tables" />
           <EntitySet Name="tblsummaryreport" EntityType="Self.tblsummaryreport" Schema="esankal1_Dharvik" store:Type="Tables" />
           <EntitySet Name="_emp" EntityType="Self._emp" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -588,18 +703,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <AssociationSet Name="FK__Employees__DeptI__0E6E26BF" Association="Self.FK__Employees__DeptI__0E6E26BF">
             <End Role="Department" EntitySet="Department" />
             <End Role="Employees" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PO_Company" Association="Self.FK_PO_Company">
-            <End Role="Company_Master" EntitySet="Company_Master" />
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PO_Details" Association="Self.FK_PO_Details">
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
-            <End Role="PurchaseOrder_Details" EntitySet="PurchaseOrder_Details" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PO_Vendor" Association="Self.FK_PO_Vendor">
-            <End Role="Vendor_Master" EntitySet="Vendor_Master" />
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -656,7 +759,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Is_Active" Type="Boolean" />
           <Property Name="Created_Date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PO_Company" FromRole="Company_Master" ToRole="PurchaseOrder" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -686,37 +788,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <Property Name="DeptID" Type="Int32" />
           <Property Name="JoiningDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Employees__DeptI__25869641" FromRole="Employees" ToRole="Department" />
-        </EntityType>
-        <EntityType Name="PurchaseOrder">
-          <Key>
-            <PropertyRef Name="PO_Id" />
-          </Key>
-          <Property Name="PO_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PO_Number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PO_Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Vendor_Id" Type="Int32" Nullable="false" />
-          <Property Name="Company_Id" Type="Int32" Nullable="false" />
-          <Property Name="Buyer_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Buyer_Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Ship_Via" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Receive_By_Date" Type="DateTime" Precision="0" />
-          <Property Name="Payment_Terms" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Currency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Sub_Total" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Tax_Amount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Freight" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Grand_Total" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PO_Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Approved_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Approved_Date" Type="DateTime" Precision="3" />
-          <Property Name="Created_By" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Created_Date" Type="DateTime" Precision="3" />
-          <Property Name="Is_Active" Type="Boolean" />
-          <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Company_Master" Relationship="Self.FK_PO_Company" FromRole="PurchaseOrder" ToRole="Company_Master" />
-          <NavigationProperty Name="Vendor_Master" Relationship="Self.FK_PO_Vendor" FromRole="PurchaseOrder" ToRole="Vendor_Master" />
-          <NavigationProperty Name="PurchaseOrder_Details" Relationship="ApptSoftModel.FK_PO_Details" FromRole="PurchaseOrder" ToRole="PurchaseOrder_Details" />
         </EntityType>
         <EntityType Name="tblAMC">
           <Key>
@@ -910,7 +981,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <Property Name="GST_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Is_Active" Type="Boolean" />
           <Property Name="Created_Date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PO_Vendor" FromRole="Vendor_Master" ToRole="PurchaseOrder" />
         </EntityType>
         <EntityType Name="C_emp">
           <Key>
@@ -947,18 +1017,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PO_Company">
-          <End Role="Company_Master" Type="Self.Company_Master" Multiplicity="1" />
-          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company_Master">
-              <PropertyRef Name="Company_Id" />
-            </Principal>
-            <Dependent Role="PurchaseOrder">
-              <PropertyRef Name="Company_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Employees__DeptI__25869641">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="Employees" Type="Self.Employee" Multiplicity="*" />
@@ -971,18 +1029,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PO_Vendor">
-          <End Role="Vendor_Master" Type="Self.Vendor_Master" Multiplicity="1" />
-          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor_Master">
-              <PropertyRef Name="Vendor_Id" />
-            </Principal>
-            <Dependent Role="PurchaseOrder">
-              <PropertyRef Name="Vendor_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ApptSoftEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="C_Address" EntityType="Self.C_Address" />
           <EntitySet Name="C_Client_01" EntityType="Self.C_Client_01" />
@@ -991,7 +1037,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <EntitySet Name="Departments" EntityType="Self.Department" />
           <EntitySet Name="Empls" EntityType="Self.Empl" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
-          <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrder" />
           <EntitySet Name="tblAMCs" EntityType="Self.tblAMC" />
           <EntitySet Name="tblComplaints" EntityType="Self.tblComplaint" />
           <EntitySet Name="tblCorpusFunds" EntityType="Self.tblCorpusFund" />
@@ -1008,108 +1053,20 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
             <End Role="C_Client_01" EntitySet="C_Client_01" />
             <End Role="C_Address" EntitySet="C_Address" />
           </AssociationSet>
-          <AssociationSet Name="FK_PO_Company" Association="Self.FK_PO_Company">
-            <End Role="Company_Master" EntitySet="Company_Master" />
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-          </AssociationSet>
           <AssociationSet Name="FK__Employees__DeptI__25869641" Association="Self.FK__Employees__DeptI__25869641">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Employees" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK_PO_Vendor" Association="Self.FK_PO_Vendor">
-            <End Role="Vendor_Master" EntitySet="Vendor_Master" />
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-          </AssociationSet>
-          <EntitySet Name="PurchaseOrder_Details" EntityType="ApptSoftModel.PurchaseOrder_Details" />
-          <AssociationSet Name="FK_PO_Details" Association="ApptSoftModel.FK_PO_Details">
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-            <End Role="PurchaseOrder_Details" EntitySet="PurchaseOrder_Details" />
-          </AssociationSet>
-          <EntitySet Name="JobCard_Details" EntityType="ApptSoftModel.JobCard_Details" />
-          <EntitySet Name="JobCard_Master" EntityType="ApptSoftModel.JobCard_Master" />
-          <EntitySet Name="JobCard_Production_Tracking" EntityType="ApptSoftModel.JobCard_Production_Tracking" />
           <EntitySet Name="Production_Operations" EntityType="ApptSoftModel.Production_Operations" />
           <EntitySet Name="tblDispatches" EntityType="ApptSoftModel.tblDispatch" />
           <EntitySet Name="tblDispatchContractors" EntityType="ApptSoftModel.tblDispatchContractor" />
           <EntitySet Name="tblContractors" EntityType="ApptSoftModel.tblContractor" />
           <EntitySet Name="tblsummaryreports" EntityType="ApptSoftModel.tblsummaryreport" />
+          <EntitySet Name="tblPurchaseOrders" EntityType="ApptSoftModel.tblPurchaseOrder" />
+          <EntitySet Name="FIBC_FabricDetails" EntityType="ApptSoftModel.FIBC_FabricDetails" />
+          <EntitySet Name="FIBC_JobCard" EntityType="ApptSoftModel.FIBC_JobCard" />
+          <EntitySet Name="FIBC_ComponentDetails" EntityType="ApptSoftModel.FIBC_ComponentDetails" />
         </EntityContainer>
-        <EntityType Name="PurchaseOrder_Details">
-          <Key>
-            <PropertyRef Name="POD_Id" />
-          </Key>
-          <Property Name="POD_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PO_Id" Type="Int32" Nullable="false" />
-          <Property Name="Item_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Item_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Qty_Per_Bale" Type="Int32" />
-          <Property Name="Bale_Count" Type="Int32" />
-          <Property Name="Total_Quantity" Type="Int32" />
-          <Property Name="Unit" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Unit_Price" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Line_Total" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PurchaseOrder" Relationship="ApptSoftModel.FK_PO_Details" FromRole="PurchaseOrder_Details" ToRole="PurchaseOrder" />
-        </EntityType>
-        <Association Name="FK_PO_Details">
-          <End Type="ApptSoftModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="1" />
-          <End Type="ApptSoftModel.PurchaseOrder_Details" Role="PurchaseOrder_Details" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PurchaseOrder">
-              <PropertyRef Name="PO_Id" />
-            </Principal>
-            <Dependent Role="PurchaseOrder_Details">
-              <PropertyRef Name="PO_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="JobCard_Details">
-          <Key>
-            <PropertyRef Name="JCD_Id" />
-          </Key>
-          <Property Name="JCD_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="JobCard_Id" Type="Int32" />
-          <Property Name="Item_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Item_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Qty_Per_Bale" Type="Int32" />
-          <Property Name="Bale_Count" Type="Int32" />
-          <Property Name="Total_Quantity" Type="Int32" />
-          <Property Name="Unit" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Process_Type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Completed_Qty" Type="Int32" />
-        </EntityType>
-        <EntityType Name="JobCard_Master">
-          <Key>
-            <PropertyRef Name="JobCard_Id" />
-          </Key>
-          <Property Name="JobCard_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="JobCard_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PO_Id" Type="Int32" />
-          <Property Name="PO_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Vendor_Id" Type="Int32" />
-          <Property Name="Company_Id" Type="Int32" />
-          <Property Name="Job_Date" Type="DateTime" Precision="3" />
-          <Property Name="Buyer_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="Created_Date" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="JobCard_Production_Tracking">
-          <Key>
-            <PropertyRef Name="Tracking_Id" />
-          </Key>
-          <Property Name="Tracking_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="JobCard_Id" Type="Int32" />
-          <Property Name="JCD_Id" Type="Int32" />
-          <Property Name="Operation_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Input_Qty" Type="Int32" />
-          <Property Name="Output_Qty" Type="Int32" />
-          <Property Name="Wastage_Qty" Type="Int32" />
-          <Property Name="Machine_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Start_Time" Type="DateTime" Precision="3" />
-          <Property Name="End_Time" Type="DateTime" Precision="3" />
-          <Property Name="Operator_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Int32" />
-        </EntityType>
         <EntityType Name="Production_Operations">
           <Key>
             <PropertyRef Name="Operation_Id" />
@@ -1189,6 +1146,249 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
           <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Belling_Amt" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Is_Customor" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tblPurchaseOrder">
+          <Key>
+            <PropertyRef Name="PO_Id" />
+          </Key>
+          <Property Name="PO_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Billing_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Customer" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Container_No" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PO_Number" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Item_No" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Size_Of_Bag" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ORDER_QTY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Req_Wt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Total_Req_Wt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Act_Wt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Total_Act_Wt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="PcsPerPallet" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Attachment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="Created_Date" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="Updated_Date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="FIBC_FabricDetails">
+          <Key>
+            <PropertyRef Name="FabricId" />
+          </Key>
+          <Property Name="FabricId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobCardId" Type="Int32" />
+          <Property Name="Body_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Body_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Body_CutLen" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Body_GSM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Body_Lam" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Body_Total" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Body_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Body_TotalMtr" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Side_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Side_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Side_CutLen" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Side_GSM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Side_Lam" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Side_Total" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Side_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Side_TotalMtr" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Top_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Top_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Top_CutLen" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Top_GSM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Top_Lam" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Top_Total" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Top_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Top_TotalMtr" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Flap_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Flap_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Flap_CutLen" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Flap_GSM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Flap_Lam" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Flap_Total" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Flap_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Flap_TotalMtr" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FS_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FS_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FS_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FS_CutLen" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FS_GSM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FS_Lam" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FS_Total" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FS_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FS_TotalMtr" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SKT_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SKT_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="SKT_CutLen" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="SKT_GSM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="SKT_Lam" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="SKT_Total" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SKT_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SKT_TotalMtr" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DS_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DS_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DS_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DS_CutLen" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DS_GSM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DS_Lam" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DS_Total" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DS_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DS_TotalMtr" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Iris_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Iris_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Iris_CutLen" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Iris_GSM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Iris_Lam" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Iris_Total" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Iris_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Iris_TotalMtr" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Extra_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Extra_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Extra_CutLen" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Extra_GSM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Extra_Lam" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Extra_Total" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Extra_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Extra_TotalMtr" Type="Decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="FIBC_JobCard">
+          <Key>
+            <PropertyRef Name="JobCardId" />
+          </Key>
+          <Property Name="JobCardId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Customer" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PurchaseNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RefNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BagType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StitchingType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PrintSC" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OrderQty" Type="Int32" />
+          <Property Name="BagSizeL" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="BagSizeW" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="BagSizeH" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FillingType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FillingDaya" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FillingHeight" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DischargeType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DischargeDaya" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DischargeHeight" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FabricGSM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FabricCoatingGSM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FabricColor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoopAttType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoopGM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="LoopMM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="LoopColor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoopAttachmentFree" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="LoopAttachmentLong" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="LoopAttachmentShort" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="LinerWidth" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="LinerHeight" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="LinerMicron" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="SWL" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="SF" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TotalWt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GrandTotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ReqWt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ActWt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DifWt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FinishingCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CustomerSampleRec" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SampleSent" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PreviousPONumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Complaints" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PreparedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CheckedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="PO_Id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FIBC_ComponentDetails">
+          <Key>
+            <PropertyRef Name="ComponentId" />
+          </Key>
+          <Property Name="ComponentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobCardId" Type="Int32" />
+          <Property Name="Loop1_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Loop1_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Loop1_CutLength" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Loop1_GM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Loop1_TotalPcs" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Loop1_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Loop1_TotalKg" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Loop2_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Loop2_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Loop2_CutLength" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Loop2_GM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Loop2_TotalPcs" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Loop2_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Loop2_TotalKg" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="TopBend_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TopBend_Thickness" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TopBend_CutLength" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TopBend_TotalPcs" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="TieCord_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TieCord_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TieCord_CutLength" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TieCord_MTR" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TieCord_TotalPcs" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="TieCord_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="TieCord_TotalKg" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="RopeCord_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RopeCord_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="RopeCord_CutLength" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="RopeCord_MTR" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="RopeCord_TotalPcs" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="RopeCord_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="RopeCord_TotalKg" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Liner_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Liner_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Liner_Height" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Liner_Micron" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Liner_TotalPcs" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Liner_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Liner_TotalKg" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DOC_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DOC_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DOC_Length" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DOC_Micron" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DOC_TotalPcs" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DOC_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Label_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Label_Customer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Label_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ExtraLabel_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExtraLabel_Customer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ExtraLabel_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Shiftproof_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Shiftproof_MTR" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Shiftproof_TotalStitch" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Shiftproof_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Shiftproof_TotalKg" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Thread_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Thread_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Thread_CutLength" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Thread_GM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Thread_TotalPcs" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Thread_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Thread_TotalKg" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="BLock_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BLock_MTR" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="BLock_TotalStitch" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="BLock_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="BLock_TotalKg" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Print_NoOfColor" Type="Int32" />
+          <Property Name="Print_NoOfSide" Type="Int32" />
+          <Property Name="ExtraComp_Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExtraComp_Width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ExtraComp_CutLength" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ExtraComp_GM" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ExtraComp_TotalPcs" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ExtraComp_CutWt" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ExtraComp_TotalKg" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="TopBend_MTR" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="TopBend_TotalKg" Type="Decimal" Precision="18" Scale="4" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1276,35 +1476,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
                 <ScalarProperty Name="Salary" ColumnName="Salary" />
                 <ScalarProperty Name="DeptID" ColumnName="DeptID" />
                 <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PurchaseOrders">
-            <EntityTypeMapping TypeName="ApptSoftModel.PurchaseOrder">
-              <MappingFragment StoreEntitySet="PurchaseOrder">
-                <ScalarProperty Name="PO_Id" ColumnName="PO_Id" />
-                <ScalarProperty Name="PO_Number" ColumnName="PO_Number" />
-                <ScalarProperty Name="PO_Date" ColumnName="PO_Date" />
-                <ScalarProperty Name="Vendor_Id" ColumnName="Vendor_Id" />
-                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
-                <ScalarProperty Name="Buyer_Name" ColumnName="Buyer_Name" />
-                <ScalarProperty Name="Buyer_Phone" ColumnName="Buyer_Phone" />
-                <ScalarProperty Name="Ship_Via" ColumnName="Ship_Via" />
-                <ScalarProperty Name="Receive_By_Date" ColumnName="Receive_By_Date" />
-                <ScalarProperty Name="Payment_Terms" ColumnName="Payment_Terms" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="Sub_Total" ColumnName="Sub_Total" />
-                <ScalarProperty Name="Tax_Amount" ColumnName="Tax_Amount" />
-                <ScalarProperty Name="Freight" ColumnName="Freight" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="Grand_Total" ColumnName="Grand_Total" />
-                <ScalarProperty Name="PO_Status" ColumnName="PO_Status" />
-                <ScalarProperty Name="Approved_By" ColumnName="Approved_By" />
-                <ScalarProperty Name="Approved_Date" ColumnName="Approved_Date" />
-                <ScalarProperty Name="Created_By" ColumnName="Created_By" />
-                <ScalarProperty Name="Created_Date" ColumnName="Created_Date" />
-                <ScalarProperty Name="Is_Active" ColumnName="Is_Active" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1536,73 +1707,6 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PurchaseOrder_Details">
-            <EntityTypeMapping TypeName="ApptSoftModel.PurchaseOrder_Details">
-              <MappingFragment StoreEntitySet="PurchaseOrder_Details">
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Line_Total" ColumnName="Line_Total" />
-                <ScalarProperty Name="Unit_Price" ColumnName="Unit_Price" />
-                <ScalarProperty Name="Unit" ColumnName="Unit" />
-                <ScalarProperty Name="Total_Quantity" ColumnName="Total_Quantity" />
-                <ScalarProperty Name="Bale_Count" ColumnName="Bale_Count" />
-                <ScalarProperty Name="Qty_Per_Bale" ColumnName="Qty_Per_Bale" />
-                <ScalarProperty Name="Item_Description" ColumnName="Item_Description" />
-                <ScalarProperty Name="Item_No" ColumnName="Item_No" />
-                <ScalarProperty Name="PO_Id" ColumnName="PO_Id" />
-                <ScalarProperty Name="POD_Id" ColumnName="POD_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="JobCard_Details">
-            <EntityTypeMapping TypeName="ApptSoftModel.JobCard_Details">
-              <MappingFragment StoreEntitySet="JobCard_Details">
-                <ScalarProperty Name="Completed_Qty" ColumnName="Completed_Qty" />
-                <ScalarProperty Name="Process_Type" ColumnName="Process_Type" />
-                <ScalarProperty Name="Unit" ColumnName="Unit" />
-                <ScalarProperty Name="Total_Quantity" ColumnName="Total_Quantity" />
-                <ScalarProperty Name="Bale_Count" ColumnName="Bale_Count" />
-                <ScalarProperty Name="Qty_Per_Bale" ColumnName="Qty_Per_Bale" />
-                <ScalarProperty Name="Item_Description" ColumnName="Item_Description" />
-                <ScalarProperty Name="Item_No" ColumnName="Item_No" />
-                <ScalarProperty Name="JobCard_Id" ColumnName="JobCard_Id" />
-                <ScalarProperty Name="JCD_Id" ColumnName="JCD_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="JobCard_Master">
-            <EntityTypeMapping TypeName="ApptSoftModel.JobCard_Master">
-              <MappingFragment StoreEntitySet="JobCard_Master">
-                <ScalarProperty Name="Created_Date" ColumnName="Created_Date" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Buyer_Name" ColumnName="Buyer_Name" />
-                <ScalarProperty Name="Job_Date" ColumnName="Job_Date" />
-                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
-                <ScalarProperty Name="Vendor_Id" ColumnName="Vendor_Id" />
-                <ScalarProperty Name="PO_Number" ColumnName="PO_Number" />
-                <ScalarProperty Name="PO_Id" ColumnName="PO_Id" />
-                <ScalarProperty Name="JobCard_Number" ColumnName="JobCard_Number" />
-                <ScalarProperty Name="JobCard_Id" ColumnName="JobCard_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="JobCard_Production_Tracking">
-            <EntityTypeMapping TypeName="ApptSoftModel.JobCard_Production_Tracking">
-              <MappingFragment StoreEntitySet="JobCard_Production_Tracking">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Operator_Name" ColumnName="Operator_Name" />
-                <ScalarProperty Name="End_Time" ColumnName="End_Time" />
-                <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
-                <ScalarProperty Name="Machine_Name" ColumnName="Machine_Name" />
-                <ScalarProperty Name="Wastage_Qty" ColumnName="Wastage_Qty" />
-                <ScalarProperty Name="Output_Qty" ColumnName="Output_Qty" />
-                <ScalarProperty Name="Input_Qty" ColumnName="Input_Qty" />
-                <ScalarProperty Name="Operation_Name" ColumnName="Operation_Name" />
-                <ScalarProperty Name="JCD_Id" ColumnName="JCD_Id" />
-                <ScalarProperty Name="JobCard_Id" ColumnName="JobCard_Id" />
-                <ScalarProperty Name="Tracking_Id" ColumnName="Tracking_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Production_Operations">
             <EntityTypeMapping TypeName="ApptSoftModel.Production_Operations">
               <MappingFragment StoreEntitySet="Production_Operations">
@@ -1685,6 +1789,253 @@ warning 6002: The table/view 'esankal1_ApptSoft.dbo._emp3411' does not have a pr
                 <ScalarProperty Name="Contractor_Name" ColumnName="Contractor_Name" />
                 <ScalarProperty Name="Contractor_id" ColumnName="Contractor_id" />
                 <ScalarProperty Name="tblsummaryreport_id" ColumnName="tblsummaryreport_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPurchaseOrders">
+            <EntityTypeMapping TypeName="ApptSoftModel.tblPurchaseOrder">
+              <MappingFragment StoreEntitySet="tblPurchaseOrders">
+                <ScalarProperty Name="Updated_Date" ColumnName="Updated_Date" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Created_Date" ColumnName="Created_Date" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+                <ScalarProperty Name="PcsPerPallet" ColumnName="PcsPerPallet" />
+                <ScalarProperty Name="Total_Act_Wt" ColumnName="Total_Act_Wt" />
+                <ScalarProperty Name="Act_Wt" ColumnName="Act_Wt" />
+                <ScalarProperty Name="Total_Req_Wt" ColumnName="Total_Req_Wt" />
+                <ScalarProperty Name="Req_Wt" ColumnName="Req_Wt" />
+                <ScalarProperty Name="ORDER_QTY" ColumnName="ORDER_QTY" />
+                <ScalarProperty Name="Size_Of_Bag" ColumnName="Size_Of_Bag" />
+                <ScalarProperty Name="Item_No" ColumnName="Item_No" />
+                <ScalarProperty Name="PO_Number" ColumnName="PO_Number" />
+                <ScalarProperty Name="Container_No" ColumnName="Container_No" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Billing_Date" ColumnName="Billing_Date" />
+                <ScalarProperty Name="PO_Id" ColumnName="PO_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FIBC_FabricDetails">
+            <EntityTypeMapping TypeName="ApptSoftModel.FIBC_FabricDetails">
+              <MappingFragment StoreEntitySet="FIBC_FabricDetails">
+                <ScalarProperty Name="Extra_TotalMtr" ColumnName="Extra_TotalMtr" />
+                <ScalarProperty Name="Extra_CutWt" ColumnName="Extra_CutWt" />
+                <ScalarProperty Name="Extra_Total" ColumnName="Extra_Total" />
+                <ScalarProperty Name="Extra_Lam" ColumnName="Extra_Lam" />
+                <ScalarProperty Name="Extra_GSM" ColumnName="Extra_GSM" />
+                <ScalarProperty Name="Extra_CutLen" ColumnName="Extra_CutLen" />
+                <ScalarProperty Name="Extra_Width" ColumnName="Extra_Width" />
+                <ScalarProperty Name="Extra_Colour" ColumnName="Extra_Colour" />
+                <ScalarProperty Name="Iris_TotalMtr" ColumnName="Iris_TotalMtr" />
+                <ScalarProperty Name="Iris_CutWt" ColumnName="Iris_CutWt" />
+                <ScalarProperty Name="Iris_Total" ColumnName="Iris_Total" />
+                <ScalarProperty Name="Iris_Lam" ColumnName="Iris_Lam" />
+                <ScalarProperty Name="Iris_GSM" ColumnName="Iris_GSM" />
+                <ScalarProperty Name="Iris_CutLen" ColumnName="Iris_CutLen" />
+                <ScalarProperty Name="Iris_Width" ColumnName="Iris_Width" />
+                <ScalarProperty Name="Iris_Colour" ColumnName="Iris_Colour" />
+                <ScalarProperty Name="DS_TotalMtr" ColumnName="DS_TotalMtr" />
+                <ScalarProperty Name="DS_CutWt" ColumnName="DS_CutWt" />
+                <ScalarProperty Name="DS_Total" ColumnName="DS_Total" />
+                <ScalarProperty Name="DS_Lam" ColumnName="DS_Lam" />
+                <ScalarProperty Name="DS_GSM" ColumnName="DS_GSM" />
+                <ScalarProperty Name="DS_CutLen" ColumnName="DS_CutLen" />
+                <ScalarProperty Name="DS_Width" ColumnName="DS_Width" />
+                <ScalarProperty Name="DS_Colour" ColumnName="DS_Colour" />
+                <ScalarProperty Name="DS_Type" ColumnName="DS_Type" />
+                <ScalarProperty Name="SKT_TotalMtr" ColumnName="SKT_TotalMtr" />
+                <ScalarProperty Name="SKT_CutWt" ColumnName="SKT_CutWt" />
+                <ScalarProperty Name="SKT_Total" ColumnName="SKT_Total" />
+                <ScalarProperty Name="SKT_Lam" ColumnName="SKT_Lam" />
+                <ScalarProperty Name="SKT_GSM" ColumnName="SKT_GSM" />
+                <ScalarProperty Name="SKT_CutLen" ColumnName="SKT_CutLen" />
+                <ScalarProperty Name="SKT_Width" ColumnName="SKT_Width" />
+                <ScalarProperty Name="SKT_Colour" ColumnName="SKT_Colour" />
+                <ScalarProperty Name="FS_TotalMtr" ColumnName="FS_TotalMtr" />
+                <ScalarProperty Name="FS_CutWt" ColumnName="FS_CutWt" />
+                <ScalarProperty Name="FS_Total" ColumnName="FS_Total" />
+                <ScalarProperty Name="FS_Lam" ColumnName="FS_Lam" />
+                <ScalarProperty Name="FS_GSM" ColumnName="FS_GSM" />
+                <ScalarProperty Name="FS_CutLen" ColumnName="FS_CutLen" />
+                <ScalarProperty Name="FS_Width" ColumnName="FS_Width" />
+                <ScalarProperty Name="FS_Colour" ColumnName="FS_Colour" />
+                <ScalarProperty Name="FS_Type" ColumnName="FS_Type" />
+                <ScalarProperty Name="Flap_TotalMtr" ColumnName="Flap_TotalMtr" />
+                <ScalarProperty Name="Flap_CutWt" ColumnName="Flap_CutWt" />
+                <ScalarProperty Name="Flap_Total" ColumnName="Flap_Total" />
+                <ScalarProperty Name="Flap_Lam" ColumnName="Flap_Lam" />
+                <ScalarProperty Name="Flap_GSM" ColumnName="Flap_GSM" />
+                <ScalarProperty Name="Flap_CutLen" ColumnName="Flap_CutLen" />
+                <ScalarProperty Name="Flap_Width" ColumnName="Flap_Width" />
+                <ScalarProperty Name="Flap_Colour" ColumnName="Flap_Colour" />
+                <ScalarProperty Name="Top_TotalMtr" ColumnName="Top_TotalMtr" />
+                <ScalarProperty Name="Top_CutWt" ColumnName="Top_CutWt" />
+                <ScalarProperty Name="Top_Total" ColumnName="Top_Total" />
+                <ScalarProperty Name="Top_Lam" ColumnName="Top_Lam" />
+                <ScalarProperty Name="Top_GSM" ColumnName="Top_GSM" />
+                <ScalarProperty Name="Top_CutLen" ColumnName="Top_CutLen" />
+                <ScalarProperty Name="Top_Width" ColumnName="Top_Width" />
+                <ScalarProperty Name="Top_Colour" ColumnName="Top_Colour" />
+                <ScalarProperty Name="Side_TotalMtr" ColumnName="Side_TotalMtr" />
+                <ScalarProperty Name="Side_CutWt" ColumnName="Side_CutWt" />
+                <ScalarProperty Name="Side_Total" ColumnName="Side_Total" />
+                <ScalarProperty Name="Side_Lam" ColumnName="Side_Lam" />
+                <ScalarProperty Name="Side_GSM" ColumnName="Side_GSM" />
+                <ScalarProperty Name="Side_CutLen" ColumnName="Side_CutLen" />
+                <ScalarProperty Name="Side_Width" ColumnName="Side_Width" />
+                <ScalarProperty Name="Side_Colour" ColumnName="Side_Colour" />
+                <ScalarProperty Name="Body_TotalMtr" ColumnName="Body_TotalMtr" />
+                <ScalarProperty Name="Body_CutWt" ColumnName="Body_CutWt" />
+                <ScalarProperty Name="Body_Total" ColumnName="Body_Total" />
+                <ScalarProperty Name="Body_Lam" ColumnName="Body_Lam" />
+                <ScalarProperty Name="Body_GSM" ColumnName="Body_GSM" />
+                <ScalarProperty Name="Body_CutLen" ColumnName="Body_CutLen" />
+                <ScalarProperty Name="Body_Width" ColumnName="Body_Width" />
+                <ScalarProperty Name="Body_Colour" ColumnName="Body_Colour" />
+                <ScalarProperty Name="JobCardId" ColumnName="JobCardId" />
+                <ScalarProperty Name="FabricId" ColumnName="FabricId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FIBC_JobCard">
+            <EntityTypeMapping TypeName="ApptSoftModel.FIBC_JobCard">
+              <MappingFragment StoreEntitySet="FIBC_JobCard">
+                <ScalarProperty Name="PO_Id" ColumnName="PO_Id" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="CheckedBy" ColumnName="CheckedBy" />
+                <ScalarProperty Name="PreparedBy" ColumnName="PreparedBy" />
+                <ScalarProperty Name="Complaints" ColumnName="Complaints" />
+                <ScalarProperty Name="PreviousPONumber" ColumnName="PreviousPONumber" />
+                <ScalarProperty Name="SampleSent" ColumnName="SampleSent" />
+                <ScalarProperty Name="CustomerSampleRec" ColumnName="CustomerSampleRec" />
+                <ScalarProperty Name="FinishingCost" ColumnName="FinishingCost" />
+                <ScalarProperty Name="DifWt" ColumnName="DifWt" />
+                <ScalarProperty Name="ActWt" ColumnName="ActWt" />
+                <ScalarProperty Name="ReqWt" ColumnName="ReqWt" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+                <ScalarProperty Name="TotalWt" ColumnName="TotalWt" />
+                <ScalarProperty Name="SF" ColumnName="SF" />
+                <ScalarProperty Name="SWL" ColumnName="SWL" />
+                <ScalarProperty Name="LinerMicron" ColumnName="LinerMicron" />
+                <ScalarProperty Name="LinerHeight" ColumnName="LinerHeight" />
+                <ScalarProperty Name="LinerWidth" ColumnName="LinerWidth" />
+                <ScalarProperty Name="LoopAttachmentShort" ColumnName="LoopAttachmentShort" />
+                <ScalarProperty Name="LoopAttachmentLong" ColumnName="LoopAttachmentLong" />
+                <ScalarProperty Name="LoopAttachmentFree" ColumnName="LoopAttachmentFree" />
+                <ScalarProperty Name="LoopColor" ColumnName="LoopColor" />
+                <ScalarProperty Name="LoopMM" ColumnName="LoopMM" />
+                <ScalarProperty Name="LoopGM" ColumnName="LoopGM" />
+                <ScalarProperty Name="LoopAttType" ColumnName="LoopAttType" />
+                <ScalarProperty Name="FabricColor" ColumnName="FabricColor" />
+                <ScalarProperty Name="FabricCoatingGSM" ColumnName="FabricCoatingGSM" />
+                <ScalarProperty Name="FabricGSM" ColumnName="FabricGSM" />
+                <ScalarProperty Name="DischargeHeight" ColumnName="DischargeHeight" />
+                <ScalarProperty Name="DischargeDaya" ColumnName="DischargeDaya" />
+                <ScalarProperty Name="DischargeType" ColumnName="DischargeType" />
+                <ScalarProperty Name="FillingHeight" ColumnName="FillingHeight" />
+                <ScalarProperty Name="FillingDaya" ColumnName="FillingDaya" />
+                <ScalarProperty Name="FillingType" ColumnName="FillingType" />
+                <ScalarProperty Name="BagSizeH" ColumnName="BagSizeH" />
+                <ScalarProperty Name="BagSizeW" ColumnName="BagSizeW" />
+                <ScalarProperty Name="BagSizeL" ColumnName="BagSizeL" />
+                <ScalarProperty Name="OrderQty" ColumnName="OrderQty" />
+                <ScalarProperty Name="PrintSC" ColumnName="PrintSC" />
+                <ScalarProperty Name="StitchingType" ColumnName="StitchingType" />
+                <ScalarProperty Name="BagType" ColumnName="BagType" />
+                <ScalarProperty Name="RefNo" ColumnName="RefNo" />
+                <ScalarProperty Name="PurchaseNo" ColumnName="PurchaseNo" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="JobCardId" ColumnName="JobCardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FIBC_ComponentDetails">
+            <EntityTypeMapping TypeName="ApptSoftModel.FIBC_ComponentDetails">
+              <MappingFragment StoreEntitySet="FIBC_ComponentDetails">
+                <ScalarProperty Name="TopBend_TotalKg" ColumnName="TopBend_TotalKg" />
+                <ScalarProperty Name="TopBend_MTR" ColumnName="TopBend_MTR" />
+                <ScalarProperty Name="ExtraComp_TotalKg" ColumnName="ExtraComp_TotalKg" />
+                <ScalarProperty Name="ExtraComp_CutWt" ColumnName="ExtraComp_CutWt" />
+                <ScalarProperty Name="ExtraComp_TotalPcs" ColumnName="ExtraComp_TotalPcs" />
+                <ScalarProperty Name="ExtraComp_GM" ColumnName="ExtraComp_GM" />
+                <ScalarProperty Name="ExtraComp_CutLength" ColumnName="ExtraComp_CutLength" />
+                <ScalarProperty Name="ExtraComp_Width" ColumnName="ExtraComp_Width" />
+                <ScalarProperty Name="ExtraComp_Colour" ColumnName="ExtraComp_Colour" />
+                <ScalarProperty Name="Print_NoOfSide" ColumnName="Print_NoOfSide" />
+                <ScalarProperty Name="Print_NoOfColor" ColumnName="Print_NoOfColor" />
+                <ScalarProperty Name="BLock_TotalKg" ColumnName="BLock_TotalKg" />
+                <ScalarProperty Name="BLock_CutWt" ColumnName="BLock_CutWt" />
+                <ScalarProperty Name="BLock_TotalStitch" ColumnName="BLock_TotalStitch" />
+                <ScalarProperty Name="BLock_MTR" ColumnName="BLock_MTR" />
+                <ScalarProperty Name="BLock_Colour" ColumnName="BLock_Colour" />
+                <ScalarProperty Name="Thread_TotalKg" ColumnName="Thread_TotalKg" />
+                <ScalarProperty Name="Thread_CutWt" ColumnName="Thread_CutWt" />
+                <ScalarProperty Name="Thread_TotalPcs" ColumnName="Thread_TotalPcs" />
+                <ScalarProperty Name="Thread_GM" ColumnName="Thread_GM" />
+                <ScalarProperty Name="Thread_CutLength" ColumnName="Thread_CutLength" />
+                <ScalarProperty Name="Thread_Width" ColumnName="Thread_Width" />
+                <ScalarProperty Name="Thread_Colour" ColumnName="Thread_Colour" />
+                <ScalarProperty Name="Shiftproof_TotalKg" ColumnName="Shiftproof_TotalKg" />
+                <ScalarProperty Name="Shiftproof_CutWt" ColumnName="Shiftproof_CutWt" />
+                <ScalarProperty Name="Shiftproof_TotalStitch" ColumnName="Shiftproof_TotalStitch" />
+                <ScalarProperty Name="Shiftproof_MTR" ColumnName="Shiftproof_MTR" />
+                <ScalarProperty Name="Shiftproof_Type" ColumnName="Shiftproof_Type" />
+                <ScalarProperty Name="ExtraLabel_CutWt" ColumnName="ExtraLabel_CutWt" />
+                <ScalarProperty Name="ExtraLabel_Customer" ColumnName="ExtraLabel_Customer" />
+                <ScalarProperty Name="ExtraLabel_Type" ColumnName="ExtraLabel_Type" />
+                <ScalarProperty Name="Label_CutWt" ColumnName="Label_CutWt" />
+                <ScalarProperty Name="Label_Customer" ColumnName="Label_Customer" />
+                <ScalarProperty Name="Label_Type" ColumnName="Label_Type" />
+                <ScalarProperty Name="DOC_CutWt" ColumnName="DOC_CutWt" />
+                <ScalarProperty Name="DOC_TotalPcs" ColumnName="DOC_TotalPcs" />
+                <ScalarProperty Name="DOC_Micron" ColumnName="DOC_Micron" />
+                <ScalarProperty Name="DOC_Length" ColumnName="DOC_Length" />
+                <ScalarProperty Name="DOC_Width" ColumnName="DOC_Width" />
+                <ScalarProperty Name="DOC_Type" ColumnName="DOC_Type" />
+                <ScalarProperty Name="Liner_TotalKg" ColumnName="Liner_TotalKg" />
+                <ScalarProperty Name="Liner_CutWt" ColumnName="Liner_CutWt" />
+                <ScalarProperty Name="Liner_TotalPcs" ColumnName="Liner_TotalPcs" />
+                <ScalarProperty Name="Liner_Micron" ColumnName="Liner_Micron" />
+                <ScalarProperty Name="Liner_Height" ColumnName="Liner_Height" />
+                <ScalarProperty Name="Liner_Width" ColumnName="Liner_Width" />
+                <ScalarProperty Name="Liner_Type" ColumnName="Liner_Type" />
+                <ScalarProperty Name="RopeCord_TotalKg" ColumnName="RopeCord_TotalKg" />
+                <ScalarProperty Name="RopeCord_CutWt" ColumnName="RopeCord_CutWt" />
+                <ScalarProperty Name="RopeCord_TotalPcs" ColumnName="RopeCord_TotalPcs" />
+                <ScalarProperty Name="RopeCord_MTR" ColumnName="RopeCord_MTR" />
+                <ScalarProperty Name="RopeCord_CutLength" ColumnName="RopeCord_CutLength" />
+                <ScalarProperty Name="RopeCord_Width" ColumnName="RopeCord_Width" />
+                <ScalarProperty Name="RopeCord_Colour" ColumnName="RopeCord_Colour" />
+                <ScalarProperty Name="TieCord_TotalKg" ColumnName="TieCord_TotalKg" />
+                <ScalarProperty Name="TieCord_CutWt" ColumnName="TieCord_CutWt" />
+                <ScalarProperty Name="TieCord_TotalPcs" ColumnName="TieCord_TotalPcs" />
+                <ScalarProperty Name="TieCord_MTR" ColumnName="TieCord_MTR" />
+                <ScalarProperty Name="TieCord_CutLength" ColumnName="TieCord_CutLength" />
+                <ScalarProperty Name="TieCord_Width" ColumnName="TieCord_Width" />
+                <ScalarProperty Name="TieCord_Colour" ColumnName="TieCord_Colour" />
+                <ScalarProperty Name="TopBend_TotalPcs" ColumnName="TopBend_TotalPcs" />
+                <ScalarProperty Name="TopBend_CutLength" ColumnName="TopBend_CutLength" />
+                <ScalarProperty Name="TopBend_Thickness" ColumnName="TopBend_Thickness" />
+                <ScalarProperty Name="TopBend_Colour" ColumnName="TopBend_Colour" />
+                <ScalarProperty Name="Loop2_TotalKg" ColumnName="Loop2_TotalKg" />
+                <ScalarProperty Name="Loop2_CutWt" ColumnName="Loop2_CutWt" />
+                <ScalarProperty Name="Loop2_TotalPcs" ColumnName="Loop2_TotalPcs" />
+                <ScalarProperty Name="Loop2_GM" ColumnName="Loop2_GM" />
+                <ScalarProperty Name="Loop2_CutLength" ColumnName="Loop2_CutLength" />
+                <ScalarProperty Name="Loop2_Width" ColumnName="Loop2_Width" />
+                <ScalarProperty Name="Loop2_Colour" ColumnName="Loop2_Colour" />
+                <ScalarProperty Name="Loop1_TotalKg" ColumnName="Loop1_TotalKg" />
+                <ScalarProperty Name="Loop1_CutWt" ColumnName="Loop1_CutWt" />
+                <ScalarProperty Name="Loop1_TotalPcs" ColumnName="Loop1_TotalPcs" />
+                <ScalarProperty Name="Loop1_GM" ColumnName="Loop1_GM" />
+                <ScalarProperty Name="Loop1_CutLength" ColumnName="Loop1_CutLength" />
+                <ScalarProperty Name="Loop1_Width" ColumnName="Loop1_Width" />
+                <ScalarProperty Name="Loop1_Colour" ColumnName="Loop1_Colour" />
+                <ScalarProperty Name="JobCardId" ColumnName="JobCardId" />
+                <ScalarProperty Name="ComponentId" ColumnName="ComponentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

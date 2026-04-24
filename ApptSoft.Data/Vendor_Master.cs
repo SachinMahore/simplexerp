@@ -18,15 +18,6 @@ using System;
 public partial class Vendor_Master
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public Vendor_Master()
-    {
-
-        this.PurchaseOrders = new HashSet<PurchaseOrder>();
-
-    }
-
-
     public int Vendor_Id { get; set; }
 
     public string Vendor_Name { get; set; }
@@ -54,12 +45,6 @@ public partial class Vendor_Master
     public Nullable<bool> Is_Active { get; set; }
 
     public Nullable<System.DateTime> Created_Date { get; set; }
-
-
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
 
 }
 

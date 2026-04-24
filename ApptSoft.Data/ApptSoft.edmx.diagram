@@ -12,7 +12,6 @@
         <EntityTypeShape EntityType="ApptSoftModel.Department" Width="1.5" PointX="5.75" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ApptSoftModel.Empl" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ApptSoftModel.Employee" Width="1.5" PointX="8" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="ApptSoftModel.PurchaseOrder" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ApptSoftModel.tblAMC" Width="1.5" PointX="4.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ApptSoftModel.tblComplaint" Width="1.5" PointX="6.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ApptSoftModel.tblCorpusFund" Width="1.5" PointX="10.75" PointY="7.75" IsExpanded="true" />
@@ -26,19 +25,16 @@
         <EntityTypeShape EntityType="ApptSoftModel.C_emp" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ApptSoftModel.C_emp3411" Width="1.5" PointX="14.75" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="ApptSoftModel.FK___Address__Client__52593CB8" ManuallyRouted="false" />
-        <AssociationConnector Association="ApptSoftModel.FK_PO_Company" ManuallyRouted="false" />
         <AssociationConnector Association="ApptSoftModel.FK__Employees__DeptI__25869641" ManuallyRouted="false" />
-        <AssociationConnector Association="ApptSoftModel.FK_PO_Vendor" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ApptSoftModel.PurchaseOrder_Details" Width="1.5" PointX="5.25" PointY="2.5" />
-        <AssociationConnector Association="ApptSoftModel.FK_PO_Details" />
-        <EntityTypeShape EntityType="ApptSoftModel.JobCard_Details" Width="1.5" PointX="3.375" PointY="15.75" />
-        <EntityTypeShape EntityType="ApptSoftModel.JobCard_Master" Width="1.5" PointX="5.375" PointY="15.75" />
-        <EntityTypeShape EntityType="ApptSoftModel.JobCard_Production_Tracking" Width="1.5" PointX="15.375" PointY="7.75" />
         <EntityTypeShape EntityType="ApptSoftModel.Production_Operations" Width="1.5" PointX="15.375" PointY="12.75" />
         <EntityTypeShape EntityType="ApptSoftModel.tblDispatch" Width="1.5" PointX="15.375" PointY="15.75" />
         <EntityTypeShape EntityType="ApptSoftModel.tblDispatchContractor" Width="1.5" PointX="7.375" PointY="16.75" />
         <EntityTypeShape EntityType="ApptSoftModel.tblContractor" Width="1.5" PointX="9.375" PointY="16.75" />
         <EntityTypeShape EntityType="ApptSoftModel.tblsummaryreport" Width="1.5" PointX="11.375" PointY="16.75" />
+        <EntityTypeShape EntityType="ApptSoftModel.tblPurchaseOrder" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ApptSoftModel.FIBC_FabricDetails" Width="1.5" PointX="17.375" PointY="12.75" />
+        <EntityTypeShape EntityType="ApptSoftModel.FIBC_JobCard" Width="1.5" PointX="17.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ApptSoftModel.FIBC_ComponentDetails" Width="1.5" PointX="3.375" PointY="15.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

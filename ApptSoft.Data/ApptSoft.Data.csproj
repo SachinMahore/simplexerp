@@ -95,25 +95,19 @@
     <Compile Include="Employee.cs">
       <DependentUpon>ApptSoft.tt</DependentUpon>
     </Compile>
-    <Compile Include="JobCard_Details.cs">
+    <Compile Include="FIBC_ComponentDetails.cs">
       <DependentUpon>ApptSoft.tt</DependentUpon>
     </Compile>
-    <Compile Include="JobCard_Master.cs">
+    <Compile Include="FIBC_FabricDetails.cs">
       <DependentUpon>ApptSoft.tt</DependentUpon>
     </Compile>
-    <Compile Include="JobCard_Production_Tracking.cs">
+    <Compile Include="FIBC_JobCard.cs">
       <DependentUpon>ApptSoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Production_Operations.cs">
       <DependentUpon>ApptSoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PurchaseOrder.cs">
-      <DependentUpon>ApptSoft.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PurchaseOrder_Details.cs">
-      <DependentUpon>ApptSoft.tt</DependentUpon>
-    </Compile>
     <Compile Include="tblAMC.cs">
       <DependentUpon>ApptSoft.tt</DependentUpon>
     </Compile>
@@ -139,6 +133,9 @@
       <DependentUpon>ApptSoft.tt</DependentUpon>
     </Compile>
     <Compile Include="tblMaintenance.cs">
+      <DependentUpon>ApptSoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblPurchaseOrder.cs">
       <DependentUpon>ApptSoft.tt</DependentUpon>
     </Compile>
     <Compile Include="tblResident.cs">

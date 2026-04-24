@@ -35,193 +35,159 @@
     <div class="row">
         <div class="col-lg-8">
             <span id="txtMonth"></span>|<span id="txtYear"></span>
-                                        <div class="row">
-                                            <!-- Customers Card -->
-                                            <div class="col-xxl-6 col-md-6">
+            @if (Session["dept"] != null && Session["dept"].ToString() == "mdr")
+            {
+                <div class="row">
+                    <!-- Customers Card -->
+                    <div class="col-xxl-6 col-md-6">
 
 
 
-                                                <div class="card info-card we-car">
+                        <div class="card info-card we-car">
 
-                                                    <div class="filter">
-                                                        <a class="icon" href="#" data-bs-toggle="dropdown"><i></i></a>
-                                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                                            <li class="dropdown-header text-start">
-                                                                <h6>Filter</h6>
-                                                            </li>
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
 
-                                                            <li><a class="dropdown-item" href="#">Today</a></li>
-                                                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                                                            <li><a class="dropdown-item" href="#">This Year</a></li>
-                                                        </ul>
-                                                    </div>
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
 
-                                                    <div class="card-body ">
-                                                        <h5 class="card-title">Total Req wt </h5>
+                            <div class="card-body ">
+                                <h5 class="card-title">Total Req wt </h5>
 
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                                <i class="bi bi-archive-fill"></i>
-                                                            </div>
-                                                            <div class="ps-3">
-                                                                <h6><span id="lblReqWt"></span></h6>
-                                                                @*<span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>*@
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-archive-fill"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6><span id="lblReqWt"></span></h6>
+                                        @*<span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>*@
 
-                                                            </div>
-                                                        </div>
+                                    </div>
+                                </div>
 
-                                                    </div>
-                                                </div>
+                            </div>
+                        </div>
 
-                                            </div><!-- End Customers Card -->
-                                            <!-- Revenue Card -->
-                                            <div class="col-xxl-6 col-md-6">
-                                                <div class="card info-card revenue-card">
+                    </div><!-- End Customers Card -->
+                    <!-- Revenue Card -->
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card revenue-card">
 
-                                                    <div class="filter">
-                                                        <a class="icon" href="#" data-bs-toggle="dropdown"><i></i></a>
-                                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                                            <li class="dropdown-header text-start">
-                                                                <h6>Filter</h6>
-                                                            </li>
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
 
-                                                            <li><a class="dropdown-item" href="#">Today</a></li>
-                                                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                                                            <li><a class="dropdown-item" href="#">This Year</a></li>
-                                                        </ul>
-                                                    </div>
-
-
-                                                    <div class="card-body">
-                                                        <h5 class="card-title myClassHey"> Total Act wt</h5>
-
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                                <i class="bi bi-toggle-off"></i>
-                                                            </div>
-                                                            <div class="ps-3 Name">
-                                                                <h6><span id="lblActWt"></span></h6>
-                                                                @*<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>*@
-
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
 
 
-                                                </div>
-                                            </div><!-- End Revenue Card -->
-                                            <!-- Customers Card -->
-                                            <div class="col-xxl-6 col-md-6">
+                            <div class="card-body">
+                                <h5 class="card-title myClassHey"> Total Act wt</h5>
 
-                                                <div class="card info-card customers-card">
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-toggle-off"></i>
+                                    </div>
+                                    <div class="ps-3 Name">
+                                        <h6><span id="lblActWt"></span></h6>
+                                        @*<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>*@
 
-                                                    <div class="filter">
-                                                        <a class="icon" href="#" data-bs-toggle="dropdown"><i></i></a>
-                                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                                            <li class="dropdown-header text-start">
-                                                                <h6>Filter</h6>
-                                                            </li>
+                                    </div>
 
-                                                            <li><a class="dropdown-item" href="#">Today</a></li>
-                                                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                                                            <li><a class="dropdown-item" href="#">This Year</a></li>
-                                                        </ul>
-                                                    </div>
+                                </div>
+                            </div>
 
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">Total Diffrence wt</h5>
 
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                                <i class="bi bi-compass-fill"></i>
-                                                            </div>
-                                                            <div class="ps-3">
-                                                                <h6><span id="lblDiff"></span></h6>
+                        </div>
+                    </div><!-- End Revenue Card -->
+                    <!-- Customers Card -->
+                    <div class="col-xxl-6 col-md-6">
 
-                                                            </div>
-                                                        </div>
+                        <div class="card info-card customers-card">
 
-                                                    </div>
-                                                </div>
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
 
-                                            </div><!-- End Customers Card -->
-                                            <!-- Customers Card -->
-                                            <div class="col-xxl-6 col-md-6">
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
 
-                                                <div class="card info-card revenue-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Diffrence wt</h5>
 
-                                                    <div class="filter">
-                                                        <a class="icon" href="#" data-bs-toggle="dropdown"><i></i></a>
-                                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                                            <li class="dropdown-header text-start">
-                                                                <h6>Filter</h6>
-                                                            </li>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-compass-fill"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6><span id="lblDiff"></span></h6>
 
-                                                            <li><a class="dropdown-item" href="#">Today</a></li>
-                                                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                                                            <li><a class="dropdown-item" href="#">This Year</a></li>
-                                                        </ul>
-                                                    </div>
+                                    </div>
+                                </div>
 
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">Total Amount</h5>
+                            </div>
+                        </div>
 
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                                <i class="bi bi-cash"></i>
-                                                            </div>
-                                                            <div class="ps-3">
-                                                                <h6><span id="lblAmount"></span></h6>
+                    </div><!-- End Customers Card -->
+                    <!-- Customers Card -->
+                    <div class="col-xxl-6 col-md-6">
 
-                                                            </div>
-                                                        </div>
+                        <div class="card info-card revenue-card">
 
-                                                    </div>
-                                                </div>
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
 
-                                            </div>
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
 
-                                            <!-- End Customers Card -->
-                                            <!-- Revenue Card -->
-                                            <!--<div class="col-xxl-4 col-md-6">
-    <div class="card info-card revenue-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Amount</h5>
 
-        <div class="filter">
-            <a class="icon" href="#" data-bs-toggle="dropdown"><i ></i></a>
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                    <h6>Filter</h6>
-                </li>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-cash"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6><span id="lblAmount"></span></h6>
 
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-            </ul>
-        </div>
+                                    </div>
+                                </div>
 
-        <div class="card-body">
-            <h5 class="card-title">Expenses </h5>
+                            </div>
+                        </div>
 
-            <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-cash"></i>
-                </div>
-                <div class="ps-3">
-                    <h6><span id="lblPaidamount1"></span></h6>-->
-                                            @*<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>*@
+                    </div>
 
-                                            <!--</div>
-                </div>
-            </div>
-
-        </div>
-    </div>-->
-                                            <!-- End Revenue Card -->
-                                            <!-- Customers Card -->
-                                            @*<div class="col-xxl-4 col-md-6">
-
-            <div class="card info-card customers-card">
+                    <!-- End Customers Card -->
+                    <!-- Revenue Card -->
+                    <!--<div class="col-xxl-4 col-md-6">
+            <div class="card info-card revenue-card">
 
                 <div class="filter">
                     <a class="icon" href="#" data-bs-toggle="dropdown"><i ></i></a>
@@ -237,105 +203,141 @@
                 </div>
 
                 <div class="card-body">
-                    <h5 class="card-title">Sales Order</h5>
+                    <h5 class="card-title">Expenses </h5>
 
                     <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-tools"></i>
+                            <i class="bi bi-cash"></i>
                         </div>
                         <div class="ps-3">
-                            <h6><span id="AMCAmount"></span></h6>
+                            <h6><span id="lblPaidamount1"></span></h6>-->
+                    @*<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>*@
 
+                    <!--</div>
                         </div>
                     </div>
 
                 </div>
-            </div>
-
-
-
-        </div>*@
-                                            <!-- End Customers Card -->
-                                        </div>
-
-
-            <!--<div class="row">
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Expenses</h5>-->
-
-                            <!-- Line Chart -->
-                            <!--<div id="lineChart"></div>
-
-                            <script>
-                                document.addEventListener("DOMContentLoaded", () => {
-                                    new ApexCharts(document.querySelector("#lineChart"), {
-                                        series: [{
-                                            name: "Desktops",
-                                            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-                                        }],
-                                        chart: {
-                                            height: 350,
-                                            type: 'line',
-                                            zoom: {
-                                                enabled: false
-                                            }
-                                        },
-                                        dataLabels: {
-                                            enabled: false
-                                        },
-                                        stroke: {
-                                            curve: 'straight'
-                                        },
-                                        grid: {
-                                            row: {
-                                                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                                                opacity: 0.5
-                                            },
-                                        },
-                                        xaxis: {
-                                            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-                                        }
-                                    }).render();
-                                });
-                            </script>-->
-                            <!-- End Line Chart -->
-
-                        <!--</div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-body" id="lblDashBoardAmount">
-                            <h5 class="card-title">Income</h5>-->
-
-                            <!-- Pie Chart -->
-                            <!--<div id="pieChart"></div>
-
-                            <script>
-                                document.addEventListener("DOMContentLoaded", () => {
-                                    new ApexCharts(document.querySelector("#pieChart"), {
-                                        series: [44, 55, 13, 43],
-                                        chart: {
-                                            height: 350,
-                                            type: 'pie',
-                                            toolbar: {
-                                                show: true
-                                            }
-                                        },
-                                        labels: ['Expenses', 'Maintenance', 'Corpus Fund', 'AMC']
-                                    }).render();
-                                });
-                            </script>-->
-                            <!-- End Pie Chart -->
-
-                        <!--</div>
-                    </div>
-                </div>
             </div>-->
+                    <!-- End Revenue Card -->
+                    <!-- Customers Card -->
+                    @*<div class="col-xxl-4 col-md-6">
 
+                    <div class="card info-card customers-card">
+
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i ></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Sales Order</h5>
+
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-tools"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6><span id="AMCAmount"></span></h6>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>*@
+                    <!-- End Customers Card -->
+                </div>
+            }
+
+                <!--<div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Expenses</h5>-->
+
+                <!-- Line Chart -->
+                <!--<div id="lineChart"></div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                new ApexCharts(document.querySelector("#lineChart"), {
+                    series: [{
+                        name: "Desktops",
+                        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                    }],
+                    chart: {
+                        height: 350,
+                        type: 'line',
+                        zoom: {
+                            enabled: false
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        curve: 'straight'
+                    },
+                    grid: {
+                        row: {
+                            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                            opacity: 0.5
+                        },
+                    },
+                    xaxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    }
+                }).render();
+            });
+        </script>-->
+                <!-- End Line Chart -->
+
+                <!--</div>
+            </div>
         </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body" id="lblDashBoardAmount">
+                    <h5 class="card-title">Income</h5>-->
+
+                <!-- Pie Chart -->
+                <!--<div id="pieChart"></div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                new ApexCharts(document.querySelector("#pieChart"), {
+                    series: [44, 55, 13, 43],
+                    chart: {
+                        height: 350,
+                        type: 'pie',
+                        toolbar: {
+                            show: true
+                        }
+                    },
+                    labels: ['Expenses', 'Maintenance', 'Corpus Fund', 'AMC']
+                }).render();
+            });
+        </script>-->
+                <!-- End Pie Chart -->
+
+                <!--</div>
+                </div>
+            </div>
+        </div>-->
+
+            </div>
         <!-- Right side columns -->
        
 

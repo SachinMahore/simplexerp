@@ -10,110 +10,160 @@ namespace ApptSoft.Controllers
 {
     public class JobCardController : Controller
     {
+        ApptSoftEntities db = new ApptSoftEntities();
         // GET: JobCard
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult GenerateJobCard(int poId)
+        public ActionResult Create()
         {
-            ApptSoftEntities db = new ApptSoftEntities();
-
-            var po = db.PurchaseOrders.FirstOrDefault(x => x.PO_Id == poId);
-
-            var items = db.PurchaseOrder_Details
-                .Where(x => x.PO_Id == poId)
-                .ToList();
-
-            JobCardModel model = new JobCardModel();
-
-            model.PO_Id = po.PO_Id;
-            model.PO_Number = po.PO_Number;
-            model.Vendor_Id = po.Vendor_Id;
-            model.Company_Id = po.Company_Id;
-            model.Job_Date = DateTime.Now;
-
-            model.Items = items.Select(x => new JobCardDetailsModel
-            {
-                Item_No = x.Item_No,
-                Item_Description = x.Item_Description,
-                Qty_Per_Bale = x.Qty_Per_Bale ?? 0,
-                Bale_Count = x.Bale_Count ?? 0,
-                Total_Quantity = x.Total_Quantity ?? 0,
-                Unit = x.Unit
-            }).ToList();
-            ViewBag.PO_Id = poId;
-            return View(model);
-        }
-        public JsonResult SaveJobCard(JobCardModel model)
-        {
-            ApptSoftEntities db = new ApptSoftEntities();
-
-            JobCard_Master job = new JobCard_Master()
-            {
-                JobCard_Number = "JC" + DateTime.Now.Ticks,
-                PO_Id = model.PO_Id,
-                PO_Number = model.PO_Number,
-                Vendor_Id = model.Vendor_Id,
-                Company_Id = model.Company_Id,
-                Job_Date = model.Job_Date,
-                Status = 0,
-                Created_Date = DateTime.Now
-            };
-
-            db.JobCard_Master.Add(job);
-            db.SaveChanges();
-
-            int jobId = job.JobCard_Id;
-
-            foreach (var item in model.Items)
-            {
-                JobCard_Details d = new JobCard_Details()
-                {
-                    JobCard_Id = jobId,
-                    Item_No = item.Item_No,
-                    Item_Description = item.Item_Description
-                };
-
-                db.JobCard_Details.Add(d);
-            }
-
-            db.SaveChanges();
-
-            return Json(new { JobCard_Id = jobId }, JsonRequestBehavior.AllowGet);
+            return View();
         }
         [HttpPost]
-        public string SaveTracking(List<ProductionTrackingModel> model)
+        public JsonResult SaveFullJobCard(JobCardFullModel model)
         {
-            ApptSoftEntities db = new ApptSoftEntities();
-
-            foreach (var item in model)
+            using (var transaction = db.Database.BeginTransaction())
             {
-                JobCard_Production_Tracking t = new JobCard_Production_Tracking();
+                try
+                {
+                    int jobCardId = model.JobCard.JobCardId;
 
-                t.JobCard_Id = item.JobCard_Id;
-                t.JCD_Id = item.JCD_Id;
+                    // ===============================
+                    // ✅ INSERT OR UPDATE JOBCARD
+                    // ===============================
+                    FIBC_JobCard job;
 
-                t.Operation_Name = item.Operation_Name;
+                    if (jobCardId > 0)
+                    {
+                        job = db.FIBC_JobCard.Find(jobCardId);
 
-                t.Input_Qty = item.Input_Qty;
-                t.Output_Qty = item.Output_Qty;
-                t.Wastage_Qty = item.Wastage_Qty;
+                        if (job == null)
+                            return Json(new { success = false, message = "JobCard not found" });
 
-                t.Machine_Name = item.Machine_Name;
-                t.Operator_Name = item.Operator_Name;
+                        // Update fields
+                        db.Entry(job).CurrentValues.SetValues(model.JobCard);
+                    }
+                    else
+                    {
+                        job = model.JobCard;
+                        job.CreatedDate = DateTime.Now;
 
-                t.Start_Time = item.Start_Time;
-                t.End_Time = item.End_Time;
+                        db.FIBC_JobCard.Add(job);
+                        db.SaveChanges(); // get JobCardId
+                        jobCardId = job.JobCardId;
+                    }
 
-                t.Status = item.Status;
+                    // ===============================
+                    // ✅ FABRIC (DELETE + INSERT)
+                    // ===============================
+                    var oldFabric = db.FIBC_FabricDetails
+                                      .Where(x => x.JobCardId == jobCardId)
+                                      .ToList();
 
-                db.JobCard_Production_Tracking.Add(t);
+                    if (oldFabric.Any())
+                        db.FIBC_FabricDetails.RemoveRange(oldFabric);
+
+                    model.Fabric.JobCardId = jobCardId;
+                    db.FIBC_FabricDetails.Add(model.Fabric);
+
+                    // ===============================
+                    // ✅ COMPONENT (DELETE + INSERT)
+                    // ===============================
+                    var oldComponent = db.FIBC_ComponentDetails
+                                         .Where(x => x.JobCardId == jobCardId)
+                                         .ToList();
+
+                    if (oldComponent.Any())
+                        db.FIBC_ComponentDetails.RemoveRange(oldComponent);
+
+                    model.Component.JobCardId = jobCardId;
+                    db.FIBC_ComponentDetails.Add(model.Component);
+
+                    // ===============================
+                    // ✅ FINAL SAVE
+                    // ===============================
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    return Json(new
+                    {
+                        success = true,
+                        id = jobCardId,
+                        message = "Saved Successfully"
+                    });
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    return Json(new
+                    {
+                        success = false,
+                        message = ex.Message
+                    });
+                }
             }
+        }
+        public JsonResult GetFullJobCard(int id)
+        {
+            var job = db.FIBC_JobCard.FirstOrDefault(x => x.JobCardId == id);
 
-            db.SaveChanges();
+            var fabric = db.FIBC_FabricDetails
+                           .FirstOrDefault(x => x.JobCardId == id);
 
-            return "Tracking Saved Successfully";
+            var component = db.FIBC_ComponentDetails
+                              .FirstOrDefault(x => x.JobCardId == id);
+
+            return Json(new
+            {
+                job,
+                fabric,
+                component
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult Update(FIBC_JobCard model)
+        {
+            try
+            {
+                var d = db.FIBC_JobCard.Find(model.JobCardId);
+
+                if (d == null)
+                    return Json(new { success = false, message = "Record not found" });
+
+                db.Entry(d).CurrentValues.SetValues(model);
+                db.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+        public JsonResult GetById(int id)
+        {
+            var data = db.FIBC_JobCard
+                .Where(x => x.JobCardId == id)
+                .FirstOrDefault();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public JsonResult GetAllJobCards()
+        {
+            var data = db.FIBC_JobCard
+                .Select(x => new {
+                    x.JobCardId,
+                    x.Customer,
+                    x.RefNo,
+                    x.OrderQty,
+                    x.BagType,
+                    x.PurchaseNo
+                }).ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

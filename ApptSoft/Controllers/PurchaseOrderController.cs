@@ -14,6 +14,7 @@ namespace ApptSoft.Controllers
 {
     public class PurchaseOrderController : Controller
     {
+        ApptSoftEntities db = new ApptSoftEntities();
         // GET: PurchaseOrder
         public ActionResult Index()
         {
@@ -24,240 +25,237 @@ namespace ApptSoft.Controllers
         {
             return View();
         }
-
-        //public ActionResult GetPurchaseOrders(string date, string poNumber)
-        //{
-        //    try
-        //    {
-        //        DateTime filterDate = DateTime.Parse(date);
-
-        //        return Json(new
-        //        {
-        //            model = new PurchaseOrderModel().GetPurchaseOrders(filterDate, poNumber)
-        //        }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { model = ex.Message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        public ActionResult GetPurchaseOrders(string poNumber, int? vendorId, string fromDate, string toDate)
+        public ActionResult Composition()
         {
-            DateTime fdate = DateTime.Parse(fromDate);
-            DateTime tdate = DateTime.Parse(toDate);
-
-            return Json(new
-            {
-                model = new PurchaseOrderModel().SearchPO(poNumber, vendorId, fdate, tdate)
-            }, JsonRequestBehavior.AllowGet);
+            return View();
         }
-        public ActionResult SavePurchaseOrder(PurchaseOrderModel model)
+
+        [HttpPost]
+        public JsonResult Save(PurchaseOrderModel model, HttpPostedFileBase Attachment)
         {
             try
             {
-                HttpPostedFileBase fb = null;
-
-                for (int i = 0; i < Request.Files.Count; i++)
+                DateTime billingDate;
+                if (!DateTime.TryParse(model.Billing_Date, out billingDate))
                 {
-                    fb = Request.Files[i];
+                    return Json(new { success = false, message = "Invalid date" });
                 }
 
-                return Json(new
+                var nextDate = billingDate.AddDays(1);
+
+                // ✅ Duplicate Check
+                var exists = db.tblPurchaseOrders.Any(x =>
+                    x.PO_Number == model.PO_Number &&
+                    x.Item_No == model.Item_No &&
+                    x.Customer == model.Customer &&
+                    x.Billing_Date >= billingDate &&
+                    x.Billing_Date < nextDate
+                );
+
+                if (exists)
                 {
-                    Message = new PurchaseOrderModel().SavePurchaseOrder(model)
-                }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, message = "Duplicate PO exists!" });
+                }
+
+                tblPurchaseOrder po = new tblPurchaseOrder();
+
+                po.Customer = model.Customer;
+                po.Container_No = model.Container_No;
+                po.PO_Number = model.PO_Number;
+                po.Item_No = model.Item_No;
+                po.Size_Of_Bag = model.Size_Of_Bag;
+                po.ORDER_QTY = model.ORDER_QTY;
+
+                po.Req_Wt = model.Req_Wt;
+                po.Total_Req_Wt = model.Total_Req_Wt;
+                po.Act_Wt = model.Act_Wt;
+                po.Total_Act_Wt = model.Total_Act_Wt;
+
+                po.PcsPerPallet = model.PcsPerPallet;
+
+                po.Status = 1;
+                po.CreatedBy = model.CreatedBy;
+                po.Created_Date = DateTime.Now;
+                po.Billing_Date = billingDate;
+
+                // ✅ File Upload
+                if (Attachment != null && Attachment.ContentLength > 0)
+                {
+                    string fileName = model.PO_Number + model.Item_No + Path.GetExtension(Attachment.FileName);
+                    string path = Path.Combine(Server.MapPath("~/Uploads/PO"), fileName);
+
+                    Attachment.SaveAs(path);
+
+                    po.Attachment = fileName; // if string column
+                }
+
+                db.tblPurchaseOrders.Add(po);
+                db.SaveChanges();
+
+                return Json(new { success = true, id = po.PO_Id });
             }
             catch (Exception ex)
             {
-                return Json(new { model = ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, message = ex.Message });
             }
         }
+        public JsonResult GetAll()
+        {
+            var data = db.tblPurchaseOrders
+                .AsNoTracking()
+                .Select(x => new
+                {
+                    x.PO_Id,
+                    x.Customer,
+                    x.PO_Number,
+                    x.Item_No,
+                    x.Container_No,
+                    x.Size_Of_Bag,
+                    x.ORDER_QTY,
+                    x.Req_Wt,
+                    x.Total_Req_Wt,
+                    x.Act_Wt,
+                    x.Total_Act_Wt,
+                    x.PcsPerPallet,
+                    Attachment = string.IsNullOrEmpty(x.Attachment)? "" : "/Uploads/PO/" + x.Attachment,
+                    x.Billing_Date,
+                    x.Status
+                })
+                .OrderByDescending(x => x.Billing_Date)
+                .ToList();
 
-        public ActionResult GetById(int id)
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetById(int id)
+        {
+            var data = db.tblPurchaseOrders
+                .Where(x => x.PO_Id == id)
+                .FirstOrDefault();
+
+            if (data == null)
+            {
+                return Json(new { success = false, message = "Record not found" }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult Update(PurchaseOrderModel model, HttpPostedFileBase Attachment)
         {
             try
             {
-                return Json(new
+                var po = db.tblPurchaseOrders.Find(model.PO_Id);
+
+                if (po == null)
                 {
-                    model = new PurchaseOrderModel().GetById(id)
-                }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, message = "Record not found" });
+                }
+
+                DateTime billingDate;
+                if (!DateTime.TryParse(model.Billing_Date, out billingDate))
+                {
+                    return Json(new { success = false, message = "Invalid date" });
+                }
+
+                var nextDate = billingDate.AddDays(1);
+
+                // ✅ Duplicate Check (exclude current)
+                var exists = db.tblPurchaseOrders.Any(x =>
+                    x.PO_Id != model.PO_Id &&
+                    x.PO_Number == model.PO_Number &&
+                    x.Item_No == model.Item_No &&
+                    x.Customer == model.Customer &&
+                    x.Billing_Date >= billingDate &&
+                    x.Billing_Date < nextDate
+                );
+
+                if (exists)
+                {
+                    return Json(new { success = false, message = "Duplicate PO exists!" });
+                }
+
+                po.Customer = model.Customer;
+                po.Container_No = model.Container_No;
+                po.PO_Number = model.PO_Number;
+                po.Item_No = model.Item_No;
+                po.Size_Of_Bag = model.Size_Of_Bag;
+                po.ORDER_QTY = model.ORDER_QTY;
+
+                po.Req_Wt = model.Req_Wt;
+                po.Total_Req_Wt = model.Total_Req_Wt;
+                po.Act_Wt = model.Act_Wt;
+                po.Total_Act_Wt = model.Total_Act_Wt;
+
+                po.PcsPerPallet = model.PcsPerPallet;
+                po.Billing_Date = billingDate;
+
+                // ✅ File Update
+                if (Attachment != null && Attachment.ContentLength > 0)
+                {
+                    string fileName = model.PO_Number+model.Item_No + DateTime.Now + Path.GetExtension(Attachment.FileName);
+                    string path = Path.Combine(Server.MapPath("~/Uploads/PO"), fileName);
+
+                    Attachment.SaveAs(path);
+
+                    po.Attachment = fileName; // if string column
+                }
+
+                db.SaveChanges();
+
+                return Json(new { success = true, message = "Updated Successfully" });
             }
             catch (Exception ex)
             {
-                return Json(new { model = ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, message = ex.Message });
             }
         }
-        public ActionResult PrintPO(int id)
+        [HttpPost]
+        public JsonResult Delete(int id)
         {
-            PurchaseOrderModel model = new PurchaseOrderModel().GetById(id);
-
-            return View(model);
-        }
-        public ActionResult DeletePO(int id)
-        {
-            var db = new ApptSoftEntities();
-
-            var po = db.PurchaseOrders.FirstOrDefault(x => x.PO_Id == id);
+            var po = db.tblPurchaseOrders.Find(id);
 
             if (po != null)
             {
-                db.PurchaseOrders.Remove(po);
+                db.tblPurchaseOrders.Remove(po);
                 db.SaveChanges();
             }
 
-            return Json(new { message = "PO Deleted Successfully" });
+            return Json(new { success = true, message = "Deleted Successfully" });
         }
-        public ActionResult ExportExcel(string poNumber, int? vendorId, string fromDate, string toDate)
+        public JsonResult GetComposition(string poNumber)
         {
-            var data = new PurchaseOrderModel().SearchPO(poNumber, vendorId,
-            DateTime.Parse(fromDate), DateTime.Parse(toDate));
+            var query = db.tblPurchaseOrders.AsQueryable();
 
-            GridView gv = new GridView();
-
-            gv.DataSource = data;
-
-            gv.DataBind();
-
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=POList.xls");
-            Response.ContentType = "application/ms-excel";
-
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter hw = new HtmlTextWriter(sw);
-
-            gv.RenderControl(hw);
-
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-
-            return View();
-        }
-        public ActionResult ExportPOItems(int poId)
-        {
-            ApptSoftEntities db = new ApptSoftEntities();
-
-            var po = db.PurchaseOrders.FirstOrDefault(x => x.PO_Id == poId);
-
-            var items = db.PurchaseOrder_Details
-                .Where(x => x.PO_Id == poId)
-                .ToList();
-
-            var vendor = db.Vendor_Master.FirstOrDefault(x => x.Vendor_Id == po.Vendor_Id);
-            var company = db.Company_Master.FirstOrDefault(x => x.Company_Id == po.Company_Id);
-
-            using (XLWorkbook wb = new XLWorkbook())
+            if (!string.IsNullOrEmpty(poNumber))
             {
-                var ws = wb.Worksheets.Add("Purchase Order");
-
-                int row = 1;
-
-                // Company Details
-                ws.Cell(row, 1).Value = company.Company_Name;
-                ws.Range(row, 1, row, 8).Merge().Style.Font.Bold = true;
-                row++;
-
-                ws.Cell(row, 1).Value = company.Address1 + " " + company.Address2;
-                ws.Range(row, 1, row, 8).Merge();
-                row++;
-
-                ws.Cell(row, 1).Value = company.City + " " + company.State;
-                ws.Range(row, 1, row, 8).Merge();
-                row++;
-
-                ws.Cell(row, 1).Value = "Phone : " + company.Phone;
-                ws.Range(row, 1, row, 8).Merge();
-                row += 2;
-
-                // PO Info
-                ws.Cell(row, 1).Value = "Purchase Order";
-                ws.Range(row, 1, row, 8).Merge().Style.Font.FontSize = 16;
-                ws.Range(row, 1, row, 8).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                row += 2;
-
-                ws.Cell(row, 1).Value = "PO Number";
-                ws.Cell(row, 2).Value = po.PO_Number;
-
-                ws.Cell(row, 5).Value = "PO Date";
-                ws.Cell(row, 6).Value = po.PO_Date.ToShortDateString();
-                row++;
-
-                ws.Cell(row, 1).Value = "Vendor";
-                ws.Cell(row, 2).Value = vendor.Vendor_Name;
-
-                ws.Cell(row, 5).Value = "Phone";
-                ws.Cell(row, 6).Value = vendor.Phone;
-                row += 2;
-
-                // Table Header
-                ws.Cell(row, 1).Value = "Item No";
-                ws.Cell(row, 2).Value = "Description";
-                ws.Cell(row, 3).Value = "Qty/Bale";
-                ws.Cell(row, 4).Value = "Bale Count";
-                ws.Cell(row, 5).Value = "Total Qty";
-                ws.Cell(row, 6).Value = "Unit";
-                ws.Cell(row, 7).Value = "Unit Price";
-                ws.Cell(row, 8).Value = "Line Total";
-
-                ws.Range(row, 1, row, 8).Style.Font.Bold = true;
-                ws.Range(row, 1, row, 8).Style.Fill.BackgroundColor = XLColor.LightGray;
-
-                row++;
-
-                int startRow = row;
-
-                foreach (var item in items)
-                {
-                    ws.Cell(row, 1).Value = item.Item_No;
-                    ws.Cell(row, 2).Value = item.Item_Description;
-                    ws.Cell(row, 3).Value = item.Qty_Per_Bale;
-                    ws.Cell(row, 4).Value = item.Bale_Count;
-                    ws.Cell(row, 5).Value = item.Total_Quantity;
-                    ws.Cell(row, 6).Value = item.Unit;
-                    ws.Cell(row, 7).Value = item.Unit_Price;
-                    ws.Cell(row, 8).Value = item.Line_Total;
-
-                    row++;
-                }
-
-                int endRow = row - 1;
-
-                // Table Border
-                ws.Range(startRow - 1, 1, endRow, 8).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                ws.Range(startRow - 1, 1, endRow, 8).Style.Border.InsideBorder = XLBorderStyleValues.Thin;
-
-                row++;
-
-                // Totals
-                ws.Cell(row, 7).Value = "Subtotal";
-                ws.Cell(row, 8).FormulaA1 = "=SUM(H" + startRow + ":H" + endRow + ")";
-                row++;
-
-                ws.Cell(row, 7).Value = "Discount";
-                ws.Cell(row, 8).Value = po.Discount;
-                row++;
-
-                ws.Cell(row, 7).Value = "Tax";
-                ws.Cell(row, 8).Value = po.Tax_Amount;
-                row++;
-
-                ws.Cell(row, 7).Value = "Grand Total";
-                ws.Cell(row, 8).Value = po.Grand_Total;
-
-                ws.Range(row, 7, row, 8).Style.Font.Bold = true;
-
-                ws.Columns().AdjustToContents();
-
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    wb.SaveAs(stream);
-
-                    return File(stream.ToArray(),
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "PurchaseOrder_" + po.PO_Number + ".xlsx");
-                }
+                query = query.Where(x => x.PO_Number == poNumber);
             }
+
+            var data = query.ToList()
+                .Select((x, i) => new
+                {
+                    x.Customer,
+                    SR_NO = i + 1,
+                    x.PO_Number,
+                    REF_NO = x.Item_No,
+                    x.Size_Of_Bag,
+                    ORDER_QTY = Convert.ToInt32(x.ORDER_QTY),
+
+                    PALLET_PCS = x.PcsPerPallet,
+
+                    NO_OF_PALLET = x.PcsPerPallet == 0 ? 0 :
+                       Convert.ToInt32(x.ORDER_QTY) / x.PcsPerPallet,
+
+                    x.Req_Wt,
+                    x.Act_Wt,
+
+                    PALLET_WT = x.Req_Wt * x.PcsPerPallet,
+
+                    TOTAL_WT = (x.Req_Wt * x.PcsPerPallet) * (Convert.ToInt32(x.ORDER_QTY) / x.PcsPerPallet),
+                }).ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }
